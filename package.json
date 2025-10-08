@@ -4,7 +4,9 @@
   "description": "[![Actions Status](https://github.com/wispard1/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/wispard1/frontend-project-12/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd frontend && npm run build",
+    "start": "cd frontend && npx start-server"
   },
   "repository": {
     "type": "git",
