@@ -6,6 +6,7 @@ import { NotFoundPage } from './pages/notFoundPage';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

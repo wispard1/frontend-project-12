@@ -7,7 +7,10 @@ export const login = createAsyncThunk('auth/login', async (credential, { rejectW
     return response.data;
   } catch (error) {
     if (error.response) {
-      const message = error.response.data.message || 'Неверный логин или пароль';
+      if (error.response.status === 401) {
+        return rejectWithValue('Неверный логин или пароль');
+      }
+      const message = error.response.data.message || 'Ошибка аутентификации';
       return rejectWithValue(message);
     }
     return rejectWithValue('Не удалось подключиться к серверу');
@@ -33,13 +36,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log('✅ login.fulfilled:', action.payload);
         state.loading = false;
         state.token = action.payload.token;
         localStorage.setItem('token', action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
-        console.log('❌ login.rejected:', action.payload);
         state.loading = false;
         state.error = action.payload;
       });
