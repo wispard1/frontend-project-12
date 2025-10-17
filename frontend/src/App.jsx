@@ -7,20 +7,50 @@ import { store } from './store';
 import { Provider } from 'react-redux';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CustomNavbar } from './components/CustomNavbar';
+import { PublicRoute } from './components/PublicRoute';
+import { RegisterPage } from './pages/RegisterPage';
+
+function AppContent() {
+  return (
+    <>
+      <CustomNavbar />
+      <Routes>
+        <Route
+          path='/login'
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path='/signup'
+          element={
+            <PublicRoute>
+              <RegisterPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path='/'
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path='*' element={<NotFoundPage />} />
+      </Routes>
+    </>
+  );
+}
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<LoginPage />} />
-
-          <Route element={<ProtectedRoute />}>
-            <Route path='/' element={<ChatPage />} />
-          </Route>
-
-          <Route path='*' element={<NotFoundPage />} />
-        </Routes>
+        <AppContent />
       </BrowserRouter>
     </Provider>
   );

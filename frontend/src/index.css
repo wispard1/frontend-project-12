@@ -15,7 +15,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Убираем общий скролл */
+  overflow: hidden;
 }
 
 #root {
@@ -38,6 +38,8 @@ body {
   justify-content: center;
   align-items: flex-start;
   background-color: #f8f9fa;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* Контейнер чата */
@@ -48,23 +50,46 @@ body {
   border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  margin: 0 auto; /* Центрируем контейнер */
+  margin: 0 auto;
+  height: calc(100vh - 40px);
 }
 
 .chat-messages {
   background-color: #ffffff;
 }
 
-/* Кнопки */
-button {
-  border-radius: 6px;
-  border: 1px solid transparent;
-  transition: border-color 0.2s;
-  cursor: pointer;
+/* Стили для сообщений в чате */
+.own-message {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
 }
 
-button:hover {
-  border-color: #646cff;
+.other-message {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.message-content {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  max-width: 70%;
+  color: #212529;
+}
+
+.own-message .message-content {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.other-message .message-content {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+#messages-box > div:first-child {
+  margin-top: 1rem;
 }
 
 @media (max-width: 992px) {
@@ -73,11 +98,15 @@ button:hover {
   }
 }
 
-/* Стили для Navbar */
+/* Исправлены стили для Navbar */
 .navbar-brand {
-  margin-right: auto; /* Логотип всегда слева */
+  margin-right: auto;
 }
 
 .navbar .btn {
-  margin-left: auto; /* Кнопка всегда справа */
+  margin-left: auto;
+}
+
+.login-form.card {
+  padding: 0;
 }

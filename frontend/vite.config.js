@@ -13,11 +13,11 @@ export default defineConfig({
         changeOrigin: true,
       },
       // Проксируем WebSocket соединения
-      // '/socket.io': {
-      //   target: 'ws://localhost:5001',
-      //   ws: true,
-      //   rewriteWsOrigin: true,
-      // },
+      '/socket.io': {
+        target: 'ws://localhost:5001',
+        ws: true,
+        rewriteWsOrigin: true,
+      },
     },
   },
 });
