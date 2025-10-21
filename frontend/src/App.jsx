@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { LoginPage } from './pages/LoginPage';
 import { ChatPage } from './pages/ChatPage';
-import { NotFoundPage } from './pages/notFoundPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { store } from './store';
 import { Provider as ReduxProvider } from 'react-redux';
 import { ProtectedRoute } from './components/ProtectedRoute';
