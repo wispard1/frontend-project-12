@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/wispard1/frontend-project-12/issues"
   },
-  "homepage": "https://github.com/wispard1/frontend-project-12#readme"
+  "homepage": "https://github.com/wispard1/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  },
+  "devDependencies": {},
+  "keywords": []
 }
