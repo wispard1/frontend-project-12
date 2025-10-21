@@ -15,7 +15,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ToastContainer, Slide } from 'react-toastify';
 
 const rollbarConfig = {
-  accessToken: '1979b38ee0e8485b945ac8d2a68a62b8',
+  accessToken: '52edddf2c5ad7031051d66b254c9aff2',
   environment: 'production',
 };
 
