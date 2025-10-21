@@ -19,6 +19,11 @@ const rollbarConfig = {
   environment: 'production',
 };
 
+function TestError() {
+  const a = null;
+  return a.hello();
+}
+
 function AppContent() {
   return (
     <>
@@ -63,6 +68,7 @@ function App() {
           console.error('Rollbar caught an error:', err, errInfo);
         }}
       >
+        <TestError />
         <ReduxProvider store={store}>
           <BrowserRouter>
             <AppContent />

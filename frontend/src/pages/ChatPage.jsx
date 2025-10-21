@@ -108,11 +108,6 @@ export const ChatPage = () => {
 
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
-      {(() => {
-        const a = null;
-        a.hello();
-        return null;
-      })()}
       <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
         <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
           <Row className='h-100 flex-md-row g-0'>
