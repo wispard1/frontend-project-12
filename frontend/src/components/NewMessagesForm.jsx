@@ -1,4 +1,3 @@
-// src/components/NewMessagesForm.jsx
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

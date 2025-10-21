@@ -1,8 +1,9 @@
-// src/components/MessagesList.jsx
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export const MessagesList = ({ messages }) => {
   const currentUsername = useSelector((state) => state.auth.user?.username);
+  const { t } = useTranslation();
 
   console.log('MessagesList rendering, messages count:', messages?.length);
 
@@ -10,8 +11,8 @@ export const MessagesList = ({ messages }) => {
     return (
       <div className='chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center'>
         <div className='text-center text-muted'>
-          <p>Пока нет сообщений</p>
-          <small>Начните общение первым!</small>
+          <p>{t('chatPage.noMessagesYet')}</p>
+          <small>{t('chatPage.startConversation')}</small>
         </div>
       </div>
     );

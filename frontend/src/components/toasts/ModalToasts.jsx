@@ -1,4 +1,3 @@
-// src/components/toasts/ModalToasts.jsx
 import { toast } from 'react-toastify';
 import { AddChannelToastContent } from './AddChannelToastContent';
 import { RenameChannelToastContent } from './RenameChannelToastContent';

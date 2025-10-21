@@ -1,4 +1,3 @@
-// src/components/toasts/RemoveChannelToastContent.jsx
 import { Button, Spinner } from 'react-bootstrap';
 
 export const RemoveChannelToastContent = ({ channel, onRemove, isRemoving, t, closeToast }) => {

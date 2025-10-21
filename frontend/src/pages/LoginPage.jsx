@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { useLoginMutation } from '../api/chatApi';
@@ -100,7 +99,7 @@ export const LoginPage = () => {
           </Card.Body>
           {/* --- Footer с ссылкой на регистрацию --- */}
           <Card.Footer className='p-4 text-center'>
-            <span>{t('loginPage.noAccount')}</span>
+            <span>{` ${t('loginPage.noAccount')}`} </span>
             <Link to='/signup'>{t('loginPage.registerLink')}</Link>
           </Card.Footer>
         </Card>

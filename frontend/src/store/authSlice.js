@@ -1,7 +1,5 @@
-// src/store/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-// Исправьте инициализацию user из localStorage
 const getInitialUser = () => {
   try {
     const user = localStorage.getItem('user');

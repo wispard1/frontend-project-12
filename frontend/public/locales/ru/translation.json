@@ -3,6 +3,12 @@
     "brand": "Hexlet Chat",
     "logoutButton": "Выйти"
   },
+  "notFoundPage": {
+    "title": "Страница не найдена",
+    "altText": "Страница не найдена",
+    "description": "Но вы можете перейти",
+    "homeLink": "на главную страницу"
+  },
   "loginPage": {
     "title": "Вход",
     "usernameLabel": "Ваш ник",
@@ -20,9 +26,13 @@
   "registerPage": {
     "title": "Регистрация",
     "usernameLabel": "Имя пользователя",
+    "usernamePlaceholder": "Введите имя пользователя",
     "passwordLabel": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
     "passwordConfirmLabel": "Подтвердите пароль",
+    "passwordConfirmPlaceholder": "Подтвердите пароль",
     "registerButton": "Зарегистрироваться",
+    "registerButtonSubmitting": "Регистрация...",
     "hasAccount": "Есть аккаунт?",
     "loginLink": "Войти",
     "errors": {
@@ -51,7 +61,6 @@
     "addChannel": "Добавить канал",
     "renameChannel": "Переименовать",
     "removeChannel": "Удалить",
-    "channelsHeader": "Каналы",
     "channelName": "Название канала",
     "enterChannelName": "Введите название канала",
     "channelRenamed": "Канала переименован",
@@ -62,6 +71,8 @@
     "removeChannel": "Удалить канал",
     "channelAdded": "Канал добавлен!",
     "channelRemoved": "Канал удален",
+    "noMessagesYet": "Пока нет сообщений",
+    "startConversation": "Начните общение первым!",
     "modals": {
       "addChannel": {
         "title": "Добавить канал",

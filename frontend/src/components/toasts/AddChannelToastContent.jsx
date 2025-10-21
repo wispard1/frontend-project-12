@@ -1,4 +1,3 @@
-// src/components/toasts/AddChannelToastContent.jsx
 import { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
