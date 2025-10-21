@@ -42,7 +42,7 @@ export const ChatPage = () => {
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !socketRef.current?.connected) return;
 
-    const filteredMessageBody = cleanText(messageBody.trim())
+    const filteredMessageBody = cleanText(messageBody.trim());
 
     const messageData = {
       body: filteredMessageBody,
