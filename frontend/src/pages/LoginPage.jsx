@@ -5,23 +5,26 @@ import { useLoginMutation } from '../api/chatApi';
 import { setCredentials } from '../store/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { Alert, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { Alert, Button, Container, Card } from 'react-bootstrap';
 import avatar from '../assets/form-avatar.jpg';
+import { useTranslation } from 'react-i18next';
 
 const loginSchema = yup.object().shape({
-  username: yup.string().required('Обязательное поле'),
-  password: yup.string().required('Обязательное поле'),
+  username: yup.string().required('loginPage.errors.usernameRequired'),
+  password: yup.string().required('loginPage.errors.passwordRequired'),
 });
 
 export const LoginPage = () => {
   const [login, { isLoading, error }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await login({ username: values.username, password: values.password }).unwrap();
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }));
+      console.log('User dispatched to setCredentials:', { username: response.username });
       navigate('/');
     } catch (err) {
       console.error('Login failed:', err);
@@ -37,7 +40,7 @@ export const LoginPage = () => {
           <Card.Body className='row p-5'>
             {/* --- Левая колонка с изображением --- */}
             <div className='col-12 col-md-6 d-flex align-items-center justify-content-center'>
-              <img src={avatar} className='rounded-circle img-fluid' alt='Войти' />
+              <img src={avatar} className='rounded-circle img-fluid' alt={t('loginPage.title')} />
             </div>
             {/* --- Правая колонка с формой --- */}
             <Formik
@@ -47,17 +50,25 @@ export const LoginPage = () => {
             >
               {({ isSubmitting }) => (
                 <Form className='col-12 col-md-6 mt-3 mt-md-0'>
-                  <h2 className='text-center mb-4'>Войти</h2>
+                  <h2 className='text-center mb-4'>{t('loginPage.title')}</h2>
                   {error && (
                     <Alert variant='danger'>
-                      {error.status === 401 ? 'Неверный логин или пароль' : 'Ошибка входа'}
+                      {t(error.status === 401 ? 'loginPage.errors.invalidCredentials' : 'loginPage.errors.loginFailed')}
                     </Alert>
                   )}
 
                   <div className='form-floating mb-3'>
-                    <Field name='username' type='text' className='form-control' id='username' placeholder='Ваш ник' />
-                    <label htmlFor='username'>Ваш ник</label>
-                    <ErrorMessage name='username' component='div' className='text-danger small' />
+                    <Field
+                      name='username'
+                      type='text'
+                      className='form-control'
+                      id='username'
+                      placeholder={t('loginPage.usernameLabel')}
+                    />
+                    <label htmlFor='username'>{t('loginPage.usernameLabel')}</label>
+                    <ErrorMessage name='username'>
+                      {(msg) => <div className='text-danger small'>{t(msg)}</div>}
+                    </ErrorMessage>
                   </div>
 
                   <div className='form-floating mb-4'>
@@ -66,10 +77,12 @@ export const LoginPage = () => {
                       type='password'
                       className='form-control'
                       id='password'
-                      placeholder='Пароль'
+                      placeholder={t('loginPage.passwordLabel')}
                     />
-                    <label htmlFor='password'>Пароль</label>
-                    <ErrorMessage name='password' component='div' className='text-danger small' />
+                    <label htmlFor='password'>{t('loginPage.passwordLabel')}</label>
+                    <ErrorMessage name='password'>
+                      {(msg) => <div className='text-danger small'>{t(msg)}</div>}
+                    </ErrorMessage>
                   </div>
 
                   {/* --- Кнопка отправки --- */}
@@ -79,7 +92,7 @@ export const LoginPage = () => {
                     className='w-100'
                     disabled={isSubmitting || isLoading}
                   >
-                    {isLoading ? 'Вход...' : 'Войти'}
+                    {isLoading ? `${t('loginPage.loginButton')}...` : t('loginPage.loginButton')}
                   </Button>
                 </Form>
               )}
@@ -87,8 +100,8 @@ export const LoginPage = () => {
           </Card.Body>
           {/* --- Footer с ссылкой на регистрацию --- */}
           <Card.Footer className='p-4 text-center'>
-            <span>Нет аккаунта? </span>
-            <Link to='/signup'>Регистрация</Link>
+            <span>{t('loginPage.noAccount')}</span>
+            <Link to='/signup'>{t('loginPage.registerLink')}</Link>
           </Card.Footer>
         </Card>
       </Container>

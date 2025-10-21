@@ -1,8 +1,7 @@
-// src/pages/RegisterPage.jsx
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { useNavigate, Link } from 'react-router-dom';
-import { Button, Container, Row, Col, Card, Alert } from 'react-bootstrap';
+import { Button, Container, Card, Alert } from 'react-bootstrap';
 import signupAvatar from '../assets/signup-avatar.jpg';
 import { useSignupMutation } from '../api/chatApi';
 import { setCredentials } from '../store/authSlice';

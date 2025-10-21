@@ -1,0 +1,126 @@
+{
+  "navbar": {
+    "brand": "Hexlet Chat",
+    "logoutButton": "Выйти"
+  },
+  "loginPage": {
+    "title": "Вход",
+    "usernameLabel": "Ваш ник",
+    "passwordLabel": "Пароль",
+    "loginButton": "Войти",
+    "noAccount": "Нет аккаунта?",
+    "registerLink": "Регистрация",
+    "errors": {
+      "usernameRequired": "Обязательное поле",
+      "passwordRequired": "Обязательное поле",
+      "invalidCredentials": "Неверный логин или пароль",
+      "loginFailed": "Ошибка входа"
+    }
+  },
+  "registerPage": {
+    "title": "Регистрация",
+    "usernameLabel": "Имя пользователя",
+    "passwordLabel": "Пароль",
+    "passwordConfirmLabel": "Подтвердите пароль",
+    "registerButton": "Зарегистрироваться",
+    "hasAccount": "Есть аккаунт?",
+    "loginLink": "Войти",
+    "errors": {
+      "usernameRequired": "Обязательное поле",
+      "passwordRequired": "Обязательное поле",
+      "usernameMin": "Не менее 3 символов",
+      "usernameMax": "Не более 20 символов",
+      "passwordMin": "Не менее 6 символов",
+      "passwordMismatch": "Пароли должны совпадать",
+      "userExists": "Пользователь уже существует",
+      "registrationFailed": "Ошибка регистрации"
+    }
+  },
+  "chatPage": {
+    "channelsHeader": "Каналы",
+    "addChannelButton": "+",
+    "channelPrefix": "# ",
+    "messagesCount_zero": "{{count}} сообщений",
+    "messagesCount_one": "{{count}} сообщение",
+    "messagesCount_few": "{{count}} сообщения",
+    "messagesCount_many": "{{count}} сообщений",
+    "messagesCount_other": "{{count}} сообщений",
+    "messagesInputPlaceholder": "Введите сообщение...",
+    "sendMessageButton": "Отправить",
+    "anonymousUser": "Аноним",
+    "addChannel": "Добавить канал",
+    "renameChannel": "Переименовать",
+    "removeChannel": "Удалить",
+    "channelsHeader": "Каналы",
+    "channelName": "Название канала",
+    "enterChannelName": "Введите название канала",
+    "channelRenamed": "Канала переименован",
+    "submit": "Отправить",
+    "cancel": "Отменить",
+    "remove": "Удалить",
+    "confirmRemove": "Уверены?",
+    "removeChannel": "Удалить канал",
+    "channelAdded": "Канал добавлен!",
+    "channelRemoved": "Канал удален",
+    "modals": {
+      "addChannel": {
+        "title": "Добавить канал",
+        "form": {
+          "label": "Имя канала",
+          "placeholder": "Введите имя канала",
+          "errors": {
+            "required": "Обязательное поле",
+            "min": "Не менее 3 символов",
+            "max": "Не более 20 символов"
+          }
+        },
+        "cancelButton": "Отменить",
+        "submitButton": "Добавить",
+        "submittingButton": "Добавление..."
+      },
+      "renameChannel": {
+        "title": "Переименовать канал",
+        "form": {
+          "label": "Новое имя канала",
+          "placeholder": "Введите новое имя канала",
+          "errors": {
+            "required": "Обязательное поле",
+            "min": "Не менее 3 символов",
+            "max": "Не более 20 символов"
+          }
+        },
+        "cancelButton": "Отменить",
+        "submitButton": "Сохранить",
+        "submittingButton": "Сохранение..."
+      },
+      "removeChannel": {
+        "title": "Удалить канал",
+        "confirmMessage": "Вы уверены, что хотите удалить канал # {{name}}?",
+        "cancelButton": "Отменить",
+        "submitButton": "Удалить",
+        "submittingButton": "Удаление..."
+      }
+    },
+    "notifications": {
+      "websocketConnected": "Подключено к серверу WebSocket",
+      "websocketDisconnected": "Отключено от сервера WebSocket",
+      "newChannel": "Создан новый канал: {{name}}",
+      "channelRemoved": "Канал удален",
+      "channelRenamed": "Канал переименован: {{name}}",
+      "messageSent": "Сообщение отправлено",
+      "messageSendError": "Ошибка отправки сообщения",
+      "channelAdded": "Канал успешно создан",
+      "channelAddError": "Ошибка создания канала",
+      "channelExists": "Канал с таким именем уже существует",
+      "channelNameInvalid": "Имя канала должно быть от 3 до 20 символов",
+      "channelRemovedNotification": "Канал удален",
+      "channelRenamedNotification": "Канал переименован в {{name}}",
+      "channelNotRemovable": "Этот канал нельзя удалить",
+      "channelRemoveError": "Ошибка удаления канала",
+      "channelRenamedNotificationFallback": "Канал переименован",
+      "channelNameRequired": "Имя канала обязательно",
+      "channelNameMin": "Имя канала должно быть не менее 3 символов",
+      "channelNameMax": "Имя канала должно быть не более 20 символов"
+    }
+  }
+}

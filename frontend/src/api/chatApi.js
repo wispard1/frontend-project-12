@@ -3,108 +3,88 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem('token');
-      console.log('Токен, полученный в prepareHeaders:', token);
+    baseUrl: 'http://localhost:5002/api/v1/',
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
-        
-        console.log('Заголовок Authorization установлен');
       }
       return headers;
     },
   }),
   tagTypes: ['Channel', 'Message'],
   endpoints: (builder) => ({
-    getChannels: builder.query({
-      query: () => '/channels',
-      providesTags: (result) => [
-        { type: 'Channel', id: 'LIST' },
-        ...(result ? result.map((channel) => ({ type: 'Channel', id: channel.id })) : []),
-      ],
-    }),
-    getMessages: builder.query({
-      query: () => '/messages',
-      providesTags: (result) => [
-        { type: 'Message', id: 'LIST' },
-        ...(result ? result.map((message) => ({ type: 'Message', id: message.id })) : []),
-      ],
-    }),
-    getChannel: builder.query({
-      query: (id) => `/channels/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Channel', id }],
-    }),
-    getMessage: builder.query({
-      query: (id) => `/messages/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Message', id }],
-    }),
-    addChannel: builder.mutation({
-      query: (newChannelData) => ({
-        url: '/channels',
+    // Аутентификация
+    login: builder.mutation({
+      query: (credentials) => ({
+        url: 'login',
         method: 'POST',
-        body: newChannelData,
+        body: credentials,
       }),
-      invalidatesTags: [{ type: 'Channel', id: 'LIST' }],
-    }),
-    removeChannel: builder.mutation({
-      query: (channelId) => ({
-        url: `/channels/${channelId}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: (result, error, channelId) => [
-        { type: 'Channel', id: 'LIST' },
-        { type: 'Channel', id: channelId },
-      ],
-    }),
-    renameChannel: builder.mutation({
-      query: ({ id, ...patch }) => ({
-        url: `/channels/${id}`,
-        method: 'PATCH',
-        body: patch,
-      }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'Channel', id: 'LIST' },
-        { type: 'Channel', id },
-      ],
-    }),
-    addMessage: builder.mutation({
-      query: (newMessageData) => ({
-        url: `/messages`,
-        method: 'POST',
-        body: newMessageData,
-      }),
-      invalidatesTags: (result) => [
-        { type: 'Message', id: 'LIST' },
-        { type: 'Message', id: result?.id },
-      ],
     }),
     signup: builder.mutation({
       query: (userData) => ({
-        url: '/signup',
+        url: 'signup',
         method: 'POST',
         body: userData,
       }),
     }),
-    login: builder.mutation({
-      query: (credentials) => ({
-        url: '/login',
+
+    // Каналы
+    getChannels: builder.query({
+      query: () => 'channels',
+      providesTags: ['Channel'],
+    }),
+    addChannel: builder.mutation({
+      query: (newChannel) => ({
+        url: 'channels',
         method: 'POST',
-        body: credentials,
+        body: newChannel,
       }),
+      invalidatesTags: ['Channel'],
+    }),
+    renameChannel: builder.mutation({
+      query: ({ id, name }) => ({
+        url: `channels/${id}`,
+        method: 'PATCH',
+        body: { name },
+      }),
+      invalidatesTags: ['Channel'],
+    }),
+    removeChannel: builder.mutation({
+      query: (id) => ({
+        url: `channels/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Channel'],
+    }),
+
+    // Сообщения
+    getMessages: builder.query({
+      query: () => 'messages',
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ id }) => ({ type: 'Message', id })), { type: 'Message', id: 'LIST' }]
+          : [{ type: 'Message', id: 'LIST' }],
+    }),
+    addMessage: builder.mutation({
+      query: (newMessage) => ({
+        url: 'messages',
+        method: 'POST',
+        body: newMessage,
+      }),
+      invalidatesTags: [{ type: 'Message', id: 'LIST' }],
     }),
   }),
 });
 
 export const {
-  useGetChannelsQuery,
-  useGetMessagesQuery,
-  useGetChannelQuery,
-  useGetMessageQuery,
-  useAddChannelMutation,
-  useRemoveChannelMutation,
-  useRenameChannelMutation,
-  useAddMessageMutation,
-  useSignupMutation,
   useLoginMutation,
+  useSignupMutation,
+  useGetChannelsQuery,
+  useAddChannelMutation,
+  useRenameChannelMutation,
+  useRemoveChannelMutation,
+  useGetMessagesQuery,
+  useAddMessageMutation,
 } = chatApi;
