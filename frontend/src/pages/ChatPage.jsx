@@ -11,6 +11,7 @@ import { NewMessagesForm } from '../components/NewMessagesForm';
 import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
+import { cleanText } from '../utils/profanityFilter';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,11 @@ export const ChatPage = () => {
 
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !socketRef.current?.connected) return;
+
+    const filteredMessageBody = cleanText(messageBody.trim())
+
     const messageData = {
-      body: messageBody.trim(),
+      body: filteredMessageBody,
       channelId: currentChannelId,
       username: currentUsername,
     };

@@ -120,7 +120,8 @@
       "channelRenamedNotificationFallback": "Канал переименован",
       "channelNameRequired": "Имя канала обязательно",
       "channelNameMin": "Имя канала должно быть не менее 3 символов",
-      "channelNameMax": "Имя канала должно быть не более 20 символов"
+      "channelNameMax": "Имя канала должно быть не более 20 символов",
+      "channelNameContainsProfanity": "Имя канала содержит неприемлемые слова"
     }
   }
 }

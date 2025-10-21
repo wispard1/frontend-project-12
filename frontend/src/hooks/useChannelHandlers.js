@@ -3,6 +3,7 @@ import { setCurrentChannel } from '../store/channelsSlice';
 import { useAddChannelMutation, useRemoveChannelMutation, useRenameChannelMutation } from '../api/chatApi';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { hasProfanity } from '../utils/profanityFilter';
 
 export const useChannelHandlers = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,11 @@ export const useChannelHandlers = () => {
   const handleAddChannel = async (channelName) => {
     if (!channelName || channelName.trim().length < 3 || channelName.trim().length > 20) {
       toast.error(t('chatPage.notifications.channelNameInvalid'));
+      return;
+    }
+
+    if (hasProfanity(channelName.trim())) {
+      toast.error(t('chatPage.notifications.channelNameContainsProfanity'));
       return;
     }
 
@@ -52,6 +58,11 @@ export const useChannelHandlers = () => {
   const handleRenameChannel = async (channelId, newChannelName) => {
     if (!channelId || !newChannelName || newChannelName.trim().length < 3 || newChannelName.trim().length > 20) {
       toast.error(t('chatPage.notifications.channelNameInvalid'));
+      return;
+    }
+
+    if (hasProfanity(newChannelName.trim())) {
+      toast.error(t('chatPage.notifications.channelNameContainsProfanity'));
       return;
     }
 
