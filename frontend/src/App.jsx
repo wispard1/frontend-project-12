@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { LoginPage } from './pages/LoginPage';
-import { ChatPage } from './pages/chatPage';
+import { ChatPage } from './pages/СhatPage';
 import { NotFoundPage } from './pages/notFoundPage';
 import { store } from './store';
 import { Provider as ReduxProvider } from 'react-redux';
