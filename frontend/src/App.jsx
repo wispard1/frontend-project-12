@@ -13,10 +13,20 @@ import { CustomNavbar } from './components/CustomNavbar';
 import { PublicRoute } from './components/PublicRoute';
 import { RegisterPage } from './pages/RegisterPage';
 import { ToastContainer, Slide } from 'react-toastify';
+import Rollbar from 'rollbar';
+
+const rollbarInstance = new Rollbar({
+  accessToken: '52edddf2c5ad7031051d66b254c9aff2',
+  environment: 'production',
+});
 
 const rollbarConfig = {
   accessToken: '52edddf2c5ad7031051d66b254c9aff2',
   environment: 'production',
+  logger: (err) => {
+    console.error('Rollbar caught an error via logger:', err);
+    rollbarInstance.error(err);
+  },
 };
 
 function TestError() {
@@ -64,9 +74,6 @@ function App() {
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary
         fallbackUI={() => <div>Something went wrong. We're looking into it.</div>}
-        onError={(err, errInfo) => {
-          console.error('Rollbar caught an error:', err, errInfo);
-        }}
       >
         <TestError />
         <ReduxProvider store={store}>
