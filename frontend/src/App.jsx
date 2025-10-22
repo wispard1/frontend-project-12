@@ -19,11 +19,6 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-function TestError() {
-  const a = null;
-  return a.hello();
-}
-
 function AppContent() {
   return (
     <>
@@ -63,7 +58,6 @@ function App() {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary fallbackUI={() => <div>Something went wrong. We're looking into it.</div>}>
-        <TestError />
         <ReduxProvider store={store}>
           <BrowserRouter>
             <AppContent />
