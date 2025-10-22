@@ -13,7 +13,7 @@ export const ChannelsList = ({
   const { t } = useTranslation();
 
   const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
-  console.log('ChannelsList: displayChannels=', displayChannels); // Для отладки
+  console.log('ChannelsList: displayChannels=', displayChannels);
 
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>
@@ -44,19 +44,14 @@ export const ChannelsList = ({
             key={channel.id}
             as='button'
             type='button'
-            role='button'
-            aria-label={channel.name}
-            data-testid={`channel-${channel.name}`}
-            className={`px-2 py-1 d-flex justify-content-between align-items-center ${
-              channel.id === currentChannelId ? 'bg-primary text-white' : ''
-            }`}
+            className='px-2 py-1 d-flex justify-content-between align-items-center text-start'
             style={{
-              cursor: 'pointer',
               border: 'none',
               borderRadius: '0.375rem',
               marginBottom: '0.25rem',
             }}
             onClick={() => onChannelClick(channel.id)}
+            aria-label={channel.name}
           >
             <span className='text-truncate'>
               <span className='me-1'>#</span>
