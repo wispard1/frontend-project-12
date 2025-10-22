@@ -88,7 +88,9 @@ export const ChatPage = () => {
     });
   };
 
-  if (channelsIsLoading || messagesIsLoading) {
+  const isInitialLoading = channelsIsLoading && messagesIsLoading;
+
+  if (isInitialLoading) {
     return (
       <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
         <Spinner animation='border' />
