@@ -13,6 +13,7 @@ export const ChannelsList = ({
   const { t } = useTranslation();
 
   const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
+  console.log('ChannelsList: displayChannels=', displayChannels);
 
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>
@@ -38,13 +39,14 @@ export const ChannelsList = ({
         </Button>
       </div>
       <ListGroup className='overflow-auto px-2 py-2 flex-grow-1'>
-        {displayChannels.map((channel, index) => (
+        {displayChannels.map((channel) => (
           <ListGroup.Item
             key={channel.id}
             as='button'
             type='button'
             role='button'
             aria-label={channel.name}
+            data-testid={`channel-${channel.name}`}
             className={`px-2 py-1 d-flex justify-content-between align-items-center ${
               channel.id === currentChannelId ? 'bg-primary text-white' : ''
             }`}
@@ -60,7 +62,7 @@ export const ChannelsList = ({
               <span className='me-1'>#</span>
               {channel.name}
             </span>
-            {index > 1 && (
+            {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
                   as='span'

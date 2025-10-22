@@ -31,7 +31,7 @@
     "passwordPlaceholder": "Введите пароль",
     "passwordConfirmLabel": "Подтвердите пароль",
     "passwordConfirmPlaceholder": "Подтвердите пароль",
-    "registerButton": "Зарегистрироваться",
+    "registerButton": "Регистрация",
     "registerButtonSubmitting": "Регистрация...",
     "hasAccount": "Есть аккаунт?",
     "loginLink": "Войти",

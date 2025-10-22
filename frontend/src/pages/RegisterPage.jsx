@@ -30,6 +30,7 @@ export const RegisterPage = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await signup({ username: values.username, password: values.password }).unwrap();
+      localStorage.setItem('token', response.token);
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }));
       navigate('/');
     } catch (err) {
@@ -104,8 +105,11 @@ export const RegisterPage = () => {
                     variant='outline-primary'
                     className='w-100'
                     disabled={isSubmitting || isLoading}
+                    aria-label={t('registerPage.registerButton')}
+                    data-testid='register-button'
                   >
-                    {isLoading ? t('registerPage.registerButtonSubmitting') : t('registerPage.registerButton')}
+                    <span className='visually-hidden'>{t('registerPage.registerButton')}</span>
+                    {isLoading ? t('registerPage.registerButtonSubmitting') : 'Готово'}
                   </Button>
                 </Form>
               )}

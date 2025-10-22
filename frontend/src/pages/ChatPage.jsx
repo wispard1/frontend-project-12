@@ -32,6 +32,8 @@ export const ChatPage = () => {
   const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
 
+  console.log('ChatPage: channels=', channels, 'isLoading=', channelsIsLoading, 'error=', channelsError);
+
   const socketRef = useWebSocket(token);
 
   const filteredMessages = useMemo(() => {
@@ -106,6 +108,11 @@ export const ChatPage = () => {
     );
   }
 
+  const defaultChannelId = channels?.[0]?.id || '1';
+  if (!currentChannelId && channels?.length > 0) {
+    dispatch(setCurrentChannel(defaultChannelId));
+  }
+
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
       <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
@@ -113,7 +120,7 @@ export const ChatPage = () => {
           <Row className='h-100 flex-md-row g-0'>
             <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
               <ChannelsList
-                channels={channels ?? [{ id: 1, name: 'general', removable: false }]}
+                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
                 onChannelClick={handleChannelClick}
                 onAddChannelClick={handleShowAddChannelModal}
                 onRenameChannelClick={handleShowRenameChannelModal}
