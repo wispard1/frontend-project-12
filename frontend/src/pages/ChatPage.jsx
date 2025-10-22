@@ -32,7 +32,7 @@ export const ChatPage = () => {
   const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
 
-  console.log('ChatPage: channels=', channels, 'isLoading=', channelsIsLoading, 'error=', channelsError);
+  console.log('ChatPage: channels=', channels, 'isLoading=', channelsIsLoading, 'error=', channelsError); // Для отладки
 
   const socketRef = useWebSocket(token);
 
@@ -114,34 +114,38 @@ export const ChatPage = () => {
   }
 
   return (
-    <div className='d-flex flex-column' style={{ height: '100vh' }}>
-      <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
-        <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
-          <Row className='h-100 flex-md-row g-0'>
-            <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
-              <ChannelsList
-                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
-                onChannelClick={handleChannelClick}
-                onAddChannelClick={handleShowAddChannelModal}
-                onRenameChannelClick={handleShowRenameChannelModal}
-                onRemoveChannelClick={handleShowRemoveChannelModal}
-              />
-            </Col>
-            <Col className='p-0 h-100'>
-              <div className='d-flex flex-column h-100'>
-                <div className='bg-light border-bottom p-3 shadow-sm small'>
-                  <p className='m-0'>
-                    <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
-                  </p>
-                  <span className='text-muted'>{filteredMessages?.length || 0} сообщений</span>
+    <>
+      <div className='d-flex flex-column' style={{ height: '100vh' }}>
+        <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
+          <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
+            <Row className='h-100 flex-md-row g-0'>
+              <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
+                <ChannelsList
+                  channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
+                  onChannelClick={handleChannelClick}
+                  onAddChannelClick={handleShowAddChannelModal}
+                  onRenameChannelClick={handleShowRenameChannelModal}
+                  onRemoveChannelClick={handleShowRemoveChannelModal}
+                />
+              </Col>
+              <Col className='p-0 h-100'>
+                <div className='d-flex flex-column h-100'>
+                  <div className='bg-light border-bottom p-3 shadow-sm small'>
+                    <p className='m-0'>
+                      <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
+                    </p>
+                    <span className='text-muted'>
+                      {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
+                    </span>
+                  </div>
+                  <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
+                  <NewMessagesForm onSubmit={handleSendMessages} isConnected={socketRef.current?.connected} />
                 </div>
-                <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
-                <NewMessagesForm onSubmit={handleSendMessages} isConnected={socketRef.current?.connected} />
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </main>
-    </div>
+              </Col>
+            </Row>
+          </div>
+        </main>
+      </div>
+    </>
   );
 };
