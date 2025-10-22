@@ -1,6 +1,6 @@
 import { useGetChannelsQuery, useGetMessagesQuery } from '../api/chatApi';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
 import axios from 'axios';
@@ -29,10 +29,19 @@ export const ChatPage = () => {
     isRenamingChannel,
   } = useChannelHandlers();
 
-  const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
+  const { data: channels, isLoading: channelsIsLoading, error: channelsError, refetch } = useGetChannelsQuery();
+
+  const isAuthenticated = useSelector((state) => !!state.auth.token);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      refetch();
+    }
+  }, [isAuthenticated, refetch]);
+
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
 
-  console.log('ChatPage: channels=', channels, 'isLoading=', channelsIsLoading, 'error=', channelsError); // Для отладки
+  console.log('ChatPage: channels=', channels, 'isLoading=', channelsIsLoading, 'error=', channelsError);
 
   const socketRef = useWebSocket(token);
 
@@ -40,6 +49,34 @@ export const ChatPage = () => {
     if (!messages) return [];
     return messages.filter((msg) => msg.channelId === currentChannelId);
   }, [messages, currentChannelId]);
+
+  const channelsToDisplay = useMemo(() => {
+    return channels && channels.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
+  }, [channels]);
+
+  useEffect(() => {
+    if (!currentChannelId && channelsToDisplay.length > 0) {
+      dispatch(setCurrentChannel(channelsToDisplay[0].id));
+    }
+  }, [currentChannelId, channelsToDisplay, dispatch]);
+
+  if (channelsIsLoading || messagesIsLoading) {
+    return (
+      <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
+        <Spinner animation='border' />
+      </div>
+    );
+  }
+
+  if (channelsError || messagesError) {
+    return (
+      <div className='container mt-5'>
+        <Alert variant='danger'>
+          Ошибка: {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
+        </Alert>
+      </div>
+    );
+  }
 
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !socketRef.current?.connected) return;
@@ -90,29 +127,6 @@ export const ChatPage = () => {
     });
   };
 
-  if (channelsIsLoading || messagesIsLoading) {
-    return (
-      <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
-        <Spinner animation='border' />
-      </div>
-    );
-  }
-
-  if (channelsError || messagesError) {
-    return (
-      <div className='container mt-5'>
-        <Alert variant='danger'>
-          Ошибка: {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
-        </Alert>
-      </div>
-    );
-  }
-
-  const defaultChannelId = channels?.[0]?.id || '1';
-  if (!currentChannelId && channels?.length > 0) {
-    dispatch(setCurrentChannel(defaultChannelId));
-  }
-
   return (
     <>
       <div className='d-flex flex-column' style={{ height: '100vh' }}>
@@ -121,7 +135,7 @@ export const ChatPage = () => {
             <Row className='h-100 flex-md-row g-0'>
               <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
                 <ChannelsList
-                  channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
+                  channels={channelsToDisplay}
                   onChannelClick={handleChannelClick}
                   onAddChannelClick={handleShowAddChannelModal}
                   onRenameChannelClick={handleShowRenameChannelModal}
@@ -132,7 +146,7 @@ export const ChatPage = () => {
                 <div className='d-flex flex-column h-100'>
                   <div className='bg-light border-bottom p-3 shadow-sm small'>
                     <p className='m-0'>
-                      <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
+                      <b># {channelsToDisplay.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
                     </p>
                     <span className='text-muted'>
                       {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
