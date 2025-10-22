@@ -29,7 +29,7 @@ export const ChatPage = () => {
     isRenamingChannel,
   } = useChannelHandlers();
 
-  const { data: channels, error: channelsError } = useGetChannelsQuery();
+  const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
 
   const socketRef = useWebSocket(token);
@@ -88,16 +88,7 @@ export const ChatPage = () => {
     });
   };
 
-  // const isInitialLoading = channelsIsLoading && messagesIsLoading;
-
-  // if (isInitialLoading) {
-  //   return (
-  //     <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
-  //       <Spinner animation='border' />
-  //     </div>
-  //   );
-  // }
-  if (messagesIsLoading) {
+  if (channelsIsLoading || messagesIsLoading) {
     return (
       <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
         <Spinner animation='border' />

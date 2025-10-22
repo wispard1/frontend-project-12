@@ -12,6 +12,8 @@ export const ChannelsList = ({
   const { currentChannelId } = useSelector((state) => state.channels);
   const { t } = useTranslation();
 
+  const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
+
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>
       <div className='d-flex justify-content-between align-items-center px-3 py-2 border-bottom'>
@@ -36,11 +38,12 @@ export const ChannelsList = ({
         </Button>
       </div>
       <ListGroup className='overflow-auto px-2 py-2 flex-grow-1'>
-        {channels?.map((channel, index) => (
+        {displayChannels.map((channel, index) => (
           <ListGroup.Item
             key={channel.id}
             as='button'
             type='button'
+            role='button'
             aria-label={channel.name}
             className={`px-2 py-1 d-flex justify-content-between align-items-center ${
               channel.id === currentChannelId ? 'bg-primary text-white' : ''
@@ -57,7 +60,6 @@ export const ChannelsList = ({
               <span className='me-1'>#</span>
               {channel.name}
             </span>
-
             {index > 1 && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
@@ -81,7 +83,6 @@ export const ChannelsList = ({
                     />
                   </svg>
                 </Dropdown.Toggle>
-
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => onRenameChannelClick(channel.id, channel.name)}>
                     <svg
