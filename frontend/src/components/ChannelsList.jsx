@@ -39,7 +39,8 @@ export const ChannelsList = ({
         {channels?.map((channel, index) => (
           <ListGroup.Item
             key={channel.id}
-            as='div'
+            as='button'
+            type='button'
             className={`px-2 py-1 d-flex justify-content-between align-items-center ${
               channel.id === currentChannelId ? 'bg-primary text-white' : ''
             }`}
