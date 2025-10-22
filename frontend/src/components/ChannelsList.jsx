@@ -41,6 +41,7 @@ export const ChannelsList = ({
             key={channel.id}
             as='button'
             type='button'
+            aria-label={channel.name}
             className={`px-2 py-1 d-flex justify-content-between align-items-center ${
               channel.id === currentChannelId ? 'bg-primary text-white' : ''
             }`}
