@@ -29,12 +29,18 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      console.log('Sending signup request with data:', { username: values.username, password: values.password }); // Для отладки
       const response = await signup({ username: values.username, password: values.password }).unwrap();
+      console.log('Registration successful, response:', response); // Для отладки
       localStorage.setItem('token', response.token);
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }));
       navigate('/');
     } catch (err) {
-      console.error('Registration failed:', err);
+      console.error('Registration failed - Full error object:', err); // Выведем весь объект
+      console.error('Registration failed - Error status:', err.status); // Если есть
+      console.error('Registration failed - Error data:', err.data); // Если есть
+      // Оставим вашу логику отображения ошибки
+      // setSubmitting(false); // Уже в finally
     } finally {
       setSubmitting(false);
     }
