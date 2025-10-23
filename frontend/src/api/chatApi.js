@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5002/api/v1/',
+    baseUrl: import.meta.env.VITE_API_URL || '/api/v1/',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
