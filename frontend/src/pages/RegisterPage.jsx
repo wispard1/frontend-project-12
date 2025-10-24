@@ -12,8 +12,8 @@ const SignupSchema = yup.object().shape({
   username: yup
     .string()
     .required('registerPage.errors.usernameRequired')
-    .min(3, 'registerPage.errors.usernameMin')
-    .max(20, 'registerPage.errors.usernameMax'),
+    .min(3, 'registerPage.errors.usernameMinMax')
+    .max(20, 'registerPage.errors.usernameMinMax'),
   password: yup.string().required('registerPage.errors.passwordRequired').min(6, 'registerPage.errors.passwordMin'),
   passwordConfirmation: yup
     .string()
@@ -56,8 +56,6 @@ export const RegisterPage = () => {
               <Formik
                 initialValues={{ username: '', password: '', passwordConfirmation: '' }}
                 validationSchema={SignupSchema}
-                validateOnChange={true}
-                validateOnBlur={true}
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
