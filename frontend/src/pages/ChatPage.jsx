@@ -67,7 +67,6 @@ export const ChatPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Message sent via POST:', response.data);
-      await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
       console.error('Error sending message:', error);
