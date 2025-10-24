@@ -56,6 +56,8 @@ export const RegisterPage = () => {
               <Formik
                 initialValues={{ username: '', password: '', passwordConfirmation: '' }}
                 validationSchema={SignupSchema}
+                validateOnChange={true}
+                validateOnBlur={true}
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
