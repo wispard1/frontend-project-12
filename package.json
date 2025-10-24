@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/wispard1/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/wispard1/frontend-project-12/actions)",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wispard1/frontend-project-12.git"
@@ -19,6 +17,9 @@
   "dependencies": {
     "@hexlet/chat-server": "^2.0.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.1"
+  },
   "keywords": []
 }
