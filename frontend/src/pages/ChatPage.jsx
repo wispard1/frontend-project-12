@@ -37,22 +37,28 @@ export const ChatPage = () => {
 
   const filteredMessages = useMemo(() => {
     if (!messages) return [];
-    return messages.filter((msg) => msg.channelId === currentChannelId);
+    console.log('Current channel ID:', currentChannelId);
+    console.log('Messages:', messages);
+    console.log(
+      'Filtered messages:',
+      messages.filter((msg) => String(msg.channelId) === String(currentChannelId))
+    );
+    return messages.filter((msg) => String(msg.channelId) === String(currentChannelId));
   }, [messages, currentChannelId]);
 
   const handleSendMessages = async (messageBody) => {
-    if (!messageBody.trim() || !socketRef.current?.connected) return;
+    if (!messageBody.trim() || !currentChannelId) return;
 
     const filteredMessageBody = cleanText(messageBody.trim());
 
     const messageData = {
       body: filteredMessageBody,
-      channelId: currentChannelId,
+      channelId: String(currentChannelId),
       username: currentUsername,
     };
 
     try {
-      console.log('Sending message:', messageData); // Debug
+      console.log('Sending message:', messageData);
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
@@ -60,15 +66,19 @@ export const ChatPage = () => {
       const response = await axios.post('/api/v1/messages', messageData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log('Message sent via POST:', response.data); // Debug
+      console.log('Message sent via POST:', response.data);
+      await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
       console.error('Error sending message:', error);
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+      }
     }
   };
 
   const handleChannelClick = (channelId) => {
-    dispatch(setCurrentChannel(channelId));
+    dispatch(setCurrentChannel(String(channelId)));
   };
 
   const handleShowAddChannelModal = () => {
@@ -117,42 +127,41 @@ export const ChatPage = () => {
 
   const defaultChannelId = channels?.[0]?.id || '1';
   if (!currentChannelId && channels?.length > 0) {
-    dispatch(setCurrentChannel(defaultChannelId));
+    console.log('Setting default channel ID:', defaultChannelId);
+    dispatch(setCurrentChannel(String(defaultChannelId)));
   }
 
   return (
-    <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
-        <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
-          <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
-            <Row className='h-100 flex-md-row g-0'>
-              <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
-                <ChannelsList
-                  channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
-                  onChannelClick={handleChannelClick}
-                  onAddChannelClick={handleShowAddChannelModal}
-                  onRenameChannelClick={handleShowRenameChannelModal}
-                  onRemoveChannelClick={handleShowRemoveChannelModal}
-                />
-              </Col>
-              <Col className='p-0 h-100'>
-                <div className='d-flex flex-column h-100'>
-                  <div className='bg-light border-bottom p-3 shadow-sm small'>
-                    <p className='m-0'>
-                      <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
-                    </p>
-                    <span className='text-muted'>
-                      {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
-                    </span>
-                  </div>
-                  <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
-                  <NewMessagesForm onSubmit={handleSendMessages} isConnected={socketRef.current?.connected} />
+    <div className='d-flex flex-column' style={{ height: '100vh' }}>
+      <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
+        <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
+          <Row className='h-100 flex-md-row g-0'>
+            <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
+              <ChannelsList
+                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
+                onChannelClick={handleChannelClick}
+                onAddChannelClick={handleShowAddChannelModal}
+                onRenameChannelClick={handleShowRenameChannelModal}
+                onRemoveChannelClick={handleShowRemoveChannelModal}
+              />
+            </Col>
+            <Col className='p-0 h-100'>
+              <div className='d-flex flex-column h-100'>
+                <div className='bg-light border-bottom p-3 shadow-sm small'>
+                  <p className='m-0'>
+                    <b># {channels?.find((c) => String(c.id) === String(currentChannelId))?.name || 'general'}</b>
+                  </p>
+                  <span className='text-muted'>
+                    {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
+                  </span>
                 </div>
-              </Col>
-            </Row>
-          </div>
-        </main>
-      </div>
-    </>
+                <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
+                <NewMessagesForm onSubmit={handleSendMessages} isConnected={true} />
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </main>
+    </div>
   );
 };
