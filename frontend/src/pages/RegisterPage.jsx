@@ -8,24 +8,27 @@ import { setCredentials } from '../store/authSlice';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-const SignupSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('registerPage.errors.usernameRequired')
-    .min(3, 'registerPage.errors.usernameMinMax')
-    .max(20, 'registerPage.errors.usernameMinMax'),
-  password: yup.string().required('registerPage.errors.passwordRequired').min(6, 'registerPage.errors.passwordMin'),
-  passwordConfirmation: yup
-    .string()
-    .required('registerPage.errors.passwordRequired')
-    .oneOf([yup.ref('password')], 'registerPage.errors.passwordMismatch'),
-});
-
 export const RegisterPage = () => {
   const [signup, { isLoading, error }] = useSignupMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const SignupSchema = yup.object().shape({
+    username: yup
+      .string()
+      .required(t('registerPage.errors.usernameRequired'))
+      .min(3, t('registerPage.errors.usernameMin'))
+      .max(20, t('registerPage.errors.usernameMax')),
+    password: yup
+      .string()
+      .required(t('registerPage.errors.passwordRequired'))
+      .min(6, t('registerPage.errors.passwordMin')),
+    passwordConfirmation: yup
+      .string()
+      .required(t('registerPage.errors.passwordRequired'))
+      .oneOf([yup.ref('password')], t('registerPage.errors.passwordMismatch')),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
