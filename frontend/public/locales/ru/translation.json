@@ -38,8 +38,8 @@
     "errors": {
       "usernameRequired": "Обязательное поле",
       "passwordRequired": "Обязательное поле",
-      "usernameMin": "Не менее 3 символов",
-      "usernameMax": "Не более 20 символов",
+      "usernameMin": "От 3 до 20 символов",
+      "usernameMax": "От 3 до 20 символов",
       "passwordMin": "Не менее 6 символов",
       "passwordMismatch": "Пароли должны совпадать",
       "userExists": "Такой пользователь уже существует",
