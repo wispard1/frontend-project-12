@@ -8,6 +8,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('NewMessagesForm submitting:', newMessageBody);
     if (newMessageBody.trim()) {
       onSubmit(newMessageBody.trim());
       setNewMessageBody('');
@@ -27,6 +28,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
             value={newMessageBody}
             onChange={(e) => setNewMessageBody(e.target.value)}
             autoComplete='off'
+            data-testid='new-message-input'
           />
           <Button type='submit' variant='light' disabled={!newMessageBody.trim()}>
             <svg

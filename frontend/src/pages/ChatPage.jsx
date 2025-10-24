@@ -50,14 +50,17 @@ export const ChatPage = () => {
       channelId: currentChannelId,
       username: currentUsername,
     };
+
     try {
+      console.log('Sending message:', messageData); // Debug
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
       }
-      await axios.post('/api/v1/messages', messageData, {
+      const response = await axios.post('/api/v1/messages', messageData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log('Message sent via POST:', response.data); // Debug
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
       console.error('Error sending message:', error);
