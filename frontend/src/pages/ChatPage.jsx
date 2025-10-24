@@ -12,6 +12,7 @@ import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } f
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
+import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -50,11 +51,16 @@ export const ChatPage = () => {
       username: currentUsername,
     };
     try {
+      if (socketRef.current?.connected) {
+        console.log('Emitting newMessage via WebSocket:', messageData);
+        socketRef.current.emit('newMessage', messageData);
+      }
       await axios.post('/api/v1/messages', messageData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
-      console.error('Error sending message via POST:', error);
+      console.error('Error sending message:', error);
     }
   };
 
