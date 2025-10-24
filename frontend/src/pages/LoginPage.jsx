@@ -8,16 +8,16 @@ import { Alert, Button, Container, Card } from 'react-bootstrap';
 import avatar from '../assets/form-avatar.jpg';
 import { useTranslation } from 'react-i18next';
 
-const loginSchema = yup.object().shape({
-  username: yup.string().required('loginPage.errors.usernameRequired'),
-  password: yup.string().required('loginPage.errors.passwordRequired'),
-});
-
 export const LoginPage = () => {
   const [login, { isLoading, error }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const loginSchema = yup.object().shape({
+    username: yup.string().required(t('loginPage.errors.usernameRequired')),
+    password: yup.string().required(t('loginPage.errors.passwordRequired')),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
