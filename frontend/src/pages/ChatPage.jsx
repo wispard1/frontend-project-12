@@ -79,7 +79,11 @@ export const ChatPage = () => {
     try {
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
-        socketRef.current.emit('newMessage', messageData);
+        try {
+          socketRef.current.emit('newMessage', messageData);
+        } catch (emitError) {
+          console.error('Error emitting newMessage via WebSocket:', emitError);
+        }
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
       } else {
         console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
