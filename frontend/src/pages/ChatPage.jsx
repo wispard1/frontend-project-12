@@ -80,6 +80,7 @@ export const ChatPage = () => {
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
+        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
       } else {
         console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
         const apiUrl = import.meta.env.VITE_API_URL;
