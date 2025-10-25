@@ -85,7 +85,7 @@ export const ChatPage = () => {
       // }
       const response = await addMessage(messageData).unwrap();
       console.log('Message sent via RTK Query:', response);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       await refetchMessages();
     } catch (error) {
       console.error('Error sending message:', error);
