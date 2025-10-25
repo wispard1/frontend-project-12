@@ -1,15 +1,14 @@
-import { useGetChannelsQuery, useGetMessagesQuery } from '../api/chatApi';
+import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation } from '../api/chatApi';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
 import { NewMessagesForm } from '../components/NewMessagesForm';
 import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
-import { useWebSocket } from '../hooks/useWebSocket';
+// import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
 
@@ -41,8 +40,9 @@ export const ChatPage = () => {
     error: messagesError,
     refetch: refetchMessages,
   } = useGetMessagesQuery();
+  const [addMessage, { isLoading: addMessageIsLoading, error: addMessageError }] = useAddMessageMutation();
 
-  const socketRef = useWebSocket(token);
+  // const socketRef = useWebSocket(token);
 
   useEffect(() => {
     console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
@@ -64,7 +64,6 @@ export const ChatPage = () => {
 
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !currentChannelId) return;
-
     if (!token) {
       console.error('No token found in localStorage');
       return;
@@ -79,21 +78,19 @@ export const ChatPage = () => {
     };
 
     try {
-      if (socketRef.current?.connected) {
-        socketRef.current.emit('newMessage', messageData);
-      }
-
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await axios.post(`${apiUrl}messages`, messageData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      console.log('Message sent:', response.data);
+      console.log('Sending message:', messageData, 'Token:', token);
+      // if (socketRef.current?.connected) {
+      //   console.log('Emitting newMessage via WebSocket:', messageData);
+      //   socketRef.current.emit('newMessage', messageData);
+      // }
+      const response = await addMessage(messageData).unwrap();
+      console.log('Message sent via RTK Query:', response);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await refetchMessages();
     } catch (error) {
       console.error('Error sending message:', error);
-      if (error.response) {
-        console.error('Error response:', error.response.data);
+      if (error.data) {
+        console.error('Error response:', error.data);
       }
     }
   };
@@ -128,7 +125,7 @@ export const ChatPage = () => {
     });
   };
 
-  if (channelsIsLoading || messagesIsLoading) {
+  if (channelsIsLoading || messagesIsLoading || addMessageIsLoading) {
     return (
       <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
         <Spinner animation='border' />
@@ -136,11 +133,15 @@ export const ChatPage = () => {
     );
   }
 
-  if (channelsError || messagesError) {
+  if (channelsError || messagesError || addMessageError) {
     return (
       <div className='container mt-5'>
         <Alert variant='danger'>
-          Ошибка: {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
+          Ошибка:{' '}
+          {channelsError?.data?.message ||
+            messagesError?.data?.message ||
+            addMessageError?.data?.message ||
+            'Неизвестная ошибка'}
         </Alert>
       </div>
     );
