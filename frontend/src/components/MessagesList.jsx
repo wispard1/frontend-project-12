@@ -26,7 +26,7 @@ export const MessagesList = ({ messages }) => {
         return (
           <div
             key={message.id}
-            className={`mb-2 d-flex ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
+            className={`mb-2 d-flex text-break ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
           >
             <div
               className={`p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
