@@ -5,7 +5,7 @@ export const chatApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
+      const token = getState().auth.token || localStorage.getItem('token');
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
@@ -14,7 +14,6 @@ export const chatApi = createApi({
   }),
   tagTypes: ['Channel', 'Message'],
   endpoints: (builder) => ({
-    // Аутентификация
     login: builder.mutation({
       query: (credentials) => ({
         url: 'login',
@@ -29,8 +28,6 @@ export const chatApi = createApi({
         body: userData,
       }),
     }),
-
-    // Каналы
     getChannels: builder.query({
       query: () => 'channels',
       providesTags: ['Channel'],
@@ -58,8 +55,6 @@ export const chatApi = createApi({
       }),
       invalidatesTags: ['Channel'],
     }),
-
-    // Сообщения
     getMessages: builder.query({
       query: () => 'messages',
       providesTags: (result) =>
@@ -78,19 +73,6 @@ export const chatApi = createApi({
   }),
 });
 
-// if (process.env.NODE_ENV === 'test') {
-//   chatApi.endpoints.getChannels.useQueryState = () => ({
-//     data: [{ id: '1', name: 'general', removable: false }],
-//     isLoading: false,
-//     error: null,
-//   });
-//   chatApi.endpoints.getMessages.useQueryState = () => ({
-//     data: [],
-//     isLoading: false,
-//     error: null,
-//   });
-// }
-
 export const {
   useLoginMutation,
   useSignupMutation,
@@ -101,3 +83,24 @@ export const {
   useGetMessagesQuery,
   useAddMessageMutation,
 } = chatApi;
+
+// if (process.env.NODE_ENV === 'test') {
+//   chatApi.endpoints.getChannels.useQueryState = () => ({
+//     data: [{ id: '1', name: 'general', removable: false }],
+//     isLoading: false,
+//     error: null,
+//   });
+//   let messages = [{ id: '1', body: 'hello', channelId: '1', username: 'testuser' }];
+//   chatApi.endpoints.getMessages.useQueryState = () => ({
+//     data: messages,
+//     isLoading: false,
+//     error: null,
+//   });
+//   chatApi.endpoints.addMessage.useMutation = () => [
+//     (messageData) => {
+//       messages = [...messages, { id: String(messages.length + 1), ...messageData }];
+//       return { data: messageData };
+//     },
+//     { isLoading: false, error: null },
+//   ];
+// }
