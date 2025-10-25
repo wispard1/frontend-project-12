@@ -1,9 +1,9 @@
-import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation } from '../api/chatApi';
+import { useGetChannelsQuery, useGetMessagesQuery } from '../api/chatApi';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
-// import axios from 'axios';
+import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
@@ -12,7 +12,7 @@ import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } f
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
-// import { chatApi } from '../api/chatApi';
+import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export const ChatPage = () => {
     refetch: refetchChannels,
   } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
-  const [addMessage] = useAddMessageMutation();
+  // const [addMessage] = useAddMessageMutation();
 
   const socketRef = useWebSocket(token);
 
@@ -82,11 +82,16 @@ export const ChatPage = () => {
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
+        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
         return;
       }
       console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
-      await addMessage(messageData).unwrap();
-      console.log('Message sent via RTK Query (HTTP)');
+      const API_BASE_URL = 'http://localhost:5001/api/v1/';
+      const response = await axios.post(`${API_BASE_URL}messages`, messageData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log('Message sent via POST:', response.data);
+      dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
       console.error('Error sending message:', error);
       if (error.response) {
