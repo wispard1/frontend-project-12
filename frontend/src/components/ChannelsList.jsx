@@ -14,7 +14,6 @@ export const ChannelsList = ({
 
   const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
   console.log('ChannelsList: displayChannels=', displayChannels);
-
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>
       <div className='d-flex justify-content-between align-items-center px-3 py-2 border-bottom'>
@@ -24,6 +23,7 @@ export const ChannelsList = ({
           className='p-0 text-primary'
           onClick={onAddChannelClick}
           title={t('chatPage.addChannel')}
+          data-testid='add-channel-button'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -52,6 +52,8 @@ export const ChannelsList = ({
             }}
             onClick={() => onChannelClick(channel.id)}
             aria-label={channel.name}
+            data-testid={`channel-${channel.name}`}
+            active={String(channel.id) === String(currentChannelId)}
           >
             <span className='text-truncate'>
               <span className='me-1'>#</span>

@@ -78,6 +78,19 @@ export const chatApi = createApi({
   }),
 });
 
+// if (process.env.NODE_ENV === 'test') {
+//   chatApi.endpoints.getChannels.useQueryState = () => ({
+//     data: [{ id: '1', name: 'general', removable: false }],
+//     isLoading: false,
+//     error: null,
+//   });
+//   chatApi.endpoints.getMessages.useQueryState = () => ({
+//     data: [],
+//     isLoading: false,
+//     error: null,
+//   });
+// }
+
 export const {
   useLoginMutation,
   useSignupMutation,
