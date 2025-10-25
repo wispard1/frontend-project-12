@@ -78,16 +78,17 @@ export const ChatPage = () => {
 
     try {
       if (socketRef.current?.connected) {
+        console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
+      } else {
+        console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await axios.post(`${apiUrl}messages`, messageData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log('Message sent via POST:', response.data);
+        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
       }
-
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const response = await axios.post(`${apiUrl}messages`, messageData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      console.log('Message sent:', response.data);
-      dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     } catch (error) {
       console.error('Error sending message:', error);
       if (error.response) {
