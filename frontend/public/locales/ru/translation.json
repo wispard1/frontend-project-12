@@ -56,6 +56,7 @@
     "messagesCount_many": "{{count}} сообщений",
     "messagesCount_other": "{{count}} сообщений",
     "messagesInputPlaceholder": "Введите сообщение...",
+    "messagesNew": "Новое сообщение",
     "sendMessageButton": "Отправить",
     "anonymousUser": "Аноним",
     "addChannel": "Добавить канал",
