@@ -22,12 +22,13 @@ export default defineConfig({
     port: 10000,
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:3000',
+        target: 'https://frontend-project-12-rit5.onrender.com/',
         changeOrigin: true,
       },
       '/socket.io': {
-        target: 'ws://localhost:3000',
+        target: 'wss://frontend-project-12-rit5.onrender.com/',
         ws: true,
+        changeOrigin: true,
       },
     },
   },
