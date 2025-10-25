@@ -5,7 +5,7 @@ export const MessagesList = ({ messages }) => {
   const currentUsername = useSelector((state) => state.auth.user?.username);
   const { t } = useTranslation();
 
-  console.log('MessagesList rendering, messages count:', messages?.length, 'Messages:', messages); // Debug
+  console.log('MessagesList rendering, messages count:', messages?.length);
 
   if (!messages || messages.length === 0) {
     return (
@@ -31,12 +31,8 @@ export const MessagesList = ({ messages }) => {
             <div
               className={`p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
               style={{ maxWidth: '70%' }}
-              data-testid='message'
             >
-              <div className='username' style={{ fontWeight: 'bold' }}>
-                {message.username}:
-              </div>
-              <span data-testid='message-body'>{message.body}</span>
+              <b>{message.username}:</b> {message.body}
             </div>
           </div>
         );
