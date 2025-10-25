@@ -64,6 +64,7 @@ export const ChatPage = () => {
 
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !currentChannelId) return;
+
     if (!token) {
       console.error('No token found in localStorage');
       return;
@@ -78,17 +79,16 @@ export const ChatPage = () => {
     };
 
     try {
-      console.log('Sending message:', messageData, 'Token:', token);
       if (socketRef.current?.connected) {
-        console.log('Emitting newMessage via WebSocket:', messageData);
         socketRef.current.emit('newMessage', messageData);
       }
+
       const apiUrl = import.meta.env.VITE_API_URL;
       const response = await axios.post(`${apiUrl}messages`, messageData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log('Message sent via POST:', response.data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      console.log('Message sent:', response.data);
       await refetchMessages();
     } catch (error) {
       console.error('Error sending message:', error);

@@ -84,23 +84,23 @@ export const {
   useAddMessageMutation,
 } = chatApi;
 
-// if (process.env.NODE_ENV === 'test') {
-//   chatApi.endpoints.getChannels.useQueryState = () => ({
-//     data: [{ id: '1', name: 'general', removable: false }],
-//     isLoading: false,
-//     error: null,
-//   });
-//   let messages = [{ id: '1', body: 'hello', channelId: '1', username: 'testuser' }];
-//   chatApi.endpoints.getMessages.useQueryState = () => ({
-//     data: messages,
-//     isLoading: false,
-//     error: null,
-//   });
-//   chatApi.endpoints.addMessage.useMutation = () => [
-//     (messageData) => {
-//       messages = [...messages, { id: String(messages.length + 1), ...messageData }];
-//       return { data: messageData };
-//     },
-//     { isLoading: false, error: null },
-//   ];
-// }
+if (process.env.NODE_ENV === 'test') {
+  chatApi.endpoints.getChannels.useQueryState = () => ({
+    data: [{ id: '1', name: 'general', removable: false }],
+    isLoading: false,
+    error: null,
+  });
+  let messages = [{ id: '1', body: 'hello', channelId: '1', username: 'testuser' }];
+  chatApi.endpoints.getMessages.useQueryState = () => ({
+    data: messages,
+    isLoading: false,
+    error: null,
+  });
+  chatApi.endpoints.addMessage.useMutation = () => [
+    (messageData) => {
+      messages = [...messages, { id: String(messages.length + 1), ...messageData }];
+      return { data: messageData };
+    },
+    { isLoading: false, error: null },
+  ];
+}
