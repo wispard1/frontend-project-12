@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { chatApi } from '../api/chatApi';
 
+let socketInstance = null;
+
 export const useWebSocket = (token) => {
   const dispatch = useDispatch();
   const socketRef = useRef(null);
@@ -10,30 +12,32 @@ export const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    socketRef.current = io('/socket.io', {
+    socketInstance = io('http://localhost:5001', {
       auth: { token },
     });
 
-    socketRef.current.on('connect', () => {
+    socketRef.current = socketInstance;
+
+    socketInstance.on('connect', () => {
       console.log('Connected to WebSocket server');
     });
 
-    socketRef.current.on('disconnect', (reason) => {
+    socketInstance.on('disconnect', (reason) => {
       console.log('Disconnected from WebSocket server:', reason);
     });
 
-    socketRef.current.on('newMessage', (newMessageData) => {
-      console.log('Received new message via WebSocket:', newMessageData);
+    socketInstance.on('newMessage', (payload) => {
+      console.log('Received newMessage via WebSocket:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     });
 
-    socketRef.current.on('newChannel', (newChannelData) => {
-      console.log('Received new channel via WebSocket:', newChannelData);
+    socketInstance.on('newChannel', (payload) => {
+      console.log('Received newChannel via WebSocket:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
-    socketRef.current.on('removeChannel', (removeChannelPayload) => {
-      console.log('Received remove channel via WebSocket:', removeChannelPayload);
+    socketInstance.on('removeChannel', (payload) => {
+      console.log('Received removeChannel via WebSocket:', payload);
       dispatch(
         chatApi.util.invalidateTags([
           { type: 'Channel', id: 'LIST' },
@@ -42,18 +46,16 @@ export const useWebSocket = (token) => {
       );
     });
 
-    socketRef.current.on('renameChannel', (renameChannelPayload) => {
-      console.log('Received rename channel via WebSocket:', renameChannelPayload);
+    socketInstance.on('renameChannel', (payload) => {
+      console.log('Received renameChannel via WebSocket:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.off('newMessage');
-        socketRef.current.off('newChannel');
-        socketRef.current.off('removeChannel');
-        socketRef.current.off('renameChannel');
-        socketRef.current.disconnect();
+      if (socketInstance) {
+        socketInstance.disconnect();
+        socketInstance = null;
+        socketRef.current = null;
       }
     };
   }, [token, dispatch]);

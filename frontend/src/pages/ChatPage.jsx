@@ -86,7 +86,7 @@ export const ChatPage = () => {
       }
       console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
       await addMessage(messageData).unwrap();
-      console.log('Message sent successfully via RTK Query (HTTP)');
+      console.log('Message sent via RTK Query (HTTP)');
     } catch (error) {
       console.error('Error sending message:', error);
       if (error.response) {
