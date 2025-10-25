@@ -1,9 +1,9 @@
-import { useGetChannelsQuery, useGetMessagesQuery } from '../api/chatApi';
+import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation } from '../api/chatApi';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useMemo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
-import axios from 'axios';
+// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
@@ -12,7 +12,7 @@ import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } f
 import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
-import { chatApi } from '../api/chatApi';
+// import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -37,6 +37,7 @@ export const ChatPage = () => {
     refetch: refetchChannels,
   } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
+  const [addMessage] = useAddMessageMutation();
 
   const socketRef = useWebSocket(token);
 
@@ -70,6 +71,7 @@ export const ChatPage = () => {
     }
 
     const filteredMessageBody = cleanText(messageBody.trim());
+
     const messageData = {
       body: filteredMessageBody,
       channelId: String(currentChannelId),
@@ -79,21 +81,12 @@ export const ChatPage = () => {
     try {
       if (socketRef.current?.connected) {
         console.log('Emitting newMessage via WebSocket:', messageData);
-        try {
-          socketRef.current.emit('newMessage', messageData);
-        } catch (emitError) {
-          console.error('Error emitting newMessage via WebSocket:', emitError);
-        }
-        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
-      } else {
-        console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await axios.post(`${apiUrl}messages`, messageData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        console.log('Message sent via POST:', response.data);
-        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
+        socketRef.current.emit('newMessage', messageData);
+        return;
       }
+      console.log('WebSocket not connected, falling back to HTTP POST:', messageData);
+      await addMessage(messageData).unwrap();
+      console.log('Message sent successfully via RTK Query (HTTP)');
     } catch (error) {
       console.error('Error sending message:', error);
       if (error.response) {

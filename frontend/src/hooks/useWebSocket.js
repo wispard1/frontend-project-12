@@ -10,7 +10,7 @@ export const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    socketRef.current = io('http://localhost:5002', {
+    socketRef.current = io('/socket.io', {
       auth: { token },
     });
 
