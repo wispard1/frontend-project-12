@@ -31,7 +31,7 @@ export const ChatPage = () => {
   } = useChannelHandlers();
 
   const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
-  const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
+  const { data: messages, isLoading: messagesIsLoading, error: messagesError, refetch } = useGetMessagesQuery();
 
   const socketRef = useWebSocket(token);
 
@@ -67,7 +67,7 @@ export const ChatPage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Message sent via POST:', response.data);
-      await dispatch(chatApi.util.invalidateTags(['Message']));
+      await refetch();
     } catch (error) {
       console.error('Error sending message:', error);
       if (error.response) {
