@@ -24,14 +24,8 @@ export const MessagesList = ({ messages }) => {
         const isOwnMessage = message.username === currentUsername;
 
         return (
-          <div
-            key={message.id}
-            className={`mb-2 d-flex ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
-          >
-            <div
-              className={`text-break mb-2 p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
-              style={{ maxWidth: '70%' }}
-            >
+          <div key={message.id} className='mb-2 d-flex justify-content-start'>
+            <div className={`text-break mb-2 p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}>
               <b>{message.username}:</b> {message.body}
             </div>
           </div>
