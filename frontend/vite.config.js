@@ -18,18 +18,4 @@ export default defineConfig({
       },
     },
   },
-  preview: {
-    port: 10000,
-    proxy: {
-      '/api/v1': {
-        target: 'http://localhost:5001',
-        changeOrigin: true,
-      },
-      '/socket.io': {
-        target: 'ws://localhost:5001',
-        ws: true,
-        changeOrigin: true,
-      },
-    },
-  },
 });
