@@ -18,18 +18,4 @@ export default defineConfig({
       },
     },
   },
-  preview: {
-    port: 10000,
-    proxy: {
-      '/api/v1': {
-        target: 'https://frontend-project-12-rit5.onrender.com',
-        changeOrigin: true,
-      },
-      '/socket.io': {
-        target: 'wss://frontend-project-12-rit5.onrender.com',
-        ws: true,
-        changeOrigin: true,
-      },
-    },
-  },
 });
