@@ -1,6 +1,6 @@
 import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation } from '../api/chatApi';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
 // import axios from 'axios';
@@ -30,23 +30,18 @@ export const ChatPage = () => {
     isRenamingChannel,
   } = useChannelHandlers();
 
-  const {
-    data: channels,
-    isLoading: channelsIsLoading,
-    error: channelsError,
-    refetch: refetchChannels,
-  } = useGetChannelsQuery();
+  const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
 
   const socketRef = useWebSocket(token);
 
-  useEffect(() => {
-    console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
-    if (!channels && !channelsIsLoading && !channelsError) {
-      refetchChannels();
-    }
-  }, [channels, channelsIsLoading, channelsError, refetchChannels]);
+  // useEffect(() => {
+  //   console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
+  //   if (!channels && !channelsIsLoading && !channelsError) {
+  //     refetchChannels();
+  //   }
+  // }, [channels, channelsIsLoading, channelsError, refetchChannels]);
 
   const filteredMessages = useMemo(() => {
     if (!messages) return [];
