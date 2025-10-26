@@ -21,17 +21,16 @@ export const MessagesList = ({ messages }) => {
   return (
     <div id='messages-box' className='chat-messages overflow-auto px-4 flex-grow-1'>
       {messages.map((message) => {
-        const isOwnMessage = message.username === currentUsername;
+        // const isOwnMessage = message.username === currentUsername;
 
         return (
           <div
             key={message.id}
-            className={`mb-2 d-flex ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
+            className={`mb-2 d-flex ${
+              message.username === currentUsername ? 'justify-content-end' : 'justify-content-start'
+            }`}
           >
-            <div
-              className={`text-break mb-2 p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
-              style={{ maxWidth: '70%' }}
-            >
+            <div className='text-break mb-2'>
               <b>{message.username}</b>: {message.body}
             </div>
           </div>
