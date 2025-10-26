@@ -1,3 +1,4 @@
+// src/components/MessagesList.jsx
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +8,9 @@ export const MessagesList = ({ messages }) => {
 
   console.log('MessagesList rendering, messages count:', messages?.length);
 
-  if (!messages || messages.length === 0) {
+  const messagesToRender = messages && Array.isArray(messages) ? messages : [];
+
+  if (messagesToRender.length === 0) {
     return (
       <div className='chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center'>
         <div className='text-center text-muted'>
@@ -20,18 +23,16 @@ export const MessagesList = ({ messages }) => {
 
   return (
     <div id='messages-box' className='chat-messages overflow-auto px-4 flex-grow-1'>
-      {messages.map((message) => {
-        // const isOwnMessage = message.username === currentUsername;
+      {messagesToRender.map((message) => {
+        const isOwnMessage = message.username === currentUsername;
 
         return (
           <div
             key={message.id}
-            className={`mb-2 d-flex ${
-              message.username === currentUsername ? 'justify-content-end' : 'justify-content-start'
-            }`}
+            className={`mb-2 d-flex ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
           >
-            <div className='text-break mb-2'>
-              <b>{message.username}</b>: {message.body}
+            <div className={`text-break mb-2 p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}>
+              <b>{message.username}:</b> {message.body}
             </div>
           </div>
         );
