@@ -33,6 +33,7 @@ export const useChannelHandlers = () => {
       console.log('Channel added successfully:', result);
       toast.success(t('chatPage.notifications.channelAdded'));
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
+      dispatch(setCurrentChannel(result.id));
     } catch (error) {
       console.error('Error adding channel:', error);
       if (error.status === 409) {
@@ -50,6 +51,12 @@ export const useChannelHandlers = () => {
       await removeChannel(channelId).unwrap();
       console.log('Channel removed successfully:', channelId);
       toast.success(t('chatPage.notifications.channelRemoved'));
+      dispatch(
+        chatApi.util.invalidateTags([
+          { type: 'Channel', id: 'LIST' },
+          { type: 'Message', id: 'LIST' },
+        ])
+      );
     } catch (error) {
       console.error('Error removing channel:', error);
       toast.error(t('chatPage.notifications.channelRemoveError'));
@@ -73,6 +80,7 @@ export const useChannelHandlers = () => {
       const result = await renameChannel({ id: channelId, name: trimmedName }).unwrap();
       console.log('Channel renamed successfully:', result);
       toast.success(t('chatPage.notifications.channelRenamed', { name: trimmedName }));
+      dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     } catch (error) {
       console.error('Error renaming channel:', error);
       if (error.status === 409) {

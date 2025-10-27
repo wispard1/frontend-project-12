@@ -31,7 +31,12 @@ export const AddChannelToastContent = ({ onAdd, isAdding, t, closeToast }) => {
         />
       </Form.Group>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <Button variant='primary' type='submit' disabled={!channelName.trim() || isAdding}>
+        <Button
+          variant='primary'
+          type='submit'
+          disabled={!channelName.trim() || isAdding}
+          data-testid='add-channel-submit'
+        >
           {isAdding ? (
             <>
               <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' />
