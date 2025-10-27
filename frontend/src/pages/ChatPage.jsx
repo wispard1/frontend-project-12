@@ -122,8 +122,10 @@ export const ChatPage = () => {
     );
   }
 
-  const defaultChannelId = channels?.[0]?.id || '1';
-  if (!currentChannelId && channels?.length > 0) {
+  const displayChannels = channels && channels.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
+
+  const defaultChannelId = displayChannels[0]?.id || '1';
+  if (!currentChannelId && displayChannels.length > 0) {
     console.log('Setting default channel ID:', defaultChannelId);
     dispatch(setCurrentChannel(String(defaultChannelId)));
   }
@@ -135,7 +137,7 @@ export const ChatPage = () => {
           <Row className='h-100 flex-md-row g-0'>
             <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
               <ChannelsList
-                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
+                channels={displayChannels}
                 onChannelClick={handleChannelClick}
                 onAddChannelClick={handleShowAddChannelModal}
                 onRenameChannelClick={handleShowRenameChannelModal}
