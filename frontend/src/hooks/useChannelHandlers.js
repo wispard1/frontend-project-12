@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
-import { useAddChannelMutation, useRemoveChannelMutation, useRenameChannelMutation } from '../api/chatApi';
+import { useAddChannelMutation, useRenameChannelMutation, useRemoveChannelMutation, chatApi } from '../api/chatApi';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { hasProfanity } from '../utils/profanityFilter';
@@ -32,6 +32,7 @@ export const useChannelHandlers = () => {
       const result = await addChannel({ name: channelName.trim() }).unwrap();
       console.log('Channel added successfully:', result);
       toast.success(t('chatPage.notifications.channelAdded'));
+      dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     } catch (error) {
       console.error('Error adding channel:', error);
       if (error.status === 409) {
