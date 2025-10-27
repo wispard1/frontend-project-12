@@ -1,20 +1,20 @@
 import { useSelector } from 'react-redux';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 export const MessagesList = ({ messages }) => {
   const currentUsername = useSelector((state) => state.auth.user?.username);
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
-  // if (!messages || messages.length === 0) {
-  //   return (
-  //     <div className='chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center'>
-  //       <div className='text-center text-muted'>
-  //         <p>{t('chatPage.noMessagesYet')}</p>
-  //         <small>{t('chatPage.startConversation')}</small>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!messages || messages.length === 0) {
+    return (
+      <div className='chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center'>
+        <div className='text-center text-muted'>
+          <p>{t('chatPage.noMessagesYet')}</p>
+          <small>{t('chatPage.startConversation')}</small>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id='messages-box' className='chat-messages overflow-auto px-4 flex-grow-1'>
@@ -25,7 +25,7 @@ export const MessagesList = ({ messages }) => {
               message.username === currentUsername ? 'justify-content-end' : 'justify-content-start'
             }`}
           >
-            <div key={message.id} className='text-break mb-2'>
+            <div key={message.id} className='text-break mb-2' aria-label={t('chatPage.messagesNew')}>
               <b>{message.username}</b>: {message.body}
             </div>
           </div>
