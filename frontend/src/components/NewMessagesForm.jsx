@@ -23,6 +23,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
             type='text'
             name='body'
             placeholder={t('chatPage.messagesInputPlaceholder')}
+            aria-label={t('chatPage.messagesNew')}
             className='border-0 p-0 ps-2'
             value={newMessageBody}
             onChange={(e) => setNewMessageBody(e.target.value)}

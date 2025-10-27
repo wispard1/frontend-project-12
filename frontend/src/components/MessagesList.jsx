@@ -21,11 +21,12 @@ export const MessagesList = ({ messages }) => {
       {messages.map((message) => {
         return (
           <div
+            key={message.id}
             className={`mb-2 d-flex ${
               message.username === currentUsername ? 'justify-content-end' : 'justify-content-start'
             }`}
           >
-            <div key={message.id} className='text-break mb-2' aria-label={t('chatPage.messagesNew')}>
+            <div className='text-break mb-2'>
               <b>{message.username}</b>: {message.body}
             </div>
           </div>
