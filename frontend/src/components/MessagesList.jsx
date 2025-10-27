@@ -1,8 +1,8 @@
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 export const MessagesList = ({ messages }) => {
-  // const currentUsername = useSelector((state) => state.auth.user?.username);
+  const currentUsername = useSelector((state) => state.auth.user?.username);
   const { t } = useTranslation();
 
   if (!messages || messages.length === 0) {
@@ -17,12 +17,21 @@ export const MessagesList = ({ messages }) => {
   }
 
   return (
-    <div id='messages-box' className='chat-messages overflow-auto px-5'>
-      {messages.map((message) => (
-        <div key={message.id} className='text-break mb-2'>
-          <b>{message.username}</b>: {message.body}
-        </div>
-      ))}
+    <div id='messages-box' className='chat-messages overflow-auto px-4 flex-grow-1'>
+      {messages.map((message) => {
+        return (
+          <div
+            key={message.id}
+            className={`mb-2 d-flex ${
+              message.username === currentUsername ? 'justify-content-end' : 'justify-content-start'
+            }`}
+          >
+            <div className='text-break mb-2'>
+              <b>{message.username}</b>: {message.body}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -9,10 +9,10 @@ import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
 import { NewMessagesForm } from '../components/NewMessagesForm';
 import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
-// import { useWebSocket } from '../hooks/useWebSocket';
+import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
-import { chatApi } from '../api/chatApi';
+// import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ export const ChatPage = () => {
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
 
-  // const socketRef = useWebSocket(token);
+  const socketRef = useWebSocket(token);
 
   // useEffect(() => {
   //   console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
@@ -71,16 +71,6 @@ export const ChatPage = () => {
       console.log('📤 Message sent via HTTP');
     } catch (error) {
       console.error('❌ Error sending message:', error);
-
-      dispatch(
-        chatApi.util.updateQueryData('getMessages', undefined, (draft) => {
-          draft.push({
-            ...messageData,
-            id: `temp-${Date.now()}`,
-            pending: true,
-          });
-        })
-      );
     }
   };
 
@@ -163,7 +153,7 @@ export const ChatPage = () => {
                   </span>
                 </div>
                 <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
-                <NewMessagesForm onSubmit={handleSendMessages} isConnected={true} />
+                <NewMessagesForm onSubmit={handleSendMessages} isConnected={socketRef.current?.connected ?? false} />
               </div>
             </Col>
           </Row>
