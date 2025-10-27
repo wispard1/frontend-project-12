@@ -9,7 +9,7 @@ import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
 import { NewMessagesForm } from '../components/NewMessagesForm';
 import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
-import { useWebSocket } from '../hooks/useWebSocket';
+// import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
 // import { chatApi } from '../api/chatApi';
@@ -34,7 +34,7 @@ export const ChatPage = () => {
   const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
 
-  const socketRef = useWebSocket(token);
+  // const socketRef = useWebSocket(token);
 
   // useEffect(() => {
   //   console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
@@ -74,11 +74,12 @@ export const ChatPage = () => {
     };
 
     try {
-      if (socketRef.current?.connected) {
-        console.log('Emitting newMessage via WebSocket:', messageData);
-        socketRef.current.emit('newMessage', messageData);
-        return;
-      }
+      // if (socketRef.current?.connected) {
+      //   console.log('Emitting newMessage via WebSocket:', messageData);
+      //   socketRef.current.emit('newMessage', messageData);
+      //   dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
+      //   return;
+      // }
       await addMessage(messageData).unwrap();
       console.log('Message sent via RTK Query (HTTP)');
     } catch (error) {
