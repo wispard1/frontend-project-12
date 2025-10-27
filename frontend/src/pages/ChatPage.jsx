@@ -12,7 +12,7 @@ import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } f
 // import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { cleanText } from '../utils/profanityFilter';
-// import { chatApi } from '../api/chatApi';
+import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -56,14 +56,7 @@ export const ChatPage = () => {
 
   const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !currentChannelId) return;
-    if (!token) {
-      console.error('No token found in localStorage');
-      return;
-    }
-    if (!currentUsername) {
-      console.error('No currentUsername found in state.auth.user');
-      return;
-    }
+    if (!token || !currentUsername) return;
 
     const filteredMessageBody = cleanText(messageBody.trim());
 
@@ -74,19 +67,20 @@ export const ChatPage = () => {
     };
 
     try {
-      // if (socketRef.current?.connected) {
-      //   console.log('Emitting newMessage via WebSocket:', messageData);
-      //   socketRef.current.emit('newMessage', messageData);
-      //   dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
-      //   return;
-      // }
       await addMessage(messageData).unwrap();
-      console.log('Message sent via RTK Query (HTTP)');
+      console.log('📤 Message sent via HTTP');
     } catch (error) {
-      console.error('Error sending message:', error);
-      if (error.response) {
-        console.error('Error response:', error.response.data);
-      }
+      console.error('❌ Error sending message:', error);
+
+      dispatch(
+        chatApi.util.updateQueryData('getMessages', undefined, (draft) => {
+          draft.push({
+            ...messageData,
+            id: `temp-${Date.now()}`,
+            pending: true,
+          });
+        })
+      );
     }
   };
 
