@@ -49,9 +49,9 @@ export const ChatPage = () => {
     console.log('Messages:', messages);
     console.log(
       'Filtered messages:',
-      messages.filter((msg) => String(msg.channelId) === String(currentChannelId))
+      messages.filter((msg) => msg.channelId === currentChannelId)
     );
-    return messages.filter((msg) => String(msg.channelId) === String(currentChannelId));
+    return messages.filter((msg) => msg.channelId === currentChannelId);
   }, [messages, currentChannelId]);
 
   const handleSendMessages = async (messageBody) => {
@@ -62,7 +62,7 @@ export const ChatPage = () => {
 
     const messageData = {
       body: filteredMessageBody,
-      channelId: String(currentChannelId),
+      channelId: currentChannelId,
       username: currentUsername,
     };
 
@@ -75,7 +75,7 @@ export const ChatPage = () => {
   };
 
   const handleChannelClick = (channelId) => {
-    dispatch(setCurrentChannel(String(channelId)));
+    dispatch(setCurrentChannel(channelId));
   };
 
   const handleShowAddChannelModal = () => {
@@ -127,7 +127,7 @@ export const ChatPage = () => {
   const defaultChannelId = displayChannels[0]?.id || '1';
   if (!currentChannelId && displayChannels.length > 0) {
     console.log('Setting default channel ID:', defaultChannelId);
-    dispatch(setCurrentChannel(String(defaultChannelId)));
+    dispatch(setCurrentChannel(defaultChannelId));
   }
 
   return (
@@ -148,7 +148,7 @@ export const ChatPage = () => {
               <div className='d-flex flex-column h-100'>
                 <div className='bg-light border-bottom p-3 shadow-sm small'>
                   <p className='m-0'>
-                    <b># {channels?.find((c) => String(c.id) === String(currentChannelId))?.name || 'general'}</b>
+                    <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
                   </p>
                   <span className='text-muted'>
                     {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}

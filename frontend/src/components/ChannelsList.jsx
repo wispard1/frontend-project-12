@@ -56,8 +56,7 @@ export const ChannelsList = ({
             active={String(channel.id) === String(currentChannelId)}
           >
             <span className='text-truncate'>
-              <span className='me-1'>#</span>
-              {channel.name}
+              # {channel.name}
             </span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
