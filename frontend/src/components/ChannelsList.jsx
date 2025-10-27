@@ -44,7 +44,9 @@ export const ChannelsList = ({
             key={channel.id}
             as='button'
             type='button'
-            className='px-2 py-1 d-flex justify-content-between align-items-center text-start'
+            className={`px-2 py-1 d-flex justify-content-between align-items-center text-start ${
+              channel.id === currentChannelId ? 'bg-primary text-white' : ''
+            }`}
             style={{
               border: 'none',
               borderRadius: '0.375rem',
@@ -53,11 +55,9 @@ export const ChannelsList = ({
             onClick={() => onChannelClick(channel.id)}
             aria-label={channel.name}
             data-testid={`channel-${channel.name}`}
-            active={String(channel.id) === String(currentChannelId)}
+            active={channel.id === currentChannelId}
           >
-            <span className='text-truncate'>
-              # {channel.name}
-            </span>
+            <span className='text-truncate'># {channel.name}</span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
