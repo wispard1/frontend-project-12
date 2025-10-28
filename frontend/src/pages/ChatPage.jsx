@@ -53,7 +53,7 @@ export const ChatPage = () => {
 
   const filteredMessages = useMemo(() => {
     if (!messages) return [];
-    return messages.filter((msg) => String(msg.channelId) === String(currentChannelId));
+    return messages.filter((msg) => msg.channelId === currentChannelId);
   }, [messages, currentChannelId]);
 
   const handleSendMessages = async (messageBody) => {
@@ -62,7 +62,7 @@ export const ChatPage = () => {
     const filteredBody = cleanText(messageBody.trim());
     const messageData = {
       body: filteredBody,
-      channelId: String(currentChannelId),
+      channelId: currentChannelId,
       username: currentUsername,
     };
 
@@ -79,7 +79,7 @@ export const ChatPage = () => {
     }
   };
 
-  const handleChannelClick = (id) => dispatch(setCurrentChannel(String(id)));
+  const handleChannelClick = (id) => dispatch(setCurrentChannel(id));
 
   const handleShowAddChannelModal = () => {
     showAddChannelToast({
@@ -143,7 +143,7 @@ export const ChatPage = () => {
               <div className='d-flex flex-column h-100'>
                 <div className='bg-light border-bottom p-3 shadow-sm small'>
                   <p className='m-0'>
-                    <b>#{channels?.find((c) => String(c.id) === String(currentChannelId))?.name || 'general'}</b>
+                    <b>#{channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
                   </p>
                   <span className='text-muted'>
                     {t('chatPage.messagesCount', {
