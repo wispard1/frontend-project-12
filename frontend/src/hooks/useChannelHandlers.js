@@ -31,7 +31,7 @@ export const useChannelHandlers = () => {
     try {
       const result = await addChannel({ name: channelName.trim() }).unwrap();
       console.log('Channel added successfully:', result);
-      // toast.success(t('chatPage.notifications.channelAdded'));
+      toast.success(t('chatPage.notifications.channelAdded'));
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
       dispatch(setCurrentChannel(result.id));
     } catch (error) {

@@ -1,18 +1,16 @@
-import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation } from '../api/chatApi';
+import { useMemo, useState, useEffect } from 'react';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
-import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentChannel } from '../store/channelsSlice';
-// import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation, chatApi } from '../api/chatApi';
+import { setCurrentChannel } from '../store/channelsSlice';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
 import { NewMessagesForm } from '../components/NewMessagesForm';
 import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
-import { useWebSocket } from '../hooks/useWebSocket';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
+import { useWebSocket } from '../hooks/useWebSocket';
 import { cleanText } from '../utils/profanityFilter';
-// import { chatApi } from '../api/chatApi';
 
 export const ChatPage = () => {
   const dispatch = useDispatch();
@@ -35,48 +33,53 @@ export const ChatPage = () => {
   const [addMessage] = useAddMessageMutation();
 
   const socketRef = useWebSocket(token);
+  const [isConnected, setIsConnected] = useState(true);
 
-  // useEffect(() => {
-  //   console.log('ChatPage: channels=', channels, 'channelsError=', channelsError);
-  //   if (!channels && !channelsIsLoading && !channelsError) {
-  //     refetchChannels();
-  //   }
-  // }, [channels, channelsIsLoading, channelsError, refetchChannels]);
+  useEffect(() => {
+    if (!socketRef.current) return;
+
+    const socket = socketRef.current;
+    const handleConnect = () => setIsConnected(true);
+    const handleDisconnect = () => setIsConnected(false);
+
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+
+    return () => {
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+    };
+  }, [socketRef]);
 
   const filteredMessages = useMemo(() => {
     if (!messages) return [];
-    console.log('Current channel ID:', currentChannelId);
-    console.log('Messages:', messages);
-    console.log(
-      'Filtered messages:',
-      messages.filter((msg) => msg.channelId === currentChannelId)
-    );
-    return messages.filter((msg) => msg.channelId === currentChannelId);
+    return messages.filter((msg) => String(msg.channelId) === String(currentChannelId));
   }, [messages, currentChannelId]);
 
   const handleSendMessages = async (messageBody) => {
-    if (!messageBody.trim() || !currentChannelId) return;
-    if (!token || !currentUsername) return;
+    if (!messageBody.trim() || !currentChannelId || !currentUsername) return;
 
-    const filteredMessageBody = cleanText(messageBody.trim());
-
+    const filteredBody = cleanText(messageBody.trim());
     const messageData = {
-      body: filteredMessageBody,
-      channelId: currentChannelId,
+      body: filteredBody,
+      channelId: String(currentChannelId),
       username: currentUsername,
     };
 
     try {
       await addMessage(messageData).unwrap();
-      console.log('📤 Message sent via HTTP');
-    } catch (error) {
-      console.error('❌ Error sending message:', error);
+      console.log('✅ Message sent via HTTP');
+
+      if (!isConnected) {
+        console.log('⚠️ Offline mode — forcing message refetch');
+        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
+      }
+    } catch (err) {
+      console.error('❌ Error sending message:', err);
     }
   };
 
-  const handleChannelClick = (channelId) => {
-    dispatch(setCurrentChannel(channelId));
-  };
+  const handleChannelClick = (id) => dispatch(setCurrentChannel(String(id)));
 
   const handleShowAddChannelModal = () => {
     showAddChannelToast({
@@ -86,18 +89,18 @@ export const ChatPage = () => {
     });
   };
 
-  const handleShowRenameChannelModal = (channelId, channelName) => {
+  const handleShowRenameChannelModal = (id, name) => {
     showRenameChannelToast({
-      channel: { id: channelId, name: channelName },
+      channel: { id, name },
       onRename: handleRenameChannel,
       isRenaming: isRenamingChannel,
       t,
     });
   };
 
-  const handleShowRemoveChannelModal = (channelId, channelName) => {
+  const handleShowRemoveChannelModal = (id, name) => {
     showRemoveChannelToast({
-      channel: { id: channelId, name: channelName },
+      channel: { id, name },
       onRemove: handleRemoveChannel,
       isRemoving: isRemovingChannel,
       t,
@@ -122,12 +125,9 @@ export const ChatPage = () => {
     );
   }
 
-  const displayChannels = channels && channels.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
-
-  const defaultChannelId = displayChannels[0]?.id || '1';
-  if (!currentChannelId && displayChannels.length > 0) {
-    console.log('Setting default channel ID:', defaultChannelId);
-    dispatch(setCurrentChannel(defaultChannelId));
+  const defaultChannelId = channels?.[0]?.id || '1';
+  if (!currentChannelId && channels?.length > 0) {
+    dispatch(setCurrentChannel(String(defaultChannelId)));
   }
 
   return (
@@ -137,7 +137,7 @@ export const ChatPage = () => {
           <Row className='h-100 flex-md-row g-0'>
             <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
               <ChannelsList
-                channels={displayChannels}
+                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
                 onChannelClick={handleChannelClick}
                 onAddChannelClick={handleShowAddChannelModal}
                 onRenameChannelClick={handleShowRenameChannelModal}
@@ -148,14 +148,17 @@ export const ChatPage = () => {
               <div className='d-flex flex-column h-100'>
                 <div className='bg-light border-bottom p-3 shadow-sm small'>
                   <p className='m-0'>
-                    <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
+                    <b>#{channels?.find((c) => String(c.id) === String(currentChannelId))?.name || 'general'}</b>
                   </p>
                   <span className='text-muted'>
-                    {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
+                    {t('chatPage.messagesCount', {
+                      count: filteredMessages?.length || 0,
+                    })}
                   </span>
+                  {!isConnected && <div className='text-danger small mt-1'>{t('chatPage.offline')}</div>}
                 </div>
                 <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
-                <NewMessagesForm onSubmit={handleSendMessages} isConnected={socketRef.current?.connected ?? false} />
+                <NewMessagesForm onSubmit={handleSendMessages} isConnected={isConnected} />
               </div>
             </Col>
           </Row>
