@@ -3,8 +3,6 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { chatApi } from '../api/chatApi';
 
-let socketInstance = null;
-
 export const useWebSocket = (token) => {
   const dispatch = useDispatch();
   const socketRef = useRef(null);
@@ -12,32 +10,32 @@ export const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    socketInstance = io('http://localhost:5001', {
-      auth: { token },
+    const wsURL = window.location.origin.replace(/^http/, 'ws');
+    console.log('Connecting WebSocket to:', wsURL);
+
+    const socket = io(wsURL, { auth: { token } });
+    socketRef.current = socket;
+
+    socket.on('connect', () => {
+      console.log('✅ Connected to WebSocket server');
     });
 
-    socketRef.current = socketInstance;
-
-    socketInstance.on('connect', () => {
-      console.log('Connected to WebSocket server');
+    socket.on('disconnect', (reason) => {
+      console.log('⚠️ Disconnected from WebSocket server:', reason);
     });
 
-    socketInstance.on('disconnect', (reason) => {
-      console.log('Disconnected from WebSocket server:', reason);
-    });
-
-    socketInstance.on('newMessage', (payload) => {
-      console.log('Received newMessage via WebSocket:', payload);
+    socket.on('newMessage', (payload) => {
+      console.log('📩 Received newMessage:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     });
 
-    socketInstance.on('newChannel', (payload) => {
-      console.log('Received newChannel via WebSocket:', payload);
+    socket.on('newChannel', (payload) => {
+      console.log('📡 Received newChannel:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
-    socketInstance.on('removeChannel', (payload) => {
-      console.log('Received removeChannel via WebSocket:', payload);
+    socket.on('removeChannel', (payload) => {
+      console.log('🗑️ Received removeChannel:', payload);
       dispatch(
         chatApi.util.invalidateTags([
           { type: 'Channel', id: 'LIST' },
@@ -46,17 +44,15 @@ export const useWebSocket = (token) => {
       );
     });
 
-    socketInstance.on('renameChannel', (payload) => {
-      console.log('Received renameChannel via WebSocket:', payload);
+    socket.on('renameChannel', (payload) => {
+      console.log('✏️ Received renameChannel:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
     return () => {
-      if (socketInstance) {
-        socketInstance.disconnect();
-        socketInstance = null;
-        socketRef.current = null;
-      }
+      socket.disconnect();
+      socketRef.current = null;
+      console.log('WebSocket connection closed');
     };
   }, [token, dispatch]);
 
