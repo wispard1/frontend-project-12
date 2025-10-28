@@ -10,7 +10,7 @@ export const AddChannelToastContent = ({ onAdd, isAdding, t, closeToast }) => {
     if (channelName.trim()) {
       try {
         await onAdd(channelName.trim());
-        setTimeout(() => closeToast(), 300);
+        closeToast();
       } catch {
         toast.error(t('chatPage.errorAddingChannel'));
       }

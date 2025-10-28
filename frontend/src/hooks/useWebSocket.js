@@ -30,7 +30,7 @@ export const useWebSocket = (token) => {
     });
 
     socket.on('newChannel', (payload) => {
-      console.log('📡 Received newChannel:', payload);
+      console.log('Received newChannel via WebSocket:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
