@@ -125,10 +125,10 @@ export const ChatPage = () => {
     );
   }
 
-  const defaultChannelId = channels?.[0]?.id || '1';
-  if (!currentChannelId && channels?.length > 0) {
-    dispatch(setCurrentChannel(String(defaultChannelId)));
-  }
+  // const defaultChannelId = channels?.[0]?.id || '1';
+  // if (!currentChannelId && channels?.length > 0) {
+  //   dispatch(setCurrentChannel(String(defaultChannelId)));
+  // }
 
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
