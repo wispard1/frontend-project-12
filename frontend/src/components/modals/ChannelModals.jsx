@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { cleanText } from '../../utils/profanityFilter';
 
 export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   const { t } = useTranslation();
@@ -44,7 +45,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
           validateOnChange={false}
           validateOnBlur={false}
         >
-          {({ isSubmitting, touched, errors, values }) => (
+          {({ isSubmitting, touched, errors, values, setFieldValue }) => (
             <Form>
               <div>
                 <Field
@@ -55,6 +56,10 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                   autoFocus
                   disabled={isAdding || isSubmitting}
                   data-testid='add-channel-input'
+                  onChange={(e) => {
+                    const filteredValue = cleanText(e.target.value);
+                    setFieldValue('name', filteredValue);
+                  }}
                 />
                 <label htmlFor='name' className='visually-hidden'>
                   {t('chatPage.modals.addChannel.form.label')}
@@ -108,8 +113,8 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       name: Yup.string()
         .trim()
         .required(t('chatPage.modals.renameChannel.form.errors.required'))
-        .min(3, t('chatPage.modals.renameChannel.form.errors.min'))
-        .max(20, t('chatPage.modals.renameChannel.form.errors.max')),
+        .min(3, t('registerPage.errors.usernameMin'))
+        .max(20, t('registerPage.errors.usernameMax')),
     });
 
   const handleSubmit = async (values, { setSubmitting }) => {
@@ -146,7 +151,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
           validateOnChange={false}
           validateOnBlur={false}
         >
-          {({ isSubmitting, touched, errors, values }) => (
+          {({ isSubmitting, touched, errors, values, setFieldValue }) => (
             <Form>
               <div>
                 <Field
@@ -157,6 +162,10 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   autoFocus
                   disabled={isRenaming || isSubmitting}
                   data-testid='rename-channel-input'
+                  onChange={(e) => {
+                    const filteredValue = cleanText(e.target.value);
+                    setFieldValue('name', filteredValue);
+                  }}
                 />
                 <label htmlFor='renameChannelName' className='visually-hidden'>
                   {t('chatPage.modals.renameChannel.form.label')}
