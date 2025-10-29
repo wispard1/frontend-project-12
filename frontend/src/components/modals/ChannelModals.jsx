@@ -22,10 +22,14 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       setError(validationError);
       return;
     }
-    await onAdd(channelName.trim());
-    setChannelName('');
-    setError('');
-    onHide();
+    try {
+      await onAdd(channelName.trim());
+      setChannelName('');
+      setError('');
+      onHide();
+    } catch (err) {
+      console.error('Add channel failed:', err);
+    }
   };
 
   return (
