@@ -1,7 +1,6 @@
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { cleanText } from '../utils/profanityFilter';
 
 export const ChannelsList = ({
   channels,
@@ -14,10 +13,6 @@ export const ChannelsList = ({
   const { t } = useTranslation();
 
   const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
-
-  const getFilteredChannelName = (name) => {
-    return cleanText(name);
-  };
 
   console.log('ChannelsList: displayChannels=', displayChannels);
   return (
@@ -67,7 +62,7 @@ export const ChannelsList = ({
           >
             <span className='text-truncate'>
               <span className='me-1'>#</span>
-              {getFilteredChannelName(channel.name)}
+              {channel.name}
             </span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
