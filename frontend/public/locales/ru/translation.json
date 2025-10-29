@@ -70,7 +70,6 @@
     "remove": "Удалить",
     "confirmRemove": "Уверены?",
     "removeChannel": "Удалить канал",
-    "channelAdded": "Канал добавлен!",
     "channelRemoved": "Канал удален",
     "noMessagesYet": "Пока нет сообщений",
     "startConversation": "Начните общение первым!",
@@ -116,7 +115,6 @@
     "notifications": {
       "websocketConnected": "Подключено к серверу WebSocket",
       "websocketDisconnected": "Отключено от сервера WebSocket",
-      "newChannel": "Создан новый канал: {{name}}",
       "channelRemoved": "Канал удален",
       "channelRenamed": "Канал переименован: {{name}}",
       "messageSent": "Сообщение отправлено",
