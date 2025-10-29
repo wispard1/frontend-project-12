@@ -19,7 +19,6 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      // Фильтруем название канала перед отправкой
       const filteredName = cleanText(values.name.trim());
       await onAdd(filteredName);
       toast.success(t('chatPage.notifications.channelAdded'));

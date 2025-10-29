@@ -59,7 +59,10 @@ export const ChannelsList = ({
             data-testid={`channel-${channel.name}`}
             active={channel.id === currentChannelId}
           >
-            <span className='text-truncate'># {channel.name}</span>
+            <span className='text-truncate'>
+              <span className='me-1'>#</span>
+              {channel.name}
+            </span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
