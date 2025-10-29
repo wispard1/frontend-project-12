@@ -42,7 +42,6 @@ export const ChannelsList = ({
         {displayChannels.map((channel) => (
           <Nav.Item key={channel.id} className='w-100 mb-1'>
             {channel.removable ? (
-              // КАНАЛ С ДРОПДАУНОМ
               <div className='d-flex align-items-center position-relative'>
                 <Button
                   variant={channel.id === currentChannelId ? 'primary' : 'light'}
@@ -62,7 +61,6 @@ export const ChannelsList = ({
                   {channel.name}
                 </Button>
 
-                {/* Дропдаун */}
                 <Dropdown className='position-absolute' style={{ right: '10px' }}>
                   <Dropdown.Toggle
                     variant='link'
@@ -98,7 +96,6 @@ export const ChannelsList = ({
                 </Dropdown>
               </div>
             ) : (
-              // ПРОСТОЙ КАНАЛ БЕЗ ДРОПДАУНА
               <Button
                 variant={channel.id === currentChannelId ? 'primary' : 'light'}
                 className={`w-100 rounded-0 text-start text-truncate ${

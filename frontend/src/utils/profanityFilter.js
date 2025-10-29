@@ -2,6 +2,7 @@ import filter from 'leo-profanity';
 
 try {
   filter.loadDictionary('ru');
+  filter.loadDictionary('en');
   console.log('Russian dictionary loaded for profanity filter.');
 } catch (e) {
   console.warn('Could not load Russian dictionary for profanity filter:', e);
