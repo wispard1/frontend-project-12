@@ -1,4 +1,3 @@
-// src/hooks/useWebSocket.js
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -11,33 +10,32 @@ export const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    const socket = io('/socket.io', {
-      auth: { token },
-      transports: ['websocket'],
-    });
+    const wsURL = window.location.origin.replace(/^http/, 'ws');
+    console.log('Connecting WebSocket to:', wsURL);
 
+    const socket = io(wsURL, { auth: { token } });
     socketRef.current = socket;
 
     socket.on('connect', () => {
-      console.log('Connected to WebSocket via proxy');
+      console.log('✅ Connected to WebSocket server');
     });
 
     socket.on('disconnect', (reason) => {
-      console.log('Disconnected:', reason);
+      console.log('⚠️ Disconnected from WebSocket server:', reason);
     });
 
     socket.on('newMessage', (payload) => {
-      console.log('newMessage:', payload);
+      console.log('📩 Received newMessage:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
     });
 
     socket.on('newChannel', (payload) => {
-      console.log('newChannel:', payload);
+      console.log('Received newChannel via WebSocket:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
     socket.on('removeChannel', (payload) => {
-      console.log('removeChannel:', payload);
+      console.log('🗑️ Received removeChannel:', payload);
       dispatch(
         chatApi.util.invalidateTags([
           { type: 'Channel', id: 'LIST' },
@@ -47,13 +45,14 @@ export const useWebSocket = (token) => {
     });
 
     socket.on('renameChannel', (payload) => {
-      console.log('renameChannel:', payload);
+      console.log('✏️ Received renameChannel:', payload);
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
     });
 
     return () => {
       socket.disconnect();
       socketRef.current = null;
+      console.log('WebSocket connection closed');
     };
   }, [token, dispatch]);
 
