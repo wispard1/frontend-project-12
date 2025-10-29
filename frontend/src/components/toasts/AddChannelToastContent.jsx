@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { chatApi } from '../../api/chatApi';
+import { useDispatch } from 'react-redux';
 
 export const AddChannelToastContent = ({ onAdd, isAdding, t, closeToast }) => {
   const [channelName, setChannelName] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (channelName.trim()) {
       try {
         await onAdd(channelName.trim());
+        dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]));
         closeToast();
       } catch {
         toast.error(t('chatPage.errorAddingChannel'));
