@@ -58,7 +58,7 @@ export const ChannelsList = ({
             aria-label={channel.name}
             data-testid={`channel-${channel.name}`}
           >
-            # {channel.name}
+            <span># {channel.name}</span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
