@@ -39,57 +39,51 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <div>
-            <Form.Control
-              type='text'
-              name='name'
-              id='name'
-              className='mb-2'
-              value={channelName}
-              onChange={(e) => {
-                setChannelName(e.target.value);
-                setError('');
-              }}
-              autoFocus
+          <Form.Control
+            type='text'
+            name='name'
+            id='name'
+            className='mb-2'
+            value={channelName}
+            onChange={(e) => {
+              setChannelName(e.target.value);
+              setError('');
+            }}
+            autoFocus
+            disabled={isAdding}
+            isInvalid={!!error}
+            data-testid='add-channel-input'
+          />
+
+          <div className='invalid-feedback' style={{ display: error ? 'block' : 'none' }}>
+            {error}
+          </div>
+
+          <div className='d-flex justify-content-end mt-3'>
+            <Button
+              type='button'
+              variant='secondary'
+              onClick={onHide}
               disabled={isAdding}
-              isInvalid={!!error}
-              data-testid='add-channel-input'
-            />
-
-            <Form.Label htmlFor='name' className='visually-hidden'>
-              {t('chatPage.modals.addChannel.form.label')}
-            </Form.Label>
-
-            <div className='invalid-feedback' style={{ display: error ? 'block' : 'none' }}>
-              {error}
-            </div>
-
-            <div className='d-flex justify-content-end'>
-              <Button
-                type='button'
-                variant='secondary'
-                onClick={onHide}
-                disabled={isAdding}
-                className='me-2'
-                data-testid='add-channel-cancel'
-              >
-                {t('chatPage.modals.addChannel.cancelButton')}
-              </Button>
-              <Button
-                type='submit'
-                variant='primary'
-                disabled={isAdding || !channelName.trim()}
-                data-testid='add-channel-submit'
-              >
-                {isAdding ? (
-                  <>
-                    <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
-                  </>
-                ) : (
-                  t('chatPage.modals.addChannel.submitButton')
-                )}
-              </Button>
-            </div>
+              className='me-2'
+              data-testid='add-channel-cancel'
+            >
+              {t('chatPage.modals.addChannel.cancelButton')}
+            </Button>
+            <Button
+              type='submit'
+              variant='primary'
+              disabled={isAdding || !channelName.trim()}
+              data-testid='add-channel-submit'
+            >
+              {isAdding ? (
+                <>
+                  <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
+                </>
+              ) : (
+                t('chatPage.modals.addChannel.submitButton')
+              )}
+            </Button>
           </div>
         </Form>
       </Modal.Body>
