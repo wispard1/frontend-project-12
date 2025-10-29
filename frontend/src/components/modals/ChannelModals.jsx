@@ -13,8 +13,8 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       name: Yup.string()
         .trim()
         .required(t('chatPage.modals.addChannel.form.errors.required'))
-        .min(3, t('chatPage.modals.addChannel.form.errors.min'))
-        .max(20, t('chatPage.modals.addChannel.form.errors.max')),
+        .min(3, t('registerPage.errors.usernameMin'))
+        .max(20, t('registerPage.errors.usernameMax')),
     });
 
   const handleSubmit = async (values, { setSubmitting }) => {
