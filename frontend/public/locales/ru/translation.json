@@ -105,7 +105,6 @@
       },
       "removeChannel": {
         "title": "Удалить канал",
-        "confirmMessage": "Вы уверены, что хотите удалить канал # {{name}}?",
         "cancelButton": "Отменить",
         "submitButton": "Удалить",
         "submittingButton": "Удаление..."
@@ -115,7 +114,7 @@
       "websocketConnected": "Подключено к серверу WebSocket",
       "websocketDisconnected": "Отключено от сервера WebSocket",
       "channelRemoved": "Канал удален",
-      "channelRenamed": "Канал переименован: {{name}}",
+      "channelRenamed": "Канал переименован",
       "messageSent": "Сообщение отправлено",
       "messageSendError": "Ошибка отправки сообщения",
       "channelAdded": "Канал создан",
@@ -123,7 +122,6 @@
       "channelExists": "Канал с таким именем уже существует",
       "channelNameInvalid": "Имя канала должно быть от 3 до 20 символов",
       "channelRemovedNotification": "Канал удален",
-      "channelRenamedNotification": "Канал переименован в {{name}}",
       "channelNotRemovable": "Этот канал нельзя удалить",
       "channelRemoveError": "Ошибка удаления канала",
       "channelRenamedNotificationFallback": "Канал переименован",

@@ -36,7 +36,6 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId='addChannelName' className='mb-3'>
-            <Form.Label>{t('chatPage.modals.addChannel.form.label')}</Form.Label>
             <Form.Control
               type='text'
               value={channelName}
@@ -107,7 +106,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId='renameChannelName' className='mb-3'>
-            <Form.Label>{t('chatPage.modals.renameChannel.form.label')}</Form.Label>
+            {/* <Form.Label>{t('chatPage.modals.renameChannel.form.label')}</Form.Label> */}
             <Form.Control
               type='text'
               value={newName}
@@ -161,7 +160,7 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
         <Modal.Title>{t('chatPage.modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{t('chatPage.modals.removeChannel.confirmMessage', { name: channel?.name })}</p>
+        <p>{t('chatPage.confirmRemove')}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant='secondary' onClick={onHide} disabled={isRemoving}>
