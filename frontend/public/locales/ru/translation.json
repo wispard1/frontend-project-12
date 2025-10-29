@@ -61,17 +61,9 @@
     "anonymousUser": "Аноним",
     "renameChannel": "Переименовать",
     "removeChannel": "Удалить",
-    "channelName": "Название канала",
-    "enterChannelName": "Введите название канала",
-    "channelRenamed": "Канала переименован",
-    "submit": "Отправить",
-    "cancel": "Отменить",
-    "remove": "Удалить",
     "confirmMessage": "Уверены?",
-    "removeChannel": "Удалить канал",
-    "channelRemoved": "Канал удален",
-    "noMessagesYet": "Пока нет сообщений",
-    "startConversation": "Начните общение первым!",
+    "noMessagesYet": "Сообщений пока нет",
+    "startConversation": "Начните общение!",
     "modals": {
       "addChannel": {
         "title": "Добавить канал",
@@ -111,24 +103,17 @@
       }
     },
     "notifications": {
-      "websocketConnected": "Подключено к серверу WebSocket",
-      "websocketDisconnected": "Отключено от сервера WebSocket",
-      "channelRemoved": "Канал удален",
-      "channelRenamed": "Канал переименован",
-      "messageSent": "Сообщение отправлено",
-      "messageSendError": "Ошибка отправки сообщения",
       "channelAdded": "Канал создан",
       "channelAddError": "Ошибка создания канала",
+      "channelRenamed": "Канал переименован",
+      "channelRenameError": "Ошибка переименования канала",
+      "channelRemoved": "Канал удален",
+      "channelRemoveError": "Ошибка удаления канала",
       "channelExists": "Канал с таким именем уже существует",
       "channelNameInvalid": "Имя канала должно быть от 3 до 20 символов",
-      "channelRemovedNotification": "Канал удален",
-      "channelNotRemovable": "Этот канал нельзя удалить",
-      "channelRemoveError": "Ошибка удаления канала",
-      "channelRenamedNotificationFallback": "Канал переименован",
-      "channelNameRequired": "Имя канала обязательно",
-      "channelNameMin": "Имя канала должно быть не менее 3 символов",
-      "channelNameMax": "Имя канала должно быть не более 20 символов",
-      "channelNameContainsProfanity": "Имя канала содержит неприемлемые слова"
+      "channelNameContainsProfanity": "Имя канала содержит неприемлемые слова",
+      "websocketConnected": "Подключено к серверу WebSocket",
+      "websocketDisconnected": "Отключено от сервера WebSocket"
     }
   }
 }

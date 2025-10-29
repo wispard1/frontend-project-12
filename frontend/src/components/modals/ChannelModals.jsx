@@ -1,34 +1,32 @@
 // src/components/modals/ChannelModals.jsx
-import { useState } from 'react';
-import { Modal, Button, Form, Spinner } from 'react-bootstrap';
+import { Modal, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-
-const validateChannelName = (name, t) => {
-  if (!name) return t('chatPage.modals.addChannel.form.errors.required');
-  if (name.length < 3) return t('chatPage.modals.addChannel.form.errors.min');
-  if (name.length > 20) return t('chatPage.modals.addChannel.form.errors.max');
-  return null;
-};
+import { toast } from 'react-toastify';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   const { t } = useTranslation();
-  const [channelName, setChannelName] = useState('');
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationError = validateChannelName(channelName.trim(), t);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  const validationSchema = (t) =>
+    Yup.object({
+      name: Yup.string()
+        .trim()
+        .required(t('chatPage.modals.addChannel.form.errors.required'))
+        .min(3, t('chatPage.modals.addChannel.form.errors.min'))
+        .max(20, t('chatPage.modals.addChannel.form.errors.max')),
+    });
+
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await onAdd(channelName.trim());
-      setChannelName('');
-      setError('');
+      await onAdd(values.name);
+      toast.success(t('chatPage.notifications.channelAdded'));
       onHide();
     } catch (err) {
+      toast.error(t('chatPage.notifications.channelAddError'));
       console.error('Add channel failed:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -38,59 +36,65 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
         <Modal.Title>{t('chatPage.modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <div>
-            <input
-              type='text'
-              name='name'
-              id='name'
-              className='mb-2 form-control'
-              value={channelName}
-              onChange={(e) => {
-                setChannelName(e.target.value);
-                setError('');
-              }}
-              placeholder={t('chatPage.modals.addChannel.form.placeholder')}
-              autoFocus
-              disabled={isAdding}
-              data-testid='add-channel-input'
-            />
+        <Formik
+          initialValues={{ name: '' }}
+          validationSchema={validationSchema(t)}
+          onSubmit={handleSubmit}
+          validateOnMount={false}
+          validateOnChange={false}
+          validateOnBlur={false}
+        >
+          {({ isSubmitting, touched, errors, values }) => (
+            <Form>
+              <div>
+                <Field
+                  type='text'
+                  name='name'
+                  id='name'
+                  className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
+                  autoFocus
+                  disabled={isAdding || isSubmitting}
+                  data-testid='add-channel-input'
+                />
+                <label htmlFor='name' className='visually-hidden'>
+                  {t('chatPage.modals.addChannel.form.label')}
+                </label>
 
-            <label htmlFor='name' className='visually-hidden'>
-              {t('chatPage.modals.addChannel.form.label')}
-            </label>
-
-            <div className='invalid-feedback' style={{ display: error ? 'block' : 'none' }}>
-              {error}
-            </div>
-
-            <div className='d-flex justify-content-end'>
-              <button
-                type='button'
-                className='me-2 btn btn-secondary'
-                onClick={onHide}
-                disabled={isAdding}
-                data-testid='add-channel-cancel'
-              >
-                {t('chatPage.modals.addChannel.cancelButton')}
-              </button>
-              <button
-                type='submit'
-                className='btn btn-primary'
-                disabled={isAdding || !channelName.trim()}
-                data-testid='add-channel-submit'
-              >
-                {isAdding ? (
-                  <>
-                    <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
-                  </>
-                ) : (
-                  t('chatPage.modals.addChannel.submitButton')
+                {touched.name && errors.name && (
+                  <div className='invalid-feedback' style={{ display: 'block' }}>
+                    {errors.name}
+                  </div>
                 )}
-              </button>
-            </div>
-          </div>
-        </Form>
+              </div>
+
+              <div className='d-flex justify-content-end'>
+                <button
+                  type='button'
+                  className='me-2 btn btn-secondary'
+                  onClick={onHide}
+                  disabled={isAdding || isSubmitting}
+                  data-testid='add-channel-cancel'
+                >
+                  {t('chatPage.modals.addChannel.cancelButton')}
+                </button>
+                <button
+                  type='submit'
+                  className='btn btn-primary'
+                  disabled={isAdding || isSubmitting || !values.name.trim()}
+                  data-testid='add-channel-submit'
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
+                    </>
+                  ) : (
+                    t('chatPage.modals.addChannel.submitButton')
+                  )}
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </Modal.Body>
     </Modal>
   );
@@ -98,25 +102,33 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
 
 export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel }) => {
   const { t } = useTranslation();
-  const [newName, setNewName] = useState(channel?.name || '');
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationError = validateChannelName(newName.trim(), t);
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  const validationSchema = (t) =>
+    Yup.object({
+      name: Yup.string()
+        .trim()
+        .required(t('chatPage.modals.renameChannel.form.errors.required'))
+        .min(3, t('chatPage.modals.renameChannel.form.errors.min'))
+        .max(20, t('chatPage.modals.renameChannel.form.errors.max')),
+    });
 
-    if (newName.trim() === channel.name) {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    const trimmed = values.name;
+    if (trimmed === channel.name) {
       onHide();
       return;
     }
 
-    await onRename(channel.id, newName.trim());
-    setError('');
-    onHide();
+    try {
+      await onRename(channel.id, trimmed);
+      toast.success(t('chatPage.notifications.channelRenamed'));
+      onHide();
+    } catch (err) {
+      toast.error(t('chatPage.notifications.channelRenameError'));
+      console.error('Rename channel failed:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -125,42 +137,67 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
         <Modal.Title>{t('chatPage.modals.renameChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId='renameChannelName' className='mb-3'>
-            <Form.Control
-              type='text'
-              value={newName}
-              onChange={(e) => {
-                setNewName(e.target.value);
-                setError('');
-              }}
-              autoFocus
-              disabled={isRenaming}
-              isInvalid={!!error}
-            />
-            {error && <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>}
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant='secondary' onClick={onHide} disabled={isRenaming}>
-          {t('chatPage.modals.renameChannel.cancelButton')}
-        </Button>
-        <Button
-          variant='primary'
-          onClick={handleSubmit}
-          disabled={isRenaming || !newName.trim() || newName.trim() === channel.name}
-          data-testid='rename-channel-submit'
+        <Formik
+          initialValues={{ name: channel?.name || '' }}
+          validationSchema={validationSchema(t)}
+          onSubmit={handleSubmit}
+          enableReinitialize
+          validateOnMount={false}
+          validateOnChange={false}
+          validateOnBlur={false}
         >
-          {isRenaming ? (
-            <>
-              <Spinner size='sm' animation='border' /> {t('chatPage.modals.renameChannel.submittingButton')}
-            </>
-          ) : (
-            t('chatPage.modals.renameChannel.submitButton')
+          {({ isSubmitting, touched, errors, values }) => (
+            <Form>
+              <div>
+                <Field
+                  type='text'
+                  name='name'
+                  id='renameChannelName'
+                  className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
+                  autoFocus
+                  disabled={isRenaming || isSubmitting}
+                  data-testid='rename-channel-input'
+                />
+                <label htmlFor='renameChannelName' className='visually-hidden'>
+                  {t('chatPage.modals.renameChannel.form.label')}
+                </label>
+
+                {touched.name && errors.name && (
+                  <div className='invalid-feedback' style={{ display: 'block' }}>
+                    {errors.name}
+                  </div>
+                )}
+              </div>
+
+              <div className='d-flex justify-content-end'>
+                <button
+                  type='button'
+                  className='me-2 btn btn-secondary'
+                  onClick={onHide}
+                  disabled={isRenaming || isSubmitting}
+                  data-testid='rename-channel-cancel'
+                >
+                  {t('chatPage.modals.renameChannel.cancelButton')}
+                </button>
+                <button
+                  type='submit'
+                  className='btn btn-primary'
+                  disabled={isRenaming || isSubmitting || !values.name.trim() || values.name.trim() === channel.name}
+                  data-testid='rename-channel-submit'
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Spinner size='sm' animation='border' /> {t('chatPage.modals.renameChannel.submittingButton')}
+                    </>
+                  ) : (
+                    t('chatPage.modals.renameChannel.submitButton')
+                  )}
+                </button>
+              </div>
+            </Form>
           )}
-        </Button>
-      </Modal.Footer>
+        </Formik>
+      </Modal.Body>
     </Modal>
   );
 };
@@ -169,8 +206,14 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
   const { t } = useTranslation();
 
   const handleRemove = async () => {
-    await onRemove(channel.id);
-    onHide();
+    try {
+      await onRemove(channel.id);
+      toast.success(t('chatPage.notifications.channelRemoved'));
+      onHide();
+    } catch (err) {
+      toast.error(t('chatPage.notifications.channelRemoveError'));
+      console.error('Remove channel failed:', err);
+    }
   };
 
   return (
@@ -181,16 +224,22 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
       <Modal.Body>
         <p className='lead'>{t('chatPage.confirmMessage')}</p>
         <div className='d-flex justify-content-end'>
-          <Button
-            variant='secondary'
+          <button
+            type='button'
+            className='me-2 btn btn-secondary'
             onClick={onHide}
             disabled={isRemoving}
-            className='me-2'
             data-testid='remove-channel-cancel'
           >
             {t('chatPage.modals.removeChannel.cancelButton')}
-          </Button>
-          <Button variant='danger' onClick={handleRemove} disabled={isRemoving} data-testid='remove-channel-confirm'>
+          </button>
+          <button
+            type='button'
+            className='btn btn-danger'
+            onClick={handleRemove}
+            disabled={isRemoving}
+            data-testid='remove-channel-confirm'
+          >
             {isRemoving ? (
               <>
                 <Spinner size='sm' animation='border' /> {t('chatPage.modals.removeChannel.submittingButton')}
@@ -198,7 +247,7 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
             ) : (
               t('chatPage.modals.removeChannel.submitButton')
             )}
-          </Button>
+          </button>
         </div>
       </Modal.Body>
     </Modal>

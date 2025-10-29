@@ -1,4 +1,3 @@
-// src/components/modals/useChannelModals.js
 import { useState } from 'react';
 import { AddChannelModal, RenameChannelModal, RemoveChannelModal } from './ChannelModals';
 

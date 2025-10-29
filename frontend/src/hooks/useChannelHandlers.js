@@ -1,14 +1,10 @@
-// src/hooks/useChannelHandlers.js
 import { useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
 import { useAddChannelMutation, useRenameChannelMutation, useRemoveChannelMutation } from '../api/chatApi';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import { hasProfanity } from '../utils/profanityFilter';
 
 export const useChannelHandlers = () => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
 
   const [addChannel, { isLoading: isAddingChannel }] = useAddChannelMutation();
   const [renameChannel, { isLoading: isRenamingChannel }] = useRenameChannelMutation();
@@ -18,34 +14,28 @@ export const useChannelHandlers = () => {
     const trimmed = channelName?.trim();
 
     if (!trimmed || trimmed.length < 3 || trimmed.length > 20) {
-      toast.error(t('chatPage.notifications.channelNameInvalid'));
-      return;
+      return { success: false, error: 'invalid' };
     }
 
     if (hasProfanity(trimmed)) {
-      toast.error(t('chatPage.notifications.channelNameContainsProfanity'));
-      return;
+      return { success: false, error: 'profanity' };
     }
 
     try {
       const result = await addChannel({ name: trimmed, removable: true }).unwrap();
-      toast.success(t('chatPage.notifications.channelAdded'));
       dispatch(setCurrentChannel(result.id));
+      return { success: true, channelId: result.id };
     } catch (error) {
-      if (error.status === 409) {
-        toast.error(t('chatPage.notifications.channelExists'));
-      } else {
-        toast.error(t('chatPage.notifications.channelAddError'));
-      }
+      return { success: false, error: error.status === 409 ? 'exists' : 'network' };
     }
   };
 
   const handleRemoveChannel = async (channelId) => {
     try {
       await removeChannel(channelId).unwrap();
-      toast.success(t('chatPage.notifications.channelRemoved'));
+      return { success: true };
     } catch {
-      toast.error(t('chatPage.notifications.channelRemoveError'));
+      return { success: false, error: 'network' };
     }
   };
 
@@ -53,24 +43,18 @@ export const useChannelHandlers = () => {
     const trimmed = newName?.trim();
 
     if (!trimmed || trimmed.length < 3 || trimmed.length > 20) {
-      toast.error(t('chatPage.notifications.channelNameInvalid'));
-      return;
+      return { success: false, error: 'invalid' };
     }
 
     if (hasProfanity(trimmed)) {
-      toast.error(t('chatPage.notifications.channelNameContainsProfanity'));
-      return;
+      return { success: false, error: 'profanity' };
     }
 
     try {
       await renameChannel({ id: channelId, name: trimmed }).unwrap();
-      toast.success(t('chatPage.notifications.channelRenamed', { name: trimmed }));
+      return { success: true };
     } catch (error) {
-      if (error.status === 409) {
-        toast.error(t('chatPage.notifications.channelExists'));
-      } else {
-        toast.error(t('chatPage.notifications.channelRenameError'));
-      }
+      return { success: false, error: error.status === 409 ? 'exists' : 'network' };
     }
   };
 
