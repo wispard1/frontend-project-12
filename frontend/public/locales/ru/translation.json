@@ -85,8 +85,8 @@
           }
         },
         "cancelButton": "Отменить",
-        "submitButton": "Добавить",
-        "submittingButton": "Добавление..."
+        "submitButton": "Отправить",
+        "submittingButton": "Отправка..."
       },
       "renameChannel": {
         "title": "Переименовать канал",
@@ -100,8 +100,8 @@
           }
         },
         "cancelButton": "Отменить",
-        "submitButton": "Сохранить",
-        "submittingButton": "Сохранение..."
+        "submitButton": "Отправить",
+        "submittingButton": "Отправка..."
       },
       "removeChannel": {
         "title": "Удалить канал",
