@@ -55,10 +55,13 @@ export const ChannelsList = ({
               padding: '0.5rem 0.75rem',
             }}
             onClick={() => onChannelClick(channel.id)}
-            // aria-label={channel.name}
+            aria-label={channel.name}
             data-testid={`channel-${channel.name}`}
           >
-              <span># {channel.name}</span>
+            <span className='text-truncate'>
+              <span className='me-1'>#</span>
+              {channel.name}
+            </span>
             {channel.removable && (
               <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
