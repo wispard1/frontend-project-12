@@ -7,9 +7,9 @@ import { setCurrentChannel } from '../store/channelsSlice';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
 import { NewMessagesForm } from '../components/NewMessagesForm';
-import { showAddChannelToast, showRenameChannelToast, showRemoveChannelToast } from '../components/toasts/ModalToasts';
 import { useChannelHandlers } from '../hooks/useChannelHandlers';
 import { useWebSocket } from '../hooks/useWebSocket';
+import { useChannelModals } from '../components/modals/useChannelModals';
 import { cleanText } from '../utils/profanityFilter';
 
 export const ChatPage = () => {
@@ -51,9 +51,22 @@ export const ChatPage = () => {
     };
   }, [socketRef]);
 
+  const displayChannels = useMemo(() => {
+    if (!channels || channels.length === 0) {
+      return [{ id: '1', name: 'general', removable: false }];
+    }
+    return channels;
+  }, [channels]);
+
+  useEffect(() => {
+    if (!currentChannelId && displayChannels.length > 0) {
+      dispatch(setCurrentChannel(String(displayChannels[0].id)));
+    }
+  }, [currentChannelId, displayChannels, dispatch]);
+
   const filteredMessages = useMemo(() => {
     if (!messages) return [];
-    return messages.filter((msg) => msg.channelId === currentChannelId);
+    return messages.filter((msg) => String(msg.channelId) === String(currentChannelId));
   }, [messages, currentChannelId]);
 
   const handleSendMessages = async (messageBody) => {
@@ -62,50 +75,33 @@ export const ChatPage = () => {
     const filteredBody = cleanText(messageBody.trim());
     const messageData = {
       body: filteredBody,
-      channelId: currentChannelId,
+      channelId: String(currentChannelId),
       username: currentUsername,
     };
 
     try {
       await addMessage(messageData).unwrap();
-      console.log('✅ Message sent via HTTP');
+      console.log('Message sent via HTTP');
 
       if (!isConnected) {
-        console.log('⚠️ Offline mode — forcing message refetch');
+        console.log('Offline mode — forcing message refetch');
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
       }
     } catch (err) {
-      console.error('❌ Error sending message:', err);
+      console.error('Error sending message:', err);
     }
   };
 
-  const handleChannelClick = (id) => dispatch(setCurrentChannel(id));
+  const handleChannelClick = (id) => dispatch(setCurrentChannel(String(id)));
 
-  const handleShowAddChannelModal = () => {
-    showAddChannelToast({
-      onAdd: handleAddChannel,
-      isAdding: isAddingChannel,
-      t,
-    });
-  };
-
-  const handleShowRenameChannelModal = (id, name) => {
-    showRenameChannelToast({
-      channel: { id, name },
-      onRename: handleRenameChannel,
-      isRenaming: isRenamingChannel,
-      t,
-    });
-  };
-
-  const handleShowRemoveChannelModal = (id, name) => {
-    showRemoveChannelToast({
-      channel: { id, name },
-      onRemove: handleRemoveChannel,
-      isRemoving: isRemovingChannel,
-      t,
-    });
-  };
+  const { showAddModal, showRenameModal, showRemoveModal, Modals } = useChannelModals({
+    onAdd: handleAddChannel,
+    onRename: handleRenameChannel,
+    onRemove: handleRemoveChannel,
+    isAdding: isAddingChannel,
+    isRenaming: isRenamingChannel,
+    isRemoving: isRemovingChannel,
+  });
 
   if (channelsIsLoading || messagesIsLoading) {
     return (
@@ -124,7 +120,6 @@ export const ChatPage = () => {
       </div>
     );
   }
-
   return (
     <div className='d-flex flex-column' style={{ height: '100vh' }}>
       <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
@@ -132,25 +127,25 @@ export const ChatPage = () => {
           <Row className='h-100 flex-md-row g-0'>
             <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
               <ChannelsList
-                channels={channels ?? [{ id: '1', name: 'general', removable: false }]}
+                channels={displayChannels}
                 onChannelClick={handleChannelClick}
-                onAddChannelClick={handleShowAddChannelModal}
-                onRenameChannelClick={handleShowRenameChannelModal}
-                onRemoveChannelClick={handleShowRemoveChannelModal}
+                onAddChannelClick={showAddModal}
+                onRenameChannelClick={(id, name) => showRenameModal({ id, name })}
+                onRemoveChannelClick={(id, name) => showRemoveModal({ id, name })}
               />
             </Col>
             <Col className='p-0 h-100'>
               <div className='d-flex flex-column h-100'>
                 <div className='bg-light border-bottom p-3 shadow-sm small'>
                   <p className='m-0'>
-                    <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
+                    <b># {channels?.find((c) => String(c.id) === String(currentChannelId))?.name || 'general'}</b>
                   </p>
                   <span className='text-muted'>
-                    {t('chatPage.messagesCount', {
-                      count: filteredMessages?.length || 0,
-                    })}
+                    {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
                   </span>
-                  {!isConnected && <div className='text-danger small mt-1'>{t('chatPage.offline')}</div>}
+                  {!isConnected && (
+                    <div className='text-danger small mt-1'>{t('chatPage.notifications.websocketDisconnected')}</div>
+                  )}
                 </div>
                 <MessagesList messages={filteredMessages} currentUsername={currentUsername} />
                 <NewMessagesForm onSubmit={handleSendMessages} isConnected={isConnected} />
@@ -159,6 +154,7 @@ export const ChatPage = () => {
           </Row>
         </div>
       </main>
+      <Modals />
     </div>
   );
 };

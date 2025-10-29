@@ -1,3 +1,4 @@
+// src/hooks/useChannelHandlers.js
 import { useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
 import { useAddChannelMutation, useRenameChannelMutation, useRemoveChannelMutation } from '../api/chatApi';
@@ -12,10 +13,6 @@ export const useChannelHandlers = () => {
   const [addChannel, { isLoading: isAddingChannel }] = useAddChannelMutation();
   const [renameChannel, { isLoading: isRenamingChannel }] = useRenameChannelMutation();
   const [removeChannel, { isLoading: isRemovingChannel }] = useRemoveChannelMutation();
-
-  const handleSetCurrentChannel = (channelId) => {
-    dispatch(setCurrentChannel(channelId));
-  };
 
   const handleAddChannel = async (channelName) => {
     const trimmed = channelName?.trim();
@@ -32,12 +29,9 @@ export const useChannelHandlers = () => {
 
     try {
       const result = await addChannel({ name: trimmed, removable: true }).unwrap();
-
       toast.success(t('chatPage.notifications.channelAdded'));
       dispatch(setCurrentChannel(result.id));
-      console.log('✅ Channel added successfully:', result);
     } catch (error) {
-      console.error('❌ Error adding channel:', error);
       if (error.status === 409) {
         toast.error(t('chatPage.notifications.channelExists'));
       } else {
@@ -47,14 +41,10 @@ export const useChannelHandlers = () => {
   };
 
   const handleRemoveChannel = async (channelId) => {
-    if (!channelId) return;
-
     try {
       await removeChannel(channelId).unwrap();
       toast.success(t('chatPage.notifications.channelRemoved'));
-      console.log('🗑️ Channel removed:', channelId);
-    } catch (error) {
-      console.error('❌ Error removing channel:', error);
+    } catch {
       toast.error(t('chatPage.notifications.channelRemoveError'));
     }
   };
@@ -62,7 +52,7 @@ export const useChannelHandlers = () => {
   const handleRenameChannel = async (channelId, newName) => {
     const trimmed = newName?.trim();
 
-    if (!channelId || !trimmed || trimmed.length < 3 || trimmed.length > 20) {
+    if (!trimmed || trimmed.length < 3 || trimmed.length > 20) {
       toast.error(t('chatPage.notifications.channelNameInvalid'));
       return;
     }
@@ -75,9 +65,7 @@ export const useChannelHandlers = () => {
     try {
       await renameChannel({ id: channelId, name: trimmed }).unwrap();
       toast.success(t('chatPage.notifications.channelRenamed', { name: trimmed }));
-      console.log('✏️ Channel renamed:', channelId, '→', trimmed);
     } catch (error) {
-      console.error('❌ Error renaming channel:', error);
       if (error.status === 409) {
         toast.error(t('chatPage.notifications.channelExists'));
       } else {
@@ -87,7 +75,6 @@ export const useChannelHandlers = () => {
   };
 
   return {
-    handleSetCurrentChannel,
     handleAddChannel,
     handleRemoveChannel,
     handleRenameChannel,
