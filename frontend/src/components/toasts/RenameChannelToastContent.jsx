@@ -7,13 +7,13 @@ export const RenameChannelToastContent = ({ channel, onRename, isRenaming, t, cl
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (channelName.trim() && channelName !== channel.name) {
-      try {
-        await onRename(channel.id, channelName.trim());
-        closeToast();
-      } catch {
-        toast.error(t('chatPage.errorRenamingChannel'));
-      }
+    if (!channelName.trim() || channelName === channel.name) return;
+
+    try {
+      await onRename(channel.id, channelName.trim());
+      closeToast();
+    } catch {
+      toast.error(t('chatPage.errorRenamingChannel'));
     }
   };
 

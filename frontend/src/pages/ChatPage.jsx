@@ -143,7 +143,7 @@ export const ChatPage = () => {
               <div className='d-flex flex-column h-100'>
                 <div className='bg-light border-bottom p-3 shadow-sm small'>
                   <p className='m-0'>
-                    <b>#{channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
+                    <b># {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}</b>
                   </p>
                   <span className='text-muted'>
                     {t('chatPage.messagesCount', {
