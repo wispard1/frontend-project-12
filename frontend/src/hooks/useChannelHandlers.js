@@ -31,7 +31,8 @@ export const useChannelHandlers = () => {
     }
 
     try {
-      const result = await addChannel({ name: trimmed }).unwrap();
+      const result = await addChannel({ name: trimmed, removable: true }).unwrap();
+
       toast.success(t('chatPage.notifications.channelAdded'));
       dispatch(setCurrentChannel(result.id));
       console.log('✅ Channel added successfully:', result);
