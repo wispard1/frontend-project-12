@@ -1,4 +1,3 @@
-// src/components/modals/ChannelModals.jsx
 import { Modal, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -20,7 +19,9 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await onAdd(values.name);
+      // Фильтруем название канала перед отправкой
+      const filteredName = cleanText(values.name.trim());
+      await onAdd(filteredName);
       toast.success(t('chatPage.notifications.channelAdded'));
       onHide();
     } catch (err) {
@@ -45,7 +46,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
           validateOnChange={false}
           validateOnBlur={false}
         >
-          {({ isSubmitting, touched, errors, values, setFieldValue }) => (
+          {({ isSubmitting, touched, errors, values }) => (
             <Form>
               <div>
                 <Field
@@ -56,10 +57,6 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                   autoFocus
                   disabled={isAdding || isSubmitting}
                   data-testid='add-channel-input'
-                  onChange={(e) => {
-                    const filteredValue = cleanText(e.target.value);
-                    setFieldValue('name', filteredValue);
-                  }}
                 />
                 <label htmlFor='name' className='visually-hidden'>
                   {t('chatPage.modals.addChannel.form.label')}
@@ -118,14 +115,16 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
     });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    const trimmed = values.name;
-    if (trimmed === channel.name) {
+
+    const filteredName = cleanText(values.name.trim());
+
+    if (filteredName === channel.name) {
       onHide();
       return;
     }
 
     try {
-      await onRename(channel.id, trimmed);
+      await onRename(channel.id, filteredName);
       toast.success(t('chatPage.notifications.channelRenamed'));
       onHide();
     } catch (err) {
@@ -151,7 +150,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
           validateOnChange={false}
           validateOnBlur={false}
         >
-          {({ isSubmitting, touched, errors, values, setFieldValue }) => (
+          {({ isSubmitting, touched, errors, values }) => (
             <Form>
               <div>
                 <Field
@@ -162,10 +161,6 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   autoFocus
                   disabled={isRenaming || isSubmitting}
                   data-testid='rename-channel-input'
-                  onChange={(e) => {
-                    const filteredValue = cleanText(e.target.value);
-                    setFieldValue('name', filteredValue);
-                  }}
                 />
                 <label htmlFor='renameChannelName' className='visually-hidden'>
                   {t('chatPage.modals.renameChannel.form.label')}
