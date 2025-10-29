@@ -43,7 +43,6 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                 setChannelName(e.target.value);
                 setError('');
               }}
-              placeholder={t('chatPage.modals.addChannel.form.placeholder')}
               autoFocus
               disabled={isAdding}
               isInvalid={!!error}
@@ -106,7 +105,6 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId='renameChannelName' className='mb-3'>
-            {/* <Form.Label>{t('chatPage.modals.renameChannel.form.label')}</Form.Label> */}
             <Form.Control
               type='text'
               value={newName}
@@ -114,7 +112,6 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                 setNewName(e.target.value);
                 setError('');
               }}
-              placeholder={t('chatPage.modals.renameChannel.form.placeholder')}
               autoFocus
               disabled={isRenaming}
               isInvalid={!!error}

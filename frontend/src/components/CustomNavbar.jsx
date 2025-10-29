@@ -16,17 +16,15 @@ export const CustomNavbar = () => {
   };
 
   return (
-    <Navbar bg='light' expand='lg' className='shadow-sm' fixed='top'>
-      <Container className='d-flex justify-content-between align-items-center w-100'>
+    <Navbar bg='light' className='shadow-sm' fixed='top'>
+      <Container className='d-flex justify-content-between align-items-center'>
         <Navbar.Brand href='/'>{t('navbar.brand')}</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className='justify-content-end'>
-          {token && (
-            <Button className='btn btn-primary' onClick={handleLogout}>
-              {t('navbar.logoutButton')}
-            </Button>
-          )}
-        </Navbar.Collapse>
+
+        {token && (
+          <Button variant='primary' onClick={handleLogout}>
+            {t('navbar.logoutButton')}
+          </Button>
+        )}
       </Container>
     </Navbar>
   );
