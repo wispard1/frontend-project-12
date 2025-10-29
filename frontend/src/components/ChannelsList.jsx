@@ -55,7 +55,7 @@ export const ChannelsList = ({
               marginBottom: '0.25rem',
             }}
             onClick={() => onChannelClick(channel.id)}
-            aria-label={channel.name}
+            // aria-label={channel.name}
             data-testid={`channel-${channel.name}`}
             active={channel.id === currentChannelId}
           >
