@@ -121,7 +121,7 @@
       "channelRenamed": "Канал переименован: {{name}}",
       "messageSent": "Сообщение отправлено",
       "messageSendError": "Ошибка отправки сообщения",
-      "channelAdded": "Канал успешно создан",
+      "channelAdded": "Канал создан",
       "channelAddError": "Ошибка создания канала",
       "channelExists": "Канал с таким именем уже существует",
       "channelNameInvalid": "Имя канала должно быть от 3 до 20 символов",

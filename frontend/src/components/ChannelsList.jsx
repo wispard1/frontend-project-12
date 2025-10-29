@@ -14,7 +14,6 @@ export const ChannelsList = ({
 
   const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
   console.log('ChannelsList: displayChannels=', displayChannels);
-
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>
       <div className='d-flex justify-content-between align-items-center px-3 py-2 border-bottom'>
@@ -39,7 +38,6 @@ export const ChannelsList = ({
           </svg>
         </Button>
       </div>
-
       <ListGroup className='overflow-auto px-2 py-2 flex-grow-1'>
         {displayChannels.map((channel) => (
           <ListGroup.Item
@@ -60,16 +58,14 @@ export const ChannelsList = ({
             active={channel.id === currentChannelId}
           >
             <span className='text-truncate'># {channel.name}</span>
-
             {channel.removable && (
-              <Dropdown as='div' onClick={(e) => e.stopPropagation()} autoClose='outside'>
+              <Dropdown onClick={(e) => e.stopPropagation()}>
                 <Dropdown.Toggle
                   as='span'
-                  bsPrefix='dropdown-toggle'
                   variant='link'
                   className={`p-0 border-0 ${channel.id === currentChannelId ? 'text-white' : 'text-muted'}`}
-                  id={`dropdown-${channel.id}`}
                   style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                  id={`dropdown-${channel.id}`}
                 >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -85,8 +81,7 @@ export const ChannelsList = ({
                     />
                   </svg>
                 </Dropdown.Toggle>
-
-                <Dropdown.Menu align='end'>
+                <Dropdown.Menu>
                   <Dropdown.Item onClick={() => onRenameChannelClick(channel.id, channel.name)}>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -96,11 +91,10 @@ export const ChannelsList = ({
                       className='bi bi-pencil me-2'
                       viewBox='0 0 16 16'
                     >
-                      <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5z' />
+                      <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z' />
                     </svg>
                     {t('chatPage.renameChannel')}
                   </Dropdown.Item>
-
                   <Dropdown.Item onClick={() => onRemoveChannelClick(channel.id, channel.name)} className='text-danger'>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
