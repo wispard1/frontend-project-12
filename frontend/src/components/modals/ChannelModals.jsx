@@ -40,11 +40,11 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <div>
-            <Form.Control
+            <input
               type='text'
               name='name'
               id='name'
-              className='mb-2'
+              className='mb-2 form-control'
               value={channelName}
               onChange={(e) => {
                 setChannelName(e.target.value);
@@ -53,32 +53,30 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
               placeholder={t('chatPage.modals.addChannel.form.placeholder')}
               autoFocus
               disabled={isAdding}
-              isInvalid={!!error}
               data-testid='add-channel-input'
             />
 
-            <Form.Label htmlFor='name' className='visually-hidden'>
+            <label htmlFor='name' className='visually-hidden'>
               {t('chatPage.modals.addChannel.form.label')}
-            </Form.Label>
+            </label>
 
             <div className='invalid-feedback' style={{ display: error ? 'block' : 'none' }}>
               {error}
             </div>
 
             <div className='d-flex justify-content-end'>
-              <Button
+              <button
                 type='button'
-                variant='secondary'
+                className='me-2 btn btn-secondary'
                 onClick={onHide}
                 disabled={isAdding}
-                className='me-2'
                 data-testid='add-channel-cancel'
               >
                 {t('chatPage.modals.addChannel.cancelButton')}
-              </Button>
-              <Button
+              </button>
+              <button
                 type='submit'
-                variant='primary'
+                className='btn btn-primary'
                 disabled={isAdding || !channelName.trim()}
                 data-testid='add-channel-submit'
               >
@@ -89,7 +87,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                 ) : (
                   t('chatPage.modals.addChannel.submitButton')
                 )}
-              </Button>
+              </button>
             </div>
           </div>
         </Form>
