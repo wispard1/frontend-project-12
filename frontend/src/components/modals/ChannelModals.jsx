@@ -35,9 +35,12 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          <Form.Group controlId='addChannelName' className='mb-3'>
+          <div>
             <Form.Control
               type='text'
+              name='name'
+              id='name'
+              className='mb-2'
               value={channelName}
               onChange={(e) => {
                 setChannelName(e.target.value);
@@ -46,30 +49,46 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
               autoFocus
               disabled={isAdding}
               isInvalid={!!error}
+              data-testid='add-channel-input'
             />
-            {error && <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>}
-          </Form.Group>
+
+            <Form.Label htmlFor='name' className='visually-hidden'>
+              {t('chatPage.modals.addChannel.form.label')}
+            </Form.Label>
+
+            <div className='invalid-feedback' style={{ display: error ? 'block' : 'none' }}>
+              {error}
+            </div>
+
+            <div className='d-flex justify-content-end'>
+              <Button
+                type='button'
+                variant='secondary'
+                onClick={onHide}
+                disabled={isAdding}
+                className='me-2'
+                data-testid='add-channel-cancel'
+              >
+                {t('chatPage.modals.addChannel.cancelButton')}
+              </Button>
+              <Button
+                type='submit'
+                variant='primary'
+                disabled={isAdding || !channelName.trim()}
+                data-testid='add-channel-submit'
+              >
+                {isAdding ? (
+                  <>
+                    <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
+                  </>
+                ) : (
+                  t('chatPage.modals.addChannel.submitButton')
+                )}
+              </Button>
+            </div>
+          </div>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant='secondary' onClick={onHide} disabled={isAdding}>
-          {t('chatPage.modals.addChannel.cancelButton')}
-        </Button>
-        <Button
-          variant='primary'
-          onClick={handleSubmit}
-          disabled={isAdding || !channelName.trim()}
-          data-testid='add-channel-submit'
-        >
-          {isAdding ? (
-            <>
-              <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
-            </>
-          ) : (
-            t('chatPage.modals.addChannel.submitButton')
-          )}
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 };
@@ -157,22 +176,28 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
         <Modal.Title>{t('chatPage.modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>{t('chatPage.confirmRemove')}</p>
+        <p className='lead'>{t('chatPage.confirmMessage')}</p>
+        <div className='d-flex justify-content-end'>
+          <Button
+            variant='secondary'
+            onClick={onHide}
+            disabled={isRemoving}
+            className='me-2'
+            data-testid='remove-channel-cancel'
+          >
+            {t('chatPage.modals.removeChannel.cancelButton')}
+          </Button>
+          <Button variant='danger' onClick={handleRemove} disabled={isRemoving} data-testid='remove-channel-confirm'>
+            {isRemoving ? (
+              <>
+                <Spinner size='sm' animation='border' /> {t('chatPage.modals.removeChannel.submittingButton')}
+              </>
+            ) : (
+              t('chatPage.modals.removeChannel.submitButton')
+            )}
+          </Button>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant='secondary' onClick={onHide} disabled={isRemoving}>
-          {t('chatPage.modals.removeChannel.cancelButton')}
-        </Button>
-        <Button variant='danger' onClick={handleRemove} disabled={isRemoving} data-testid='remove-channel-confirm'>
-          {isRemoving ? (
-            <>
-              <Spinner size='sm' animation='border' /> {t('chatPage.modals.removeChannel.submittingButton')}
-            </>
-          ) : (
-            t('chatPage.modals.removeChannel.submitButton')
-          )}
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 };

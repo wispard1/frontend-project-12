@@ -67,7 +67,7 @@
     "submit": "Отправить",
     "cancel": "Отменить",
     "remove": "Удалить",
-    "confirmRemove": "Уверены?",
+    "confirmMessage": "Уверены?",
     "removeChannel": "Удалить канал",
     "channelRemoved": "Канал удален",
     "noMessagesYet": "Пока нет сообщений",
