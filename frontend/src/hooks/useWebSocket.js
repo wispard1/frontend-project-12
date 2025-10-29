@@ -10,7 +10,8 @@ export const useWebSocket = (token) => {
   useEffect(() => {
     if (!token) return;
 
-    const wsURL = window.location.origin.replace(/^http/, 'ws');
+    const wsURL = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${window.location.host}`;
+
     console.log('Connecting WebSocket to:', wsURL);
 
     const socket = io(wsURL, { auth: { token } });
