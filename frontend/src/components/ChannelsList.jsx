@@ -41,24 +41,22 @@ export const ChannelsList = ({
           +
         </Button>
       </div>
-      <ListGroup className='overflow-auto px-2 py-2 flex-grow-1'>
+      <div className='overflow-auto px-2 py-2 flex-grow-1'>
         {displayChannels.map((channel) => (
-          <ListGroup.Item
+          <Button
             key={channel.id}
-            as='button'
-            type='button'
-            className={`px-2 py-1 d-flex justify-content-between align-items-center text-start ${
-              channel.id === currentChannelId ? 'bg-primary text-white' : ''
+            variant={channel.id === currentChannelId ? 'primary' : 'light'}
+            className={`w-100 text-start d-flex justify-content-between align-items-center mb-1 ${
+              channel.id === currentChannelId ? 'text-white' : ''
             }`}
             style={{
               border: 'none',
               borderRadius: '0.375rem',
-              marginBottom: '0.25rem',
+              padding: '0.5rem 0.75rem',
             }}
             onClick={() => onChannelClick(channel.id)}
             aria-label={channel.name}
             data-testid={`channel-${channel.name}`}
-            active={channel.id === currentChannelId}
           >
             <span className='text-truncate'>
               <span className='me-1'>#</span>
@@ -121,9 +119,9 @@ export const ChannelsList = ({
                 </Dropdown.Menu>
               </Dropdown>
             )}
-          </ListGroup.Item>
+          </Button>
         ))}
-      </ListGroup>
+      </div>
     </div>
   );
 };
