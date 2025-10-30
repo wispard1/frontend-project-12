@@ -4,3 +4,5 @@ build:
 	cd frontend && npm run build
 start:
 	cd frontend && npx start-server -s dist
+test-local:
+	cd frontend && npm test

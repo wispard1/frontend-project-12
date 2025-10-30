@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/wispard1/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/wispard1/frontend-project-12/actions)",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dev:server": "npx @hexlet/chat-server"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wispard1/frontend-project-12.git"
