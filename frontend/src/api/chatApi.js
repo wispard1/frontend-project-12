@@ -1,85 +1,85 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const API_BASE_URL = "/api/v1"
+const API_BASE_URL = '/api/v1'
 
 export const chatApi = createApi({
-  reducerPath: "chatApi",
+  reducerPath: 'chatApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token || localStorage.getItem("token")
+      const token = getState().auth.token || localStorage.getItem('token')
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`)
       }
       return headers
     },
   }),
-  tagTypes: ["Channel", "Message"],
+  tagTypes: ['Channel', 'Message'],
   endpoints: builder => ({
     login: builder.mutation({
       query: credentials => ({
-        url: "login",
-        method: "POST",
+        url: 'login',
+        method: 'POST',
         body: credentials,
       }),
     }),
     signup: builder.mutation({
       query: userData => ({
-        url: "signup",
-        method: "POST",
+        url: 'signup',
+        method: 'POST',
         body: userData,
       }),
     }),
 
     getChannels: builder.query({
-      query: () => "channels",
+      query: () => 'channels',
       providesTags: result =>
         result ?
-          [...result.map(({ id }) => ({ type: "Channel", id })), { type: "Channel", id: "LIST" }] :
-          [{ type: "Channel", id: "LIST" }],
+          [...result.map(({ id }) => ({ type: 'Channel', id })), { type: 'Channel', id: 'LIST' }] :
+          [{ type: 'Channel', id: 'LIST' }],
     }),
 
     addChannel: builder.mutation({
       query: newChannel => ({
-        url: "channels",
-        method: "POST",
+        url: 'channels',
+        method: 'POST',
         body: newChannel,
       }),
-      invalidatesTags: [{ type: "Channel", id: "LIST" }],
+      invalidatesTags: [{ type: 'Channel', id: 'LIST' }],
     }),
 
     renameChannel: builder.mutation({
       query: ({ id, name }) => ({
         url: `channels/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: { name },
       }),
-      invalidatesTags: [{ type: "Channel", id: "LIST" }],
+      invalidatesTags: [{ type: 'Channel', id: 'LIST' }],
     }),
 
     removeChannel: builder.mutation({
       query: id => ({
         url: `channels/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: [{ type: "Channel", id: "LIST" }],
+      invalidatesTags: [{ type: 'Channel', id: 'LIST' }],
     }),
 
     getMessages: builder.query({
-      query: () => "messages",
+      query: () => 'messages',
       providesTags: result =>
         result ?
-          [...result.map(({ id }) => ({ type: "Message", id })), { type: "Message", id: "LIST" }] :
-          [{ type: "Message", id: "LIST" }],
+          [...result.map(({ id }) => ({ type: 'Message', id })), { type: 'Message', id: 'LIST' }] :
+          [{ type: 'Message', id: 'LIST' }],
     }),
 
     addMessage: builder.mutation({
       query: newMessage => ({
-        url: "messages",
-        method: "POST",
+        url: 'messages',
+        method: 'POST',
         body: newMessage,
       }),
-      invalidatesTags: [{ type: "Message", id: "LIST" }],
+      invalidatesTags: [{ type: 'Message', id: 'LIST' }],
     }),
   }),
 })

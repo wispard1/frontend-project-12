@@ -1,36 +1,38 @@
-import js from "@eslint/js"
-import globals from "globals"
-import { defineConfig } from "eslint/config"
+import js from '@eslint/js'
+import globals from 'globals'
+import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
-    files: ["**/*.{js,jsx}"],
-    ignores: ["dist/**", "playwright-report/**", "node_modules/**"],
+    files: ['**/*.{js,jsx}'],
+    ignores: ['dist/**', 'playwright-report/**', 'node_modules/**'],
     extends: [js.configs.recommended],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
         ...globals.browser,
         ...globals.node,
-        process: "readonly",
+        process: 'readonly',
       },
       parserOptions: {
-        ecmaVersion: "latest",
+        ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: "module",
+        sourceType: 'module',
       },
     },
     rules: {
-      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
-      semi: ["error", "never"],
-      "jsx-quotes": ["error", "prefer-double"],
-      "arrow-parens": ["error", "as-needed"],
-      "brace-style": ["error", "1tbs"],
-      "comma-dangle": ["error", "always-multiline"],
-      "no-trailing-spaces": "error",
-      "no-multiple-empty-lines": ["error", { max: 1 }],
-      "multiline-ternary": ["error", "always-multiline"],
-      "operator-linebreak": ["error", "after"],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      semi: ['error', 'never'],
+      quotes: ['error', 'single'],
+      'jsx-quotes': ['error', 'prefer-single'],
+      'arrow-parens': ['error', 'as-needed'],
+      'brace-style': ['error', '1tbs'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'no-trailing-spaces': 'error',
+      'no-multiple-empty-lines': ['error', { max: 1 }],
+      'multiline-ternary': ['error', 'always-multiline'],
+      'operator-linebreak': ['error', 'after'],
+      indent: ['error', 2],
     },
   },
 ])

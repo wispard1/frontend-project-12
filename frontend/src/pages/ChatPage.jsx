@@ -1,26 +1,26 @@
-import { useMemo, useState, useEffect } from "react"
-import { Row, Col, Spinner, Alert } from "react-bootstrap"
-import { useSelector, useDispatch } from "react-redux"
-import { useTranslation } from "react-i18next"
+import { useMemo, useState, useEffect } from 'react'
+import { Row, Col, Spinner, Alert } from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import {
   useGetChannelsQuery,
   useGetMessagesQuery,
   useAddMessageMutation,
   chatApi,
-} from "../api/chatApi"
-import { setCurrentChannel } from "../store/channelsSlice"
-import { ChannelsList } from "../components/ChannelsList"
-import { MessagesList } from "../components/MessagesList"
-import { NewMessagesForm } from "../components/NewMessagesForm"
-import { useChannelHandlers } from "../hooks/useChannelHandlers"
-import { useWebSocket } from "../hooks/useWebSocket"
-import { useChannelModals } from "../components/modals/useChannelModals"
-import { cleanText } from "../utils/profanityFilter"
+} from '../api/chatApi'
+import { setCurrentChannel } from '../store/channelsSlice'
+import { ChannelsList } from '../components/ChannelsList'
+import { MessagesList } from '../components/MessagesList'
+import { NewMessagesForm } from '../components/NewMessagesForm'
+import { useChannelHandlers } from '../hooks/useChannelHandlers'
+import { useWebSocket } from '../hooks/useWebSocket'
+import { useChannelModals } from '../components/modals/useChannelModals'
+import { cleanText } from '../utils/profanityFilter'
 
 export const ChatPage = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem('token')
   const currentUsername = useSelector(state => state.auth.user?.username)
   const { currentChannelId } = useSelector(state => state.channels)
 
@@ -55,18 +55,18 @@ export const ChatPage = () => {
     const handleConnect = () => setIsConnected(true)
     const handleDisconnect = () => setIsConnected(false)
 
-    socket.on("connect", handleConnect)
-    socket.on("disconnect", handleDisconnect)
+    socket.on('connect', handleConnect)
+    socket.on('disconnect', handleDisconnect)
 
     return () => {
-      socket.off("connect", handleConnect)
-      socket.off("disconnect", handleDisconnect)
+      socket.off('connect', handleConnect)
+      socket.off('disconnect', handleDisconnect)
     }
   }, [socketRef])
 
   const displayChannels = useMemo(() => {
     if (!channels || channels.length === 0) {
-      return [{ id: "1", name: "general", removable: false }]
+      return [{ id: '1', name: 'general', removable: false }]
     }
     return channels
   }, [channels])
@@ -94,14 +94,14 @@ export const ChatPage = () => {
 
     try {
       await addMessage(messageData).unwrap()
-      console.log("Message sent via HTTP")
+      console.log('Message sent via HTTP')
 
       if (!isConnected) {
-        console.log("Offline mode — forcing message refetch")
-        dispatch(chatApi.util.invalidateTags([{ type: "Message", id: "LIST" }]))
+        console.log('Offline mode — forcing message refetch')
+        dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
       }
     } catch (err) {
-      console.error("Error sending message:", err)
+      console.error('Error sending message:', err)
     }
   }
 
@@ -118,28 +118,28 @@ export const ChatPage = () => {
 
   if (channelsIsLoading || messagesIsLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <Spinner animation="border" />
+      <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
+        <Spinner animation='border' />
       </div>
     )
   }
 
   if (channelsError || messagesError) {
     return (
-      <div className="container mt-5">
-        <Alert variant="danger">
-          Ошибка:{" "}
-          {channelsError?.data?.message || messagesError?.data?.message || "Неизвестная ошибка"}
+      <div className='container mt-5'>
+        <Alert variant='danger'>
+          Ошибка:{' '}
+          {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
         </Alert>
       </div>
     )
   }
   return (
-    <div className="d-flex flex-column" style={{ height: "100vh" }}>
-      <main className="chat-wrapper flex-grow-1 mt-3 mb-3" style={{ paddingTop: "56px" }}>
-        <div className="chat-container mt-3 mb-3" style={{ height: "calc(100vh - 56px - 40px)" }}>
-          <Row className="h-100 flex-md-row g-0">
-            <Col xs={4} md={3} className="border-end bg-light d-flex flex-column h-100">
+    <div className='d-flex flex-column' style={{ height: '100vh' }}>
+      <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
+        <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
+          <Row className='h-100 flex-md-row g-0'>
+            <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
               <ChannelsList
                 channels={displayChannels}
                 onChannelClick={handleChannelClick}
@@ -148,18 +148,18 @@ export const ChatPage = () => {
                 onRemoveChannelClick={(id, name) => showRemoveModal({ id, name })}
               />
             </Col>
-            <Col className="p-0 h-100">
-              <div className="d-flex flex-column h-100">
-                <div className="bg-light border-bottom p-3 shadow-sm small">
-                  <p className="m-0">
-                    <b># {channels?.find(c => c.id === currentChannelId)?.name || "general"}</b>
+            <Col className='p-0 h-100'>
+              <div className='d-flex flex-column h-100'>
+                <div className='bg-light border-bottom p-3 shadow-sm small'>
+                  <p className='m-0'>
+                    <b># {channels?.find(c => c.id === currentChannelId)?.name || 'general'}</b>
                   </p>
-                  <span className="text-muted">
-                    {t("chatPage.messagesCount", { count: filteredMessages?.length || 0 })}
+                  <span className='text-muted'>
+                    {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
                   </span>
                   {!isConnected && (
-                    <div className="text-danger small mt-1">
-                      {t("chatPage.notifications.websocketDisconnected")}
+                    <div className='text-danger small mt-1'>
+                      {t('chatPage.notifications.websocketDisconnected')}
                     </div>
                   )}
                 </div>
