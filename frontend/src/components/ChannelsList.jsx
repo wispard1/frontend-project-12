@@ -12,7 +12,8 @@ export const ChannelsList = ({
   const { currentChannelId } = useSelector((state) => state.channels);
   const { t } = useTranslation();
 
-  const displayChannels = channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
+  const displayChannels =
+    channels?.length > 0 ? channels : [{ id: '1', name: 'general', removable: false }];
 
   return (
     <div className='border-end bg-light d-flex flex-column h-100'>

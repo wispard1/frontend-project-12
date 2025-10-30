@@ -32,8 +32,14 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      console.log('Sending signup request with data:', { username: values.username, password: values.password });
-      const response = await signup({ username: values.username, password: values.password }).unwrap();
+      console.log('Sending signup request with data:', {
+        username: values.username,
+        password: values.password,
+      });
+      const response = await signup({
+        username: values.username,
+        password: values.password,
+      }).unwrap();
       console.log('Registration successful, response:', response);
       localStorage.setItem('token', response.token);
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }));
@@ -54,7 +60,11 @@ export const RegisterPage = () => {
           <Card className='shadow-sm login-form'>
             <Card.Body className='row p-5'>
               <div className='col-12 col-md-6 d-flex align-items-center justify-content-center px-2'>
-                <img src={signupAvatar} className='rounded-circle img-fluid' alt={t('registerPage.title')} />
+                <img
+                  src={signupAvatar}
+                  className='rounded-circle img-fluid'
+                  alt={t('registerPage.title')}
+                />
               </div>
               <Formik
                 initialValues={{ username: '', password: '', passwordConfirmation: '' }}
@@ -101,8 +111,14 @@ export const RegisterPage = () => {
                         id='passwordConfirmation'
                         placeholder={t('registerPage.passwordConfirmPlaceholder')}
                       />
-                      <label htmlFor='passwordConfirmation'>{t('registerPage.passwordConfirmLabel')}</label>
-                      <ErrorMessage name='passwordConfirmation' component='div' className='text-danger small' />
+                      <label htmlFor='passwordConfirmation'>
+                        {t('registerPage.passwordConfirmLabel')}
+                      </label>
+                      <ErrorMessage
+                        name='passwordConfirmation'
+                        component='div'
+                        className='text-danger small'
+                      />
                     </div>
                     <Button
                       type='submit'

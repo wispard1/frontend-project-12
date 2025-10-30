@@ -2,7 +2,12 @@ import { useMemo, useState, useEffect } from 'react';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useGetChannelsQuery, useGetMessagesQuery, useAddMessageMutation, chatApi } from '../api/chatApi';
+import {
+  useGetChannelsQuery,
+  useGetMessagesQuery,
+  useAddMessageMutation,
+  chatApi,
+} from '../api/chatApi';
 import { setCurrentChannel } from '../store/channelsSlice';
 import { ChannelsList } from '../components/ChannelsList';
 import { MessagesList } from '../components/MessagesList';
@@ -28,8 +33,16 @@ export const ChatPage = () => {
     isRenamingChannel,
   } = useChannelHandlers();
 
-  const { data: channels, isLoading: channelsIsLoading, error: channelsError } = useGetChannelsQuery();
-  const { data: messages, isLoading: messagesIsLoading, error: messagesError } = useGetMessagesQuery();
+  const {
+    data: channels,
+    isLoading: channelsIsLoading,
+    error: channelsError,
+  } = useGetChannelsQuery();
+  const {
+    data: messages,
+    isLoading: messagesIsLoading,
+    error: messagesError,
+  } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
 
   const socketRef = useWebSocket(token);
@@ -115,7 +128,8 @@ export const ChatPage = () => {
     return (
       <div className='container mt-5'>
         <Alert variant='danger'>
-          Ошибка: {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
+          Ошибка:{' '}
+          {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
         </Alert>
       </div>
     );
@@ -144,7 +158,9 @@ export const ChatPage = () => {
                     {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
                   </span>
                   {!isConnected && (
-                    <div className='text-danger small mt-1'>{t('chatPage.notifications.websocketDisconnected')}</div>
+                    <div className='text-danger small mt-1'>
+                      {t('chatPage.notifications.websocketDisconnected')}
+                    </div>
                   )}
                 </div>
                 <MessagesList messages={filteredMessages} currentUsername={currentUsername} />

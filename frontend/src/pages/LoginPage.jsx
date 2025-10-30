@@ -21,7 +21,10 @@ export const LoginPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await login({ username: values.username, password: values.password }).unwrap();
+      const response = await login({
+        username: values.username,
+        password: values.password,
+      }).unwrap();
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }));
       console.log('User dispatched to setCredentials:', { username: response.username });
       navigate('/');
@@ -52,7 +55,11 @@ export const LoginPage = () => {
                   <h2 className='text-center mb-4'>{t('loginPage.title')}</h2>
                   {error && (
                     <Alert variant='danger'>
-                      {t(error.status === 401 ? 'loginPage.errors.invalidCredentials' : 'loginPage.errors.loginFailed')}
+                      {t(
+                        error.status === 401
+                          ? 'loginPage.errors.invalidCredentials'
+                          : 'loginPage.errors.loginFailed'
+                      )}
                     </Alert>
                   )}
 

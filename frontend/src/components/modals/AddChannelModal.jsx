@@ -86,7 +86,8 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                 >
                   {isSubmitting ? (
                     <>
-                      <Spinner size='sm' animation='border' /> {t('chatPage.modals.addChannel.submittingButton')}
+                      <Spinner size='sm' animation='border' />{' '}
+                      {t('chatPage.modals.addChannel.submittingButton')}
                     </>
                   ) : (
                     t('chatPage.modals.addChannel.submitButton')

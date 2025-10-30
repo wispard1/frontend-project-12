@@ -1,6 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../store/channelsSlice';
-import { useAddChannelMutation, useRenameChannelMutation, useRemoveChannelMutation } from '../api/chatApi';
+import {
+  useAddChannelMutation,
+  useRenameChannelMutation,
+  useRemoveChannelMutation,
+} from '../api/chatApi';
 import { hasProfanity } from '../utils/profanityFilter';
 
 export const useChannelHandlers = () => {

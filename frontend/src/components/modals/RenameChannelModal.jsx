@@ -88,12 +88,18 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                 <button
                   type='submit'
                   className='btn btn-primary'
-                  disabled={isRenaming || isSubmitting || !values.name.trim() || values.name.trim() === channel?.name}
+                  disabled={
+                    isRenaming ||
+                    isSubmitting ||
+                    !values.name.trim() ||
+                    values.name.trim() === channel?.name
+                  }
                   data-testid='rename-channel-submit'
                 >
                   {isSubmitting ? (
                     <>
-                      <Spinner size='sm' animation='border' /> {t('chatPage.modals.renameChannel.submittingButton')}
+                      <Spinner size='sm' animation='border' />{' '}
+                      {t('chatPage.modals.renameChannel.submittingButton')}
                     </>
                   ) : (
                     t('chatPage.modals.renameChannel.submitButton')

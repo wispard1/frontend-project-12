@@ -42,7 +42,8 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
           >
             {isRemoving ? (
               <>
-                <Spinner size='sm' animation='border' /> {t('chatPage.modals.removeChannel.submittingButton')}
+                <Spinner size='sm' animation='border' />{' '}
+                {t('chatPage.modals.removeChannel.submittingButton')}
               </>
             ) : (
               t('chatPage.modals.removeChannel.submitButton')
