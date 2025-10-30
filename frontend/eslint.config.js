@@ -1,11 +1,11 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import { defineConfig } from 'eslint/config';
+import js from "@eslint/js"
+import globals from "globals"
+import { defineConfig } from "eslint/config"
 
 export default defineConfig([
   {
-    files: ['**/*.{js,jsx}'],
-    ignores: ['dist/**', 'playwright-report/**', 'node_modules/**'],
+    files: ["**/*.{js,jsx}"],
+    ignores: ["dist/**", "playwright-report/**", "node_modules/**"],
     extends: [js.configs.recommended],
     languageOptions: {
       ecmaVersion: 2020,
@@ -14,13 +14,13 @@ export default defineConfig([
         ...globals.node,
       },
       parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
     },
   },
-]);
+])

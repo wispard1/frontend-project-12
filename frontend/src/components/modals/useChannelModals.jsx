@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { AddChannelModal } from './AddChannelModal';
-import { RenameChannelModal } from './RenameChannelModal';
-import { RemoveChannelModal } from './RemoveChannelModal';
+import { useState } from "react"
+import { AddChannelModal } from "./AddChannelModal"
+import { RenameChannelModal } from "./RenameChannelModal"
+import { RemoveChannelModal } from "./RemoveChannelModal"
 
 export const useChannelModals = ({
   onAdd,
@@ -11,53 +11,53 @@ export const useChannelModals = ({
   isRenaming,
   isRemoving,
 }) => {
-  const [modalType, setModalType] = useState(null);
-  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [modalType, setModalType] = useState(null)
+  const [selectedChannel, setSelectedChannel] = useState(null)
 
   const showAddModal = () => {
-    setModalType('add');
-    setSelectedChannel(null);
-  };
+    setModalType("add")
+    setSelectedChannel(null)
+  }
 
-  const showRenameModal = (channel) => {
-    setModalType('rename');
-    setSelectedChannel(channel);
-  };
+  const showRenameModal = channel => {
+    setModalType("rename")
+    setSelectedChannel(channel)
+  }
 
-  const showRemoveModal = (channel) => {
-    setModalType('remove');
-    setSelectedChannel(channel);
-  };
+  const showRemoveModal = channel => {
+    setModalType("remove")
+    setSelectedChannel(channel)
+  }
 
   const hideModal = () => {
-    setModalType(null);
-    setSelectedChannel(null);
-  };
+    setModalType(null)
+    setSelectedChannel(null)
+  }
 
   const Modals = () => (
     <>
       <AddChannelModal
-        show={modalType === 'add'}
+        show={modalType === "add"}
         onHide={hideModal}
         onAdd={onAdd}
         isAdding={isAdding}
       />
       <RenameChannelModal
-        show={modalType === 'rename'}
+        show={modalType === "rename"}
         onHide={hideModal}
         onRename={onRename}
         isRenaming={isRenaming}
         channel={selectedChannel}
       />
       <RemoveChannelModal
-        show={modalType === 'remove'}
+        show={modalType === "remove"}
         onHide={hideModal}
         onRemove={onRemove}
         isRemoving={isRemoving}
         channel={selectedChannel}
       />
     </>
-  );
+  )
 
   return {
     showAddModal,
@@ -65,5 +65,5 @@ export const useChannelModals = ({
     showRemoveModal,
     hideModal,
     Modals,
-  };
-};
+  }
+}
