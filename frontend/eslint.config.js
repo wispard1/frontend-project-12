@@ -1,40 +1,24 @@
-// eslint.config.js
 import js from '@eslint/js'
 import globals from 'globals'
+import { defineConfig } from 'eslint/config'
+import stylistic from '@stylistic/eslint-plugin'
 
-export default [
-  js.configs.recommended,
+export default defineConfig([
+  stylistic.configs.recommended,
   {
-    files: ['**/*.{js,jsx}'],
-    ignores: ['dist/**', 'playwright-report/**', 'node_modules/**'],
+    files: ['**/*.{js,mjs,cjs}'],
+    plugins: { js },
+    extends: ['js/recommended'],
+  },
+  {
+    files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
       globals: {
         ...globals.browser,
-        ...globals.node,
+        describe: true,
+        test: true,
+        expect: true,
       },
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
-    },
-    settings: {
-      react: { version: 'detect' },
-    },
-    rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      '@stylistic/quotes': 'off',
-      '@stylistic/jsx-quotes': 'off',
-      '@stylistic/arrow-parens': 'off',
-      '@stylistic/brace-style': 'off',
-      '@stylistic/comma-dangle': 'off',
-      '@stylistic/jsx-wrap-multilines': 'off',
-      '@stylistic/multiline-ternary': 'off',
-      '@stylistic/jsx-one-expression-per-line': 'off',
-      '@stylistic/operator-linebreak': 'off',
-      '@stylistic/jsx-closing-tag-location': 'off',
-      '@stylistic/eol-last': 'off',
-      '@stylistic/jsx-curly-brace-presence': 'off',
     },
   },
-]
+])
