@@ -9,7 +9,7 @@ export const ChannelsList = ({
   onRenameChannelClick,
   onRemoveChannelClick,
 }) => {
-  const { currentChannelId } = useSelector(state => state.channels)
+  const { currentChannelId } = useSelector((state) => state.channels)
   const { t } = useTranslation()
 
   const displayChannels =
@@ -40,7 +40,7 @@ export const ChannelsList = ({
       </div>
 
       <Nav variant="pills" className="flex-column px-2 py-2 flex-grow-1 overflow-auto">
-        {displayChannels.map(channel => (
+        {displayChannels.map((channel) => (
           <Nav.Item key={channel.id} className="w-100 mb-1">
             {channel.removable ?
               (
@@ -78,7 +78,6 @@ export const ChannelsList = ({
                         fill="currentColor"
                         viewBox="0 0 16 16"
                       >
-                        <path d="M1 3l7 7 7-7" />
                       </svg>
                       <span className="visually-hidden">{t('chatPage.channelManagement')}</span>
                     </Dropdown.Toggle>

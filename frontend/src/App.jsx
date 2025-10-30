@@ -26,27 +26,27 @@ function AppContent() {
       <Routes>
         <Route
           path="/login"
-          element={
+          element={(
             <PublicRoute>
               <LoginPage />
             </PublicRoute>
-          }
+          )}
         />
         <Route
           path="/signup"
-          element={
+          element={(
             <PublicRoute>
               <RegisterPage />
             </PublicRoute>
-          }
+          )}
         />
         <Route
           path="/"
-          element={
+          element={(
             <ProtectedRoute>
               <ChatPage />
             </ProtectedRoute>
-          }
+          )}
         />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
@@ -57,7 +57,9 @@ function AppContent() {
 function App() {
   return (
     <RollbarProvider config={rollbarConfig}>
-      <ErrorBoundary fallbackUI={() => <div>Something went wrong. We're looking into it.</div>}>
+      <ErrorBoundary
+        fallbackUI={() => <div>Something went wrong. We&apos;re looking into it.</div>}
+      >
         <ReduxProvider store={store}>
           <BrowserRouter>
             <AppContent />

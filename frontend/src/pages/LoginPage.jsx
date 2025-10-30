@@ -40,11 +40,9 @@ export const LoginPage = () => {
       <Container className="col-12 col-md-8 col-xxl-6">
         <Card className="shadow-sm login-form">
           <Card.Body className="row p-5">
-            {/* --- Левая колонка с изображением --- */}
             <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
               <img src={avatar} className="rounded-circle img-fluid" alt={t('loginPage.title')} />
             </div>
-            {/* --- Правая колонка с формой --- */}
             <Formik
               initialValues={{ username: '', password: '' }}
               validationSchema={loginSchema}
@@ -73,7 +71,7 @@ export const LoginPage = () => {
                     />
                     <label htmlFor="username">{t('loginPage.usernameLabel')}</label>
                     <ErrorMessage name="username">
-                      {msg => <div className="text-danger small">{t(msg)}</div>}
+                      {(msg) => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 
@@ -87,11 +85,10 @@ export const LoginPage = () => {
                     />
                     <label htmlFor="password">{t('loginPage.passwordLabel')}</label>
                     <ErrorMessage name="password">
-                      {msg => <div className="text-danger small">{t(msg)}</div>}
+                      {(msg) => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 
-                  {/* --- Кнопка отправки --- */}
                   <Button
                     type="submit"
                     variant="outline-primary"
@@ -104,7 +101,6 @@ export const LoginPage = () => {
               )}
             </Formik>
           </Card.Body>
-          {/* --- Footer с ссылкой на регистрацию --- */}
           <Card.Footer className="p-4 text-center">
             <span>{` ${t('loginPage.noAccount')}`} </span>
             <Link to="/signup">{t('loginPage.registerLink')}</Link>
