@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { AddChannelModal, RenameChannelModal, RemoveChannelModal } from './ChannelModals';
+import { AddChannelModal } from './AddChannelModal';
+import { RenameChannelModal } from './RenameChannelModal';
+import { RemoveChannelModal } from './RemoveChannelModal';
 
 export const useChannelModals = ({ onAdd, onRename, onRemove, isAdding, isRenaming, isRemoving }) => {
   const [modalType, setModalType] = useState(null);
