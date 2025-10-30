@@ -93,7 +93,8 @@ export const ChannelsList = ({
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
-              ) : (
+              ) 
+              : (
                 <Button
                   variant={channel.id === currentChannelId ? 'primary' : 'light'}
                   className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
