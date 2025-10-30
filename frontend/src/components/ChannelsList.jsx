@@ -45,9 +45,7 @@ export const ChannelsList = ({
               <div className='d-flex align-items-center position-relative'>
                 <Button
                   variant={channel.id === currentChannelId ? 'primary' : 'light'}
-                  className={`w-100 rounded-0 text-start text-truncate ${
-                    channel.id === currentChannelId ? 'text-white' : ''
-                  }`}
+                  className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
                   style={{
                     border: 'none',
                     borderRadius: '0.375rem',
@@ -60,7 +58,6 @@ export const ChannelsList = ({
                   <span className='me-1'>#</span>
                   {channel.name}
                 </Button>
-
                 <Dropdown className='position-absolute' style={{ right: '10px' }}>
                   <Dropdown.Toggle
                     variant='link'
@@ -98,9 +95,7 @@ export const ChannelsList = ({
             ) : (
               <Button
                 variant={channel.id === currentChannelId ? 'primary' : 'light'}
-                className={`w-100 rounded-0 text-start text-truncate ${
-                  channel.id === currentChannelId ? 'text-white' : ''
-                }`}
+                className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
                 style={{
                   border: 'none',
                   borderRadius: '0.375rem',
