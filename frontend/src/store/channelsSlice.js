@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { chatApi } from '../api/chatApi'
+import { createSlice } from "@reduxjs/toolkit"
+import { chatApi } from "../api/chatApi"
 
 const initialState = {
   channels: [],
-  currentChannelId: '1',
+  currentChannelId: "1",
 }
 
 const channelsSlice = createSlice({
-  name: 'channels',
+  name: "channels",
   initialState,
   reducers: {
     setCurrentChannel: (state, action) => {

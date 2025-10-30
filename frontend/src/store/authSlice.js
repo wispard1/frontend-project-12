@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 
 const getInitialUser = () => {
   try {
-    const user = localStorage.getItem('user')
+    const user = localStorage.getItem("user")
     return user ? JSON.parse(user) : null
   } catch {
     return null
@@ -10,14 +10,14 @@ const getInitialUser = () => {
 }
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem("token"),
   user: getInitialUser(),
   loading: false,
   error: null,
 }
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     setCredentials: (state, action) => {
@@ -25,17 +25,17 @@ const authSlice = createSlice({
       state.token = token
       state.user = user
       if (token && user) {
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', JSON.stringify(user))
-        console.log('✅ Credentials saved to localStorage:', { username: user.username })
+        localStorage.setItem("token", token)
+        localStorage.setItem("user", JSON.stringify(user))
+        console.log("✅ Credentials saved to localStorage:", { username: user.username })
       }
     },
     logout: state => {
       state.token = null
       state.user = null
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      console.log('✅ Logout completed')
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      console.log("✅ Logout completed")
     },
   },
 })

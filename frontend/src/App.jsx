@@ -1,22 +1,22 @@
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
-import { LoginPage } from './pages/LoginPage'
-import { ChatPage } from './pages/ChatPage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import { store } from './store'
-import { Provider as ReduxProvider } from 'react-redux'
-import { ProtectedRoute } from './components/ProtectedRoute'
-import { CustomNavbar } from './components/CustomNavbar'
-import { PublicRoute } from './components/PublicRoute'
-import { RegisterPage } from './pages/RegisterPage'
-import { ToastContainer, Slide } from 'react-toastify'
+import "./App.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import "react-toastify/dist/ReactToastify.css"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Provider as RollbarProvider, ErrorBoundary } from "@rollbar/react"
+import { LoginPage } from "./pages/LoginPage"
+import { ChatPage } from "./pages/ChatPage"
+import { NotFoundPage } from "./pages/NotFoundPage"
+import { store } from "./store"
+import { Provider as ReduxProvider } from "react-redux"
+import { ProtectedRoute } from "./components/ProtectedRoute"
+import { CustomNavbar } from "./components/CustomNavbar"
+import { PublicRoute } from "./components/PublicRoute"
+import { RegisterPage } from "./pages/RegisterPage"
+import { ToastContainer, Slide } from "react-toastify"
 
 const rollbarConfig = {
-  accessToken: '52edddf2c5ad7031051d66b254c9aff2',
-  environment: 'production',
+  accessToken: "52edddf2c5ad7031051d66b254c9aff2",
+  environment: "production",
 }
 
 function AppContent() {
@@ -25,7 +25,7 @@ function AppContent() {
       <CustomNavbar />
       <Routes>
         <Route
-          path='/login'
+          path="/login"
           element={
             <PublicRoute>
               <LoginPage />
@@ -33,7 +33,7 @@ function AppContent() {
           }
         />
         <Route
-          path='/signup'
+          path="/signup"
           element={
             <PublicRoute>
               <RegisterPage />
@@ -41,14 +41,14 @@ function AppContent() {
           }
         />
         <Route
-          path='/'
+          path="/"
           element={
             <ProtectedRoute>
               <ChatPage />
             </ProtectedRoute>
           }
         />
-        <Route path='*' element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   )
@@ -62,7 +62,7 @@ function App() {
           <BrowserRouter>
             <AppContent />
             <ToastContainer
-              position='top-center'
+              position="top-center"
               autoClose={5000}
               hideProgressBar={false}
               newestOnTop={false}
@@ -71,7 +71,7 @@ function App() {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme='light'
+              theme="light"
               transition={Slide}
             />
           </BrowserRouter>
