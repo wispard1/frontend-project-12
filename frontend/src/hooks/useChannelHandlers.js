@@ -14,7 +14,7 @@ export const useChannelHandlers = () => {
   const [renameChannel, { isLoading: isRenamingChannel }] = useRenameChannelMutation()
   const [removeChannel, { isLoading: isRemovingChannel }] = useRemoveChannelMutation()
 
-  const handleAddChannel = async channelName => {
+  const handleAddChannel = async (channelName) => {
     const trimmed = channelName?.trim()
 
     if (!trimmed || trimmed.length < 3 || trimmed.length > 20) {
@@ -34,7 +34,7 @@ export const useChannelHandlers = () => {
     }
   }
 
-  const handleRemoveChannel = async channelId => {
+  const handleRemoveChannel = async (channelId) => {
     try {
       await removeChannel(channelId).unwrap()
       return { success: true }

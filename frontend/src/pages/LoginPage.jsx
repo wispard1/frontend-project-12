@@ -28,11 +28,9 @@ export const LoginPage = () => {
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }))
       console.log('User dispatched to setCredentials:', { username: response.username })
       navigate('/')
-    }
-    catch (err) {
+    } catch (err) {
       console.error('Login failed:', err)
-    }
-    finally {
+    } finally {
       setSubmitting(false)
     }
   }
@@ -77,7 +75,7 @@ export const LoginPage = () => {
                       {t('loginPage.usernameLabel')}
                     </label>
                     <ErrorMessage name="username">
-                      {msg => (
+                      {(msg) => (
                         <div className="text-danger small">
                           {t(msg)}
                         </div>
@@ -97,7 +95,7 @@ export const LoginPage = () => {
                       {t('loginPage.passwordLabel')}
                     </label>
                     <ErrorMessage name="password">
-                      {msg => (
+                      {(msg) => (
                         <div className="text-danger small">
                           {t(msg)}
                         </div>
