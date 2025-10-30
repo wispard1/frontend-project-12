@@ -99,8 +99,8 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                           <Spinner size="sm" animation="border" />
                           {t('chatPage.modals.renameChannel.submittingButton')}
                         </>
-                      ) 
-                      : (
+                      )
+                    : (
                         t('chatPage.modals.renameChannel.submitButton')
                       )}
                 </button>
