@@ -10,7 +10,7 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
       await onRemove(channel.id)
       toast.success(t('chatPage.notifications.channelRemoved'))
       onHide()
-    } 
+    }
     catch (err) {
       toast.error(t('chatPage.notifications.channelRemoveError'))
       console.error('Remove channel failed:', err)
@@ -47,12 +47,12 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
           >
             {isRemoving
               ? (
-                <>
-                  <Spinner size="sm" animation="border" />
-                  {' '}
-                  {t('chatPage.modals.removeChannel.submittingButton')}
-                </>
-              )
+                  <>
+                    <Spinner size="sm" animation="border" />
+                    {' '}
+                    {t('chatPage.modals.removeChannel.submittingButton')}
+                  </>
+                )
               : t('chatPage.modals.removeChannel.submitButton')}
           </button>
         </div>

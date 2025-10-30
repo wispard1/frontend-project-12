@@ -14,7 +14,7 @@ export const useChannelHandlers = () => {
   const [renameChannel, { isLoading: isRenamingChannel }] = useRenameChannelMutation()
   const [removeChannel, { isLoading: isRemovingChannel }] = useRemoveChannelMutation()
 
-  const handleAddChannel = async channelName => {
+  const handleAddChannel = async (channelName) => {
     const trimmed = channelName?.trim()
 
     if (!trimmed || trimmed.length < 3 || trimmed.length > 20) {
@@ -29,17 +29,17 @@ export const useChannelHandlers = () => {
       const result = await addChannel({ name: trimmed, removable: true }).unwrap()
       dispatch(setCurrentChannel(result.id))
       return { success: true, channelId: result.id }
-    } 
+    }
     catch (error) {
       return { success: false, error: error.status === 409 ? 'exists' : 'network' }
     }
   }
 
-  const handleRemoveChannel = async channelId => {
+  const handleRemoveChannel = async (channelId) => {
     try {
       await removeChannel(channelId).unwrap()
       return { success: true }
-    } 
+    }
     catch {
       return { success: false, error: 'network' }
     }
@@ -59,7 +59,7 @@ export const useChannelHandlers = () => {
     try {
       await renameChannel({ id: channelId, name: trimmed }).unwrap()
       return { success: true }
-    } 
+    }
     catch (error) {
       return { success: false, error: error.status === 409 ? 'exists' : 'network' }
     }

@@ -4,7 +4,7 @@ const getInitialUser = () => {
   try {
     const user = localStorage.getItem('user')
     return user ? JSON.parse(user) : null
-  } 
+  }
   catch {
     return null
   }
@@ -31,7 +31,7 @@ const authSlice = createSlice({
         console.log('✅ Credentials saved to localStorage:', { username: user.username })
       }
     },
-    logout: state => {
+    logout: (state) => {
       state.token = null
       state.user = null
       localStorage.removeItem('token')

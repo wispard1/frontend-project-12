@@ -22,11 +22,11 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       await onAdd(filteredName)
       toast.success(t('chatPage.notifications.channelAdded'))
       onHide()
-    } 
+    }
     catch (err) {
       toast.error(t('chatPage.notifications.channelAddError'))
       console.error('Add channel failed:', err)
-    } 
+    }
     finally {
       setSubmitting(false)
     }
@@ -89,12 +89,12 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                 >
                   {isSubmitting
                     ? (
-                      <>
-                        <Spinner size="sm" animation="border" />
-                        {' '}
-                        {t('chatPage.modals.addChannel.submittingButton')}
-                      </>
-                    )
+                        <>
+                          <Spinner size="sm" animation="border" />
+                          {' '}
+                          {t('chatPage.modals.addChannel.submittingButton')}
+                        </>
+                      )
                     : t('chatPage.modals.addChannel.submitButton')}
                 </button>
               </div>

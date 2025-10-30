@@ -28,10 +28,10 @@ export const LoginPage = () => {
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }))
       console.log('User dispatched to setCredentials:', { username: response.username })
       navigate('/')
-    } 
+    }
     catch (err) {
       console.error('Login failed:', err)
-    } 
+    }
     finally {
       setSubmitting(false)
     }

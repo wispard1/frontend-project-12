@@ -6,7 +6,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
   const [newMessageBody, setNewMessageBody] = useState('')
   const { t } = useTranslation()
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     console.log('NewMessagesForm submitting:', newMessageBody)
     if (newMessageBody.trim()) {

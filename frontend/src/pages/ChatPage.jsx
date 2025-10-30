@@ -82,7 +82,7 @@ export const ChatPage = () => {
     return messages.filter(msg => msg.channelId === currentChannelId)
   }, [messages, currentChannelId])
 
-  const handleSendMessages = async messageBody => {
+  const handleSendMessages = async (messageBody) => {
     if (!messageBody.trim() || !currentChannelId || !currentUsername) return
 
     const filteredBody = cleanText(messageBody.trim())
@@ -100,7 +100,7 @@ export const ChatPage = () => {
         console.log('Offline mode — forcing message refetch')
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
       }
-    } 
+    }
     catch (err) {
       console.error('Error sending message:', err)
     }

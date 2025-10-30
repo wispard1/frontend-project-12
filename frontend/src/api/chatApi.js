@@ -15,16 +15,16 @@ export const chatApi = createApi({
     },
   }),
   tagTypes: ['Channel', 'Message'],
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     login: builder.mutation({
-      query: (credentials) => ({
+      query: credentials => ({
         url: 'login',
         method: 'POST',
         body: credentials,
       }),
     }),
     signup: builder.mutation({
-      query: (userData) => ({
+      query: userData => ({
         url: 'signup',
         method: 'POST',
         body: userData,
@@ -33,14 +33,14 @@ export const chatApi = createApi({
 
     getChannels: builder.query({
       query: () => 'channels',
-      providesTags: (result) =>
+      providesTags: result =>
         result
           ? [...result.map(({ id }) => ({ type: 'Channel', id })), { type: 'Channel', id: 'LIST' }]
           : [{ type: 'Channel', id: 'LIST' }],
     }),
 
     addChannel: builder.mutation({
-      query: (newChannel) => ({
+      query: newChannel => ({
         url: 'channels',
         method: 'POST',
         body: newChannel,
@@ -58,7 +58,7 @@ export const chatApi = createApi({
     }),
 
     removeChannel: builder.mutation({
-      query: (id) => ({
+      query: id => ({
         url: `channels/${id}`,
         method: 'DELETE',
       }),
@@ -67,14 +67,14 @@ export const chatApi = createApi({
 
     getMessages: builder.query({
       query: () => 'messages',
-      providesTags: (result) =>
+      providesTags: result =>
         result
           ? [...result.map(({ id }) => ({ type: 'Message', id })), { type: 'Message', id: 'LIST' }]
           : [{ type: 'Message', id: 'LIST' }],
     }),
 
     addMessage: builder.mutation({
-      query: (newMessage) => ({
+      query: newMessage => ({
         url: 'messages',
         method: 'POST',
         body: newMessage,
