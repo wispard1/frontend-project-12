@@ -61,6 +61,7 @@ export const ChannelsList = ({
                 <Dropdown className='position-absolute' style={{ right: '10px' }}>
                   <Dropdown.Toggle
                     variant='link'
+                    data-testid={`channel-${channel.name}-menu`}
                     className={`p-0 border-0 ${channel.id === currentChannelId ? 'text-white' : 'text-muted'}`}
                     style={{
                       cursor: 'pointer',
@@ -73,10 +74,11 @@ export const ChannelsList = ({
                       width='16'
                       height='16'
                       fill='currentColor'
-                      className='bi bi-chevron-down'
                       viewBox='0 0 16 16'
                     >
+                      <path d='M1 3l7 7 7-7' />
                     </svg>
+                    <span className='visually-hidden'>Управление каналом</span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>

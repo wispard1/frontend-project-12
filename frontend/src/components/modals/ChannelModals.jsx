@@ -114,7 +114,6 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
     });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-
     const filteredName = cleanText(values.name.trim());
 
     if (filteredName === channel.name) {
@@ -124,7 +123,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
 
     try {
       await onRename(channel.id, filteredName);
-      toast.success(t('chatPage.notifications.channelRenamed'));
+      toast.success('Канал переименован');
       onHide();
     } catch (err) {
       toast.error(t('chatPage.notifications.channelRenameError'));
@@ -211,7 +210,7 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
   const handleRemove = async () => {
     try {
       await onRemove(channel.id);
-      toast.success(t('chatPage.notifications.channelRemoved'));
+      toast.success('Канал удалён');
       onHide();
     } catch (err) {
       toast.error(t('chatPage.notifications.channelRemoveError'));
