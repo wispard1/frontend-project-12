@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 export const CustomNavbar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const token = useSelector((state) => state.auth.token)
+  const token = useSelector(state => state.auth.token)
   const { t } = useTranslation()
 
   const handleLogout = () => {
@@ -21,7 +21,6 @@ export const CustomNavbar = () => {
         <Navbar.Brand href="/">
           {t('navbar.brand')}
         </Navbar.Brand>
-
         {token && (
           <Button variant="primary" onClick={handleLogout}>
             {t('navbar.logoutButton')}

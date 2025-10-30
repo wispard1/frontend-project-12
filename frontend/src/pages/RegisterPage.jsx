@@ -44,11 +44,13 @@ export const RegisterPage = () => {
       localStorage.setItem('token', response.token)
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }))
       navigate('/')
-    } catch (err) {
+    }
+    catch (err) {
       console.error('Registration failed - Full error object:', err)
       console.error('Registration failed - Error status:', err.status)
       console.error('Registration failed - Error data:', err.data)
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }
