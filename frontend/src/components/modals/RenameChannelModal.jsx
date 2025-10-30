@@ -39,7 +39,9 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
   return (
     <Modal show={show} onHide={onHide} centered data-testid="rename-channel-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{t('chatPage.modals.renameChannel.title')}</Modal.Title>
+        <Modal.Title>
+          {t('chatPage.modals.renameChannel.title')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -89,22 +91,22 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   type="submit"
                   className="btn btn-primary"
                   disabled={
-                    isRenaming ||
-                    isSubmitting ||
-                    !values.name.trim() ||
-                    values.name.trim() === channel?.name
+                    isRenaming
+                    || isSubmitting
+                    || !values.name.trim()
+                    || values.name.trim() === channel?.name
                   }
                   data-testid="rename-channel-submit"
                 >
-                  {isSubmitting ?
-                    (
+                  {isSubmitting
+                    ? (
                       <>
                         <Spinner size="sm" animation="border" />
                         {' '}
                         {t('chatPage.modals.renameChannel.submittingButton')}
                       </>
-                    ) :
-                    t('chatPage.modals.renameChannel.submitButton')}
+                    )
+                    : t('chatPage.modals.renameChannel.submitButton')}
                 </button>
               </div>
             </Form>

@@ -9,8 +9,12 @@ export const MessagesList = ({ messages }) => {
     return (
       <div className="chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center">
         <div className="text-center text-muted">
-          <p>{t('chatPage.noMessagesYet')}</p>
-          <small>{t('chatPage.startConversation')}</small>
+          <p>
+            {t('chatPage.noMessagesYet')}
+          </p>
+          <small>
+            {t('chatPage.startConversation')}
+          </small>
         </div>
       </div>
     )
@@ -29,7 +33,9 @@ export const MessagesList = ({ messages }) => {
               className={`p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
               style={{ maxWidth: '70%' }}
             >
-              <b>{message.username}</b>
+              <b>
+                {message.username}
+              </b>
               {': '}
               {message.body}
             </div>

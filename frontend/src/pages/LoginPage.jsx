@@ -50,13 +50,15 @@ export const LoginPage = () => {
             >
               {({ isSubmitting }) => (
                 <Form className="col-12 col-md-6 mt-3 mt-md-0">
-                  <h2 className="text-center mb-4">{t('loginPage.title')}</h2>
+                  <h2 className="text-center mb-4">
+                    {t('loginPage.title')}
+                  </h2>
                   {error && (
                     <Alert variant="danger">
                       {t(
-                        error.status === 401 ?
-                          'loginPage.errors.invalidCredentials' :
-                          'loginPage.errors.loginFailed',
+                        error.status === 401
+                          ? 'loginPage.errors.invalidCredentials'
+                          : 'loginPage.errors.loginFailed',
                       )}
                     </Alert>
                   )}
@@ -69,9 +71,15 @@ export const LoginPage = () => {
                       id="username"
                       placeholder={t('loginPage.usernameLabel')}
                     />
-                    <label htmlFor="username">{t('loginPage.usernameLabel')}</label>
+                    <label htmlFor="username">
+                      {t('loginPage.usernameLabel')}
+                    </label>
                     <ErrorMessage name="username">
-                      {msg => <div className="text-danger small">{t(msg)}</div>}
+                      {msg => (
+                        <div className="text-danger small">
+                          {t(msg)}
+                        </div>
+                      )}
                     </ErrorMessage>
                   </div>
 
@@ -83,9 +91,15 @@ export const LoginPage = () => {
                       id="password"
                       placeholder={t('loginPage.passwordLabel')}
                     />
-                    <label htmlFor="password">{t('loginPage.passwordLabel')}</label>
+                    <label htmlFor="password">
+                      {t('loginPage.passwordLabel')}
+                    </label>
                     <ErrorMessage name="password">
-                      {msg => <div className="text-danger small">{t(msg)}</div>}
+                      {msg => (
+                        <div className="text-danger small">
+                          {t(msg)}
+                        </div>
+                      )}
                     </ErrorMessage>
                   </div>
 
@@ -102,8 +116,13 @@ export const LoginPage = () => {
             </Formik>
           </Card.Body>
           <Card.Footer className="p-4 text-center">
-            <span>{` ${t('loginPage.noAccount')}`} </span>
-            <Link to="/signup">{t('loginPage.registerLink')}</Link>
+            <span>
+              {` ${t('loginPage.noAccount')}`}
+              {' '}
+            </span>
+            <Link to="/signup">
+              {t('loginPage.registerLink')}
+            </Link>
           </Card.Footer>
         </Card>
       </Container>

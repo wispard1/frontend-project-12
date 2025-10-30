@@ -33,7 +33,9 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   return (
     <Modal show={show} onHide={onHide} centered data-testid="add-channel-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{t('chatPage.modals.addChannel.title')}</Modal.Title>
+        <Modal.Title>
+          {t('chatPage.modals.addChannel.title')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -84,15 +86,15 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                   disabled={isAdding || isSubmitting || !values.name.trim()}
                   data-testid="add-channel-submit"
                 >
-                  {isSubmitting ?
-                    (
+                  {isSubmitting
+                    ? (
                       <>
                         <Spinner size="sm" animation="border" />
                         {' '}
                         {t('chatPage.modals.addChannel.submittingButton')}
                       </>
-                    ) :
-                    t('chatPage.modals.addChannel.submitButton')}
+                    )
+                    : t('chatPage.modals.addChannel.submitButton')}
                 </button>
               </div>
             </Form>

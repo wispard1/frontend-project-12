@@ -128,7 +128,8 @@ export const ChatPage = () => {
     return (
       <div className="container mt-5">
         <Alert variant="danger">
-          Ошибка:{' '}
+          Ошибка:
+          {' '}
           {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
         </Alert>
       </div>
@@ -152,7 +153,10 @@ export const ChatPage = () => {
               <div className="d-flex flex-column h-100">
                 <div className="bg-light border-bottom p-3 shadow-sm small">
                   <p className="m-0">
-                    <b># {channels?.find(c => c.id === currentChannelId)?.name || 'general'}</b>
+                    <b>
+                      #
+                      {channels?.find(c => c.id === currentChannelId)?.name || 'general'}
+                    </b>
                   </p>
                   <span className="text-muted">
                     {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}

@@ -34,9 +34,9 @@ export const chatApi = createApi({
     getChannels: builder.query({
       query: () => 'channels',
       providesTags: result =>
-        result ?
-          [...result.map(({ id }) => ({ type: 'Channel', id })), { type: 'Channel', id: 'LIST' }] :
-          [{ type: 'Channel', id: 'LIST' }],
+        result
+          ? [...result.map(({ id }) => ({ type: 'Channel', id })), { type: 'Channel', id: 'LIST' }]
+          : [{ type: 'Channel', id: 'LIST' }],
     }),
 
     addChannel: builder.mutation({
@@ -68,9 +68,9 @@ export const chatApi = createApi({
     getMessages: builder.query({
       query: () => 'messages',
       providesTags: result =>
-        result ?
-          [...result.map(({ id }) => ({ type: 'Message', id })), { type: 'Message', id: 'LIST' }] :
-          [{ type: 'Message', id: 'LIST' }],
+        result
+          ? [...result.map(({ id }) => ({ type: 'Message', id })), { type: 'Message', id: 'LIST' }]
+          : [{ type: 'Message', id: 'LIST' }],
     }),
 
     addMessage: builder.mutation({

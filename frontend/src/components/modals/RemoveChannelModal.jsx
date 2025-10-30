@@ -19,10 +19,14 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
   return (
     <Modal show={show} onHide={onHide} centered data-testid="remove-channel-modal">
       <Modal.Header closeButton>
-        <Modal.Title>{t('chatPage.modals.removeChannel.title')}</Modal.Title>
+        <Modal.Title>
+          {t('chatPage.modals.removeChannel.title')}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="lead">{t('chatPage.confirmMessage')}</p>
+        <p className="lead">
+          {t('chatPage.confirmMessage')}
+        </p>
         <div className="d-flex justify-content-end">
           <button
             type="button"
@@ -40,15 +44,15 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
             disabled={isRemoving}
             data-testid="remove-channel-confirm"
           >
-            {isRemoving ?
-              (
+            {isRemoving
+              ? (
                 <>
                   <Spinner size="sm" animation="border" />
                   {' '}
                   {t('chatPage.modals.removeChannel.submittingButton')}
                 </>
-              ) :
-              t('chatPage.modals.removeChannel.submitButton')}
+              )
+              : t('chatPage.modals.removeChannel.submitButton')}
           </button>
         </div>
       </Modal.Body>

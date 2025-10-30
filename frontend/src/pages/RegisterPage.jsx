@@ -72,12 +72,14 @@ export const RegisterPage = () => {
             >
               {({ isSubmitting }) => (
                 <Form className="col-12 col-md-6 mt-3 mt-md-0">
-                  <h2 className="text-center mb-4">{t('registerPage.title')}</h2>
+                  <h2 className="text-center mb-4">
+                    {t('registerPage.title')}
+                  </h2>
                   {error && (
                     <Alert variant="danger">
-                      {error.status === 409 ?
-                        t('registerPage.errors.userExists') :
-                        t('registerPage.errors.registrationFailed')}
+                      {error.status === 409
+                        ? t('registerPage.errors.userExists')
+                        : t('registerPage.errors.registrationFailed')}
                     </Alert>
                   )}
                   <div className="form-floating mb-3">
@@ -88,7 +90,9 @@ export const RegisterPage = () => {
                       id="username"
                       placeholder={t('registerPage.usernamePlaceholder')}
                     />
-                    <label htmlFor="username">{t('registerPage.usernameLabel')}</label>
+                    <label htmlFor="username">
+                      {t('registerPage.usernameLabel')}
+                    </label>
                     <ErrorMessage name="username" component="div" className="text-danger small" />
                   </div>
                   <div className="form-floating mb-3">
@@ -99,7 +103,9 @@ export const RegisterPage = () => {
                       id="password"
                       placeholder={t('registerPage.passwordPlaceholder')}
                     />
-                    <label htmlFor="password">{t('registerPage.passwordLabel')}</label>
+                    <label htmlFor="password">
+                      {t('registerPage.passwordLabel')}
+                    </label>
                     <ErrorMessage name="password" component="div" className="text-danger small" />
                   </div>
                   <div className="form-floating mb-4">
@@ -127,7 +133,9 @@ export const RegisterPage = () => {
                     aria-label={t('registerPage.registerButton')}
                     data-testid="register-button"
                   >
-                    <span className="visually-hidden">{t('registerPage.registerButton')}</span>
+                    <span className="visually-hidden">
+                      {t('registerPage.registerButton')}
+                    </span>
                     {isLoading ? t('registerPage.registerButtonSubmitting') : 'Готово'}
                   </Button>
                 </Form>
@@ -135,8 +143,13 @@ export const RegisterPage = () => {
             </Formik>
           </Card.Body>
           <Card.Footer className="p-4 text-center">
-            <span>{t('registerPage.hasAccount')} </span>
-            <Link to="/login">{t('registerPage.loginLink')}</Link>
+            <span>
+              {t('registerPage.hasAccount')}
+              {' '}
+            </span>
+            <Link to="/login">
+              {t('registerPage.loginLink')}
+            </Link>
           </Card.Footer>
         </Card>
       </Container>

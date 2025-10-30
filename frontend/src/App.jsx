@@ -58,7 +58,11 @@ function App() {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary
-        fallbackUI={() => <div>Something went wrong. We&apos;re looking into it.</div>}
+        fallbackUI={() => (
+          <div>
+            Something went wrong. We&apos;re looking into it.
+          </div>
+        )}
       >
         <ReduxProvider store={store}>
           <BrowserRouter>

@@ -1,12 +1,11 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import { defineConfig } from 'eslint/config'
+import stylistic from '@stylistic/eslint-plugin'
 
-export default defineConfig([
+export default [
   {
     files: ['**/*.{js,jsx}'],
     ignores: ['dist/**', 'playwright-report/**', 'node_modules/**'],
-    extends: [js.configs.recommended],
     languageOptions: {
       ecmaVersion: 2020,
       globals: {
@@ -20,16 +19,25 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
+    plugins: {
+      '@stylistic': stylistic,
+    },
     rules: {
+      ...js.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'semi': ['error', 'never'],
-      'quotes': ['error', 'single'],
-      'jsx-quotes': ['error', 'prefer-double'],
-      'arrow-parens': ['error', 'as-needed'], // ИЗМЕНИЛИ на 'as-needed'
-      'brace-style': ['error', '1tbs'],
-      'comma-dangle': ['error', 'always-multiline'],
-      'no-trailing-spaces': 'error',
-      'no-multiple-empty-lines': ['error', { max: 1 }],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/jsx-quotes': ['error', 'prefer-double'],
+      '@stylistic/arrow-parens': ['error', 'as-needed'],
+      '@stylistic/brace-style': ['error', '1tbs'],
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
+      '@stylistic/eol-last': ['error', 'always'],
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/operator-linebreak': ['error', 'before'],
+      '@stylistic/jsx-closing-tag-location': 'error',
+      '@stylistic/jsx-one-expression-per-line': 'error',
     },
   },
-])
+]
