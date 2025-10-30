@@ -71,7 +71,7 @@ export const LoginPage = () => {
                     />
                     <label htmlFor="username">{t('loginPage.usernameLabel')}</label>
                     <ErrorMessage name="username">
-                      {(msg) => <div className="text-danger small">{t(msg)}</div>}
+                      {msg => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 
@@ -85,7 +85,7 @@ export const LoginPage = () => {
                     />
                     <label htmlFor="password">{t('loginPage.passwordLabel')}</label>
                     <ErrorMessage name="password">
-                      {(msg) => <div className="text-danger small">{t(msg)}</div>}
+                      {msg => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 

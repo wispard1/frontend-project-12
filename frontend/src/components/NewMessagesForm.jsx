@@ -6,7 +6,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
   const [newMessageBody, setNewMessageBody] = useState('')
   const { t } = useTranslation()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     console.log('NewMessagesForm submitting:', newMessageBody)
     if (newMessageBody.trim()) {
@@ -26,7 +26,7 @@ export const NewMessagesForm = ({ onSubmit }) => {
             aria-label={t('chatPage.messagesNew')}
             className="border-0 p-0 ps-2"
             value={newMessageBody}
-            onChange={(e) => setNewMessageBody(e.target.value)}
+            onChange={e => setNewMessageBody(e.target.value)}
             autoComplete="off"
             data-testid="new-message-input"
           />

@@ -19,12 +19,12 @@ export const useChannelModals = ({
     setSelectedChannel(null)
   }
 
-  const showRenameModal = (channel) => {
+  const showRenameModal = channel => {
     setModalType('rename')
     setSelectedChannel(channel)
   }
 
-  const showRemoveModal = (channel) => {
+  const showRemoveModal = channel => {
     setModalType('remove')
     setSelectedChannel(channel)
   }

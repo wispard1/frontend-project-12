@@ -9,5 +9,5 @@ export const store = configureStore({
     channels: channelsReducer,
     [chatApi.reducerPath]: chatApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(chatApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(chatApi.middleware),
 })
