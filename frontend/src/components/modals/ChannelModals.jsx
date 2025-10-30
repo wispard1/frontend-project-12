@@ -8,14 +8,13 @@ import { cleanText } from '../../utils/profanityFilter';
 export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   const { t } = useTranslation();
 
-  const validationSchema = (t) =>
-    Yup.object({
-      name: Yup.string()
-        .trim()
-        .required(t('chatPage.modals.addChannel.form.errors.required'))
-        .min(3, t('registerPage.errors.usernameMin'))
-        .max(20, t('registerPage.errors.usernameMax')),
-    });
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .trim()
+      .required(t('chatPage.modals.addChannel.form.errors.required'))
+      .min(3, t('registerPage.errors.usernameMin'))
+      .max(20, t('registerPage.errors.usernameMax')),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -39,7 +38,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       <Modal.Body>
         <Formik
           initialValues={{ name: '' }}
-          validationSchema={validationSchema(t)}
+          validationSchema={validationSchema}
           onSubmit={handleSubmit}
           validateOnMount={false}
           validateOnChange={false}
@@ -53,6 +52,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                   name='name'
                   id='name'
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
+                  placeholder={t('chatPage.modals.addChannel.form.placeholder')}
                   autoFocus
                   disabled={isAdding || isSubmitting}
                   data-testid='add-channel-input'
@@ -104,14 +104,13 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
 export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel }) => {
   const { t } = useTranslation();
 
-  const validationSchema = (t) =>
-    Yup.object({
-      name: Yup.string()
-        .trim()
-        .required(t('chatPage.modals.renameChannel.form.errors.required'))
-        .min(3, t('registerPage.errors.usernameMin'))
-        .max(20, t('registerPage.errors.usernameMax')),
-    });
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .trim()
+      .required(t('chatPage.modals.renameChannel.form.errors.required'))
+      .min(3, t('registerPage.errors.usernameMin'))
+      .max(20, t('registerPage.errors.usernameMax')),
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const filteredName = cleanText(values.name.trim());
@@ -123,7 +122,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
 
     try {
       await onRename(channel.id, filteredName);
-      toast.success('Канал переименован');
+      toast.success(t('chatPage.notifications.channelRenamed'));
       onHide();
     } catch (err) {
       toast.error(t('chatPage.notifications.channelRenameError'));
@@ -141,7 +140,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       <Modal.Body>
         <Formik
           initialValues={{ name: channel?.name || '' }}
-          validationSchema={validationSchema(t)}
+          validationSchema={validationSchema}
           onSubmit={handleSubmit}
           enableReinitialize
           validateOnMount={false}
@@ -156,6 +155,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   name='name'
                   id='renameChannelName'
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
+                  placeholder={t('chatPage.modals.renameChannel.form.placeholder')}
                   autoFocus
                   disabled={isRenaming || isSubmitting}
                   data-testid='rename-channel-input'
@@ -210,7 +210,7 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
   const handleRemove = async () => {
     try {
       await onRemove(channel.id);
-      toast.success('Канал удалён');
+      toast.success(t('chatPage.notifications.channelRemoved'));
       onHide();
     } catch (err) {
       toast.error(t('chatPage.notifications.channelRemoveError'));

@@ -34,7 +34,7 @@ export const ChannelsList = ({
             padding: 0,
           }}
         >
-          +
+          {t('chatPage.addChannelButton')}
         </Button>
       </div>
 
@@ -55,7 +55,7 @@ export const ChannelsList = ({
                   aria-label={channel.name}
                   data-testid={`channel-${channel.name}`}
                 >
-                  <span className='me-1'>#</span>
+                  <span className='me-1'>{t('chatPage.channelPrefix')}</span>
                   {channel.name}
                 </Button>
                 <Dropdown className='position-absolute' style={{ right: '10px' }}>
@@ -78,7 +78,7 @@ export const ChannelsList = ({
                     >
                       <path d='M1 3l7 7 7-7' />
                     </svg>
-                    <span className='visually-hidden'>Управление каналом</span>
+                    <span className='visually-hidden'>{t('chatPage.channelManagement')}</span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
@@ -107,7 +107,7 @@ export const ChannelsList = ({
                 aria-label={channel.name}
                 data-testid={`channel-${channel.name}`}
               >
-                <span className='me-1'>#</span>
+                <span className='me-1'>{t('chatPage.channelPrefix')}</span>
                 {channel.name}
               </Button>
             )}
