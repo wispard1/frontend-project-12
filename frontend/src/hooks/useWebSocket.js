@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { io } from 'socket.io-client'
 import { chatApi } from '../api/chatApi'
 
-export const useWebSocket = token => {
+export const useWebSocket = (token) => {
   const dispatch = useDispatch()
   const socketRef = useRef(null)
 
@@ -20,21 +20,21 @@ export const useWebSocket = token => {
       console.log('✅ Connected to WebSocket server')
     })
 
-    socket.on('disconnect', reason => {
+    socket.on('disconnect', (reason) => {
       console.log('⚠️ Disconnected from WebSocket server:', reason)
     })
 
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       console.log('📩 Received newMessage:', payload)
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
     })
 
-    socket.on('newChannel', payload => {
+    socket.on('newChannel', (payload) => {
       console.log('Received newChannel via WebSocket:', payload)
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]))
     })
 
-    socket.on('removeChannel', payload => {
+    socket.on('removeChannel', (payload) => {
       console.log('🗑️ Received removeChannel:', payload)
       dispatch(
         chatApi.util.invalidateTags([
@@ -44,7 +44,7 @@ export const useWebSocket = token => {
       )
     })
 
-    socket.on('renameChannel', payload => {
+    socket.on('renameChannel', (payload) => {
       console.log('✏️ Received renameChannel:', payload)
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]))
     })
