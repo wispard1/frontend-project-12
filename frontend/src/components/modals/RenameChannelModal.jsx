@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import { cleanText } from '../../utils/profanityFilter'
 
 export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -14,14 +14,14 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       .required(t('chatPage.modals.renameChannel.form.errors.required'))
       .min(3, t('registerPage.errors.usernameMin'))
       .max(20, t('registerPage.errors.usernameMax')),
-  });
+  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    const filteredName = cleanText(values.name.trim());
+    const filteredName = cleanText(values.name.trim())
 
     if (filteredName === channel?.name) {
-      onHide();
-      return;
+      onHide()
+      return
     }
 
     try {
@@ -32,11 +32,11 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
     catch (err) {
       toast.error(t('chatPage.notifications.channelRenameError'))
       console.error('Rename channel failed:', err)
-    } 
+    }
     finally {
       setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal show={show} onHide={onHide} centered data-testid="rename-channel-modal">
@@ -93,13 +93,16 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   disabled={isRenaming || isSubmitting || !values.name.trim() || values.name.trim() === channel?.name}
                   data-testid="rename-channel-submit"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <Spinner size="sm" animation="border" /> {t('chatPage.modals.renameChannel.submittingButton')}
-                    </>
-                  ) : (
-                    t('chatPage.modals.renameChannel.submitButton')
-                  )}
+                  {isSubmitting 
+                    ? (
+                      <>
+                        <Spinner size="sm" animation="border" />
+                        {t('chatPage.modals.renameChannel.submittingButton')}
+                      </>
+                    ) : 
+                    (
+                      t('chatPage.modals.renameChannel.submitButton')
+                    )}
                 </button>
               </div>
             </Form>
