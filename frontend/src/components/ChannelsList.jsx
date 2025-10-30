@@ -41,58 +41,9 @@ export const ChannelsList = ({
       <Nav variant="pills" className="flex-column px-2 py-2 flex-grow-1 overflow-auto">
         {displayChannels.map(channel => (
           <Nav.Item key={channel.id} className="w-100 mb-1">
-            {channel.removable ? (
-                <div className="d-flex align-items-center position-relative">
-                  <Button
-                    variant={channel.id === currentChannelId ? 'primary' : 'light'}
-                    className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
-                    style={{
-                      border: 'none',
-                      borderRadius: '0.375rem',
-                      padding: '0.5rem 0.75rem',
-                    }}
-                    onClick={() => onChannelClick(channel.id)}
-                    aria-label={channel.name}
-                    data-testid={`channel-${channel.name}`}
-                  >
-                    <span className="me-1">{t('chatPage.channelPrefix')}</span>
-                    {channel.name}
-                  </Button>
-                  <Dropdown className="position-absolute" style={{ right: '10px' }}>
-                    <Dropdown.Toggle
-                      variant="link"
-                      data-testid={`channel-${channel.name}-menu`}
-                      className={`p-0 border-0 ${channel.id === currentChannelId ? 'text-white' : 'text-muted'}`}
-                      style={{
-                        cursor: 'pointer',
-                        background: 'none',
-                        border: 'none',
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      />
-                      <span className="visually-hidden">{t('chatPage.channelManagement')}</span>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => onRenameChannelClick(channel.id, channel.name)}>
-                        {t('chatPage.renameChannel')}
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => onRemoveChannelClick(channel.id, channel.name)}
-                        className="text-danger"
-                      >
-                        {t('chatPage.removeChannel')}
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-              ) : (
+            {channel.removable 
+              ? (
+              <div className="d-flex align-items-center position-relative">
                 <Button
                   variant={channel.id === currentChannelId ? 'primary' : 'light'}
                   className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
@@ -108,12 +59,61 @@ export const ChannelsList = ({
                   <span className="me-1">{t('chatPage.channelPrefix')}</span>
                   {channel.name}
                 </Button>
-              )}
-            </Nav.Item>
+                <Dropdown className="position-absolute" style={{ right: '10px' }}>
+                  <Dropdown.Toggle
+                    variant="link"
+                    data-testid={`channel-${channel.name}-menu`}
+                    className={`p-0 border-0 ${channel.id === currentChannelId ? 'text-white' : 'text-muted'}`}
+                    style={{
+                      cursor: 'pointer',
+                      background: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      viewBox="0 0 16 16"
+                    />
+                    <span className="visually-hidden">{t('chatPage.channelManagement')}</span>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => onRenameChannelClick(channel.id, channel.name)}>
+                      {t('chatPage.renameChannel')}
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => onRemoveChannelClick(channel.id, channel.name)}
+                      className="text-danger"
+                    >
+                      {t('chatPage.removeChannel')}
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            ) : (
+              <Button
+                variant={channel.id === currentChannelId ? 'primary' : 'light'}
+                className={`w-100 text-start text-truncate ${channel.id === currentChannelId ? 'text-white' : ''}`}
+                style={{
+                  border: 'none',
+                  borderRadius: '0.375rem',
+                  padding: '0.5rem 0.75rem',
+                }}
+                onClick={() => onChannelClick(channel.id)}
+                aria-label={channel.name}
+                data-testid={`channel-${channel.name}`}
+              >
+                <span className="me-1">{t('chatPage.channelPrefix')}</span>
+                {channel.name}
+              </Button>
+            )}
+          </Nav.Item>
         ))}
       </Nav>
     </div>
   )
 }
-
 
