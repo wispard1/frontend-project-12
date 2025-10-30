@@ -7,8 +7,8 @@ export const MessagesList = ({ messages }) => {
 
   if (!messages || messages.length === 0) {
     return (
-      <div className='chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center'>
-        <div className='text-center text-muted'>
+      <div className="chat-messages overflow-auto px-4 flex-grow-1 d-flex align-items-center justify-content-center">
+        <div className="text-center text-muted">
           <p>{t('chatPage.noMessagesYet')}</p>
           <small>{t('chatPage.startConversation')}</small>
         </div>
@@ -17,7 +17,7 @@ export const MessagesList = ({ messages }) => {
   }
 
   return (
-    <div id='messages-box' className='chat-messages overflow-auto px-4 flex-grow-1'>
+    <div id="messages-box" className="chat-messages overflow-auto px-4 flex-grow-1">
       {messages.map(message => {
         const isOwnMessage = message.username === currentUsername
         return (

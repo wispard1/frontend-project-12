@@ -37,7 +37,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
   }
 
   return (
-    <Modal show={show} onHide={onHide} centered data-testid='rename-channel-modal'>
+    <Modal show={show} onHide={onHide} centered data-testid="rename-channel-modal">
       <Modal.Header closeButton>
         <Modal.Title>{t('chatPage.modals.renameChannel.title')}</Modal.Title>
       </Modal.Header>
@@ -55,51 +55,51 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
             <Form>
               <div>
                 <Field
-                  type='text'
-                  name='name'
-                  id='renameChannelName'
+                  type="text"
+                  name="name"
+                  id="renameChannelName"
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
                   placeholder={t('chatPage.modals.renameChannel.form.placeholder')}
                   autoFocus
                   disabled={isRenaming || isSubmitting}
-                  data-testid='rename-channel-input'
+                  data-testid="rename-channel-input"
                 />
-                <label htmlFor='renameChannelName' className='visually-hidden'>
+                <label htmlFor="renameChannelName" className="visually-hidden">
                   {t('chatPage.modals.renameChannel.form.label')}
                 </label>
 
                 {touched.name && errors.name && (
-                  <div className='invalid-feedback' style={{ display: 'block' }}>
+                  <div className="invalid-feedback" style={{ display: 'block' }}>
                     {errors.name}
                   </div>
                 )}
               </div>
 
-              <div className='d-flex justify-content-end'>
+              <div className="d-flex justify-content-end">
                 <button
-                  type='button'
-                  className='me-2 btn btn-secondary'
+                  type="button"
+                  className="me-2 btn btn-secondary"
                   onClick={onHide}
                   disabled={isRenaming || isSubmitting}
-                  data-testid='rename-channel-cancel'
+                  data-testid="rename-channel-cancel"
                 >
                   {t('chatPage.modals.renameChannel.cancelButton')}
                 </button>
                 <button
-                  type='submit'
-                  className='btn btn-primary'
+                  type="submit"
+                  className="btn btn-primary"
                   disabled={
                     isRenaming ||
                     isSubmitting ||
                     !values.name.trim() ||
                     values.name.trim() === channel?.name
                   }
-                  data-testid='rename-channel-submit'
+                  data-testid="rename-channel-submit"
                 >
                   {isSubmitting ?
                     (
                       <>
-                        <Spinner size='sm' animation='border' />{' '}
+                        <Spinner size="sm" animation="border" />{' '}
                         {t('chatPage.modals.renameChannel.submittingButton')}
                       </>
                     ) :

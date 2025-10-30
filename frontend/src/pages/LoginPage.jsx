@@ -36,13 +36,13 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
-      <Container className='col-12 col-md-8 col-xxl-6'>
-        <Card className='shadow-sm login-form'>
-          <Card.Body className='row p-5'>
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <Container className="col-12 col-md-8 col-xxl-6">
+        <Card className="shadow-sm login-form">
+          <Card.Body className="row p-5">
             {/* --- Левая колонка с изображением --- */}
-            <div className='col-12 col-md-6 d-flex align-items-center justify-content-center'>
-              <img src={avatar} className='rounded-circle img-fluid' alt={t('loginPage.title')} />
+            <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <img src={avatar} className="rounded-circle img-fluid" alt={t('loginPage.title')} />
             </div>
             {/* --- Правая колонка с формой --- */}
             <Formik
@@ -51,10 +51,10 @@ export const LoginPage = () => {
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (
-                <Form className='col-12 col-md-6 mt-3 mt-md-0'>
-                  <h2 className='text-center mb-4'>{t('loginPage.title')}</h2>
+                <Form className="col-12 col-md-6 mt-3 mt-md-0">
+                  <h2 className="text-center mb-4">{t('loginPage.title')}</h2>
                   {error && (
-                    <Alert variant='danger'>
+                    <Alert variant="danger">
                       {t(
                         error.status === 401 ?
                           'loginPage.errors.invalidCredentials' :
@@ -63,39 +63,39 @@ export const LoginPage = () => {
                     </Alert>
                   )}
 
-                  <div className='form-floating mb-3'>
+                  <div className="form-floating mb-3">
                     <Field
-                      name='username'
-                      type='text'
-                      className='form-control'
-                      id='username'
+                      name="username"
+                      type="text"
+                      className="form-control"
+                      id="username"
                       placeholder={t('loginPage.usernameLabel')}
                     />
-                    <label htmlFor='username'>{t('loginPage.usernameLabel')}</label>
-                    <ErrorMessage name='username'>
-                      {msg => <div className='text-danger small'>{t(msg)}</div>}
+                    <label htmlFor="username">{t('loginPage.usernameLabel')}</label>
+                    <ErrorMessage name="username">
+                      {msg => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 
-                  <div className='form-floating mb-4'>
+                  <div className="form-floating mb-4">
                     <Field
-                      name='password'
-                      type='password'
-                      className='form-control'
-                      id='password'
+                      name="password"
+                      type="password"
+                      className="form-control"
+                      id="password"
                       placeholder={t('loginPage.passwordLabel')}
                     />
-                    <label htmlFor='password'>{t('loginPage.passwordLabel')}</label>
-                    <ErrorMessage name='password'>
-                      {msg => <div className='text-danger small'>{t(msg)}</div>}
+                    <label htmlFor="password">{t('loginPage.passwordLabel')}</label>
+                    <ErrorMessage name="password">
+                      {msg => <div className="text-danger small">{t(msg)}</div>}
                     </ErrorMessage>
                   </div>
 
                   {/* --- Кнопка отправки --- */}
                   <Button
-                    type='submit'
-                    variant='outline-primary'
-                    className='w-100'
+                    type="submit"
+                    variant="outline-primary"
+                    className="w-100"
                     disabled={isSubmitting || isLoading}
                   >
                     {isLoading ? `${t('loginPage.loginButton')}...` : t('loginPage.loginButton')}
@@ -105,9 +105,9 @@ export const LoginPage = () => {
             </Formik>
           </Card.Body>
           {/* --- Footer с ссылкой на регистрацию --- */}
-          <Card.Footer className='p-4 text-center'>
+          <Card.Footer className="p-4 text-center">
             <span>{` ${t('loginPage.noAccount')}`} </span>
-            <Link to='/signup'>{t('loginPage.registerLink')}</Link>
+            <Link to="/signup">{t('loginPage.registerLink')}</Link>
           </Card.Footer>
         </Card>
       </Container>

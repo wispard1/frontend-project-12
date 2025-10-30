@@ -17,33 +17,33 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
   }
 
   return (
-    <Modal show={show} onHide={onHide} centered data-testid='remove-channel-modal'>
+    <Modal show={show} onHide={onHide} centered data-testid="remove-channel-modal">
       <Modal.Header closeButton>
         <Modal.Title>{t('chatPage.modals.removeChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className='lead'>{t('chatPage.confirmMessage')}</p>
-        <div className='d-flex justify-content-end'>
+        <p className="lead">{t('chatPage.confirmMessage')}</p>
+        <div className="d-flex justify-content-end">
           <button
-            type='button'
-            className='me-2 btn btn-secondary'
+            type="button"
+            className="me-2 btn btn-secondary"
             onClick={onHide}
             disabled={isRemoving}
-            data-testid='remove-channel-cancel'
+            data-testid="remove-channel-cancel"
           >
             {t('chatPage.modals.removeChannel.cancelButton')}
           </button>
           <button
-            type='button'
-            className='btn btn-danger'
+            type="button"
+            className="btn btn-danger"
             onClick={handleRemove}
             disabled={isRemoving}
-            data-testid='remove-channel-confirm'
+            data-testid="remove-channel-confirm"
           >
             {isRemoving ?
               (
                 <>
-                  <Spinner size='sm' animation='border' />{' '}
+                  <Spinner size="sm" animation="border" />{' '}
                   {t('chatPage.modals.removeChannel.submittingButton')}
                 </>
               ) :

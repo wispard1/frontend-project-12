@@ -31,7 +31,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   }
 
   return (
-    <Modal show={show} onHide={onHide} centered data-testid='add-channel-modal'>
+    <Modal show={show} onHide={onHide} centered data-testid="add-channel-modal">
       <Modal.Header closeButton>
         <Modal.Title>{t('chatPage.modals.addChannel.title')}</Modal.Title>
       </Modal.Header>
@@ -48,46 +48,46 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
             <Form>
               <div>
                 <Field
-                  type='text'
-                  name='name'
-                  id='name'
+                  type="text"
+                  name="name"
+                  id="name"
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
                   placeholder={t('chatPage.modals.addChannel.form.placeholder')}
                   autoFocus
                   disabled={isAdding || isSubmitting}
-                  data-testid='add-channel-input'
+                  data-testid="add-channel-input"
                 />
-                <label htmlFor='name' className='visually-hidden'>
+                <label htmlFor="name" className="visually-hidden">
                   {t('chatPage.modals.addChannel.form.label')}
                 </label>
 
                 {touched.name && errors.name && (
-                  <div className='invalid-feedback' style={{ display: 'block' }}>
+                  <div className="invalid-feedback" style={{ display: 'block' }}>
                     {errors.name}
                   </div>
                 )}
               </div>
 
-              <div className='d-flex justify-content-end'>
+              <div className="d-flex justify-content-end">
                 <button
-                  type='button'
-                  className='me-2 btn btn-secondary'
+                  type="button"
+                  className="me-2 btn btn-secondary"
                   onClick={onHide}
                   disabled={isAdding || isSubmitting}
-                  data-testid='add-channel-cancel'
+                  data-testid="add-channel-cancel"
                 >
                   {t('chatPage.modals.addChannel.cancelButton')}
                 </button>
                 <button
-                  type='submit'
-                  className='btn btn-primary'
+                  type="submit"
+                  className="btn btn-primary"
                   disabled={isAdding || isSubmitting || !values.name.trim()}
-                  data-testid='add-channel-submit'
+                  data-testid="add-channel-submit"
                 >
                   {isSubmitting ?
                     (
                       <>
-                        <Spinner size='sm' animation='border' />{' '}
+                        <Spinner size="sm" animation="border" />{' '}
                         {t('chatPage.modals.addChannel.submittingButton')}
                       </>
                     ) :

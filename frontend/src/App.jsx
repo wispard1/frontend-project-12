@@ -25,7 +25,7 @@ function AppContent() {
       <CustomNavbar />
       <Routes>
         <Route
-          path='/login'
+          path="/login"
           element={
             <PublicRoute>
               <LoginPage />
@@ -33,7 +33,7 @@ function AppContent() {
           }
         />
         <Route
-          path='/signup'
+          path="/signup"
           element={
             <PublicRoute>
               <RegisterPage />
@@ -41,14 +41,14 @@ function AppContent() {
           }
         />
         <Route
-          path='/'
+          path="/"
           element={
             <ProtectedRoute>
               <ChatPage />
             </ProtectedRoute>
           }
         />
-        <Route path='*' element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   )
@@ -62,7 +62,7 @@ function App() {
           <BrowserRouter>
             <AppContent />
             <ToastContainer
-              position='top-center'
+              position="top-center"
               autoClose={5000}
               hideProgressBar={false}
               newestOnTop={false}
@@ -71,7 +71,7 @@ function App() {
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme='light'
+              theme="light"
               transition={Slide}
             />
           </BrowserRouter>

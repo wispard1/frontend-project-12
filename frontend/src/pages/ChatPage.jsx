@@ -118,16 +118,16 @@ export const ChatPage = () => {
 
   if (channelsIsLoading || messagesIsLoading) {
     return (
-      <div className='d-flex justify-content-center align-items-center vh-100 bg-light'>
-        <Spinner animation='border' />
+      <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+        <Spinner animation="border" />
       </div>
     )
   }
 
   if (channelsError || messagesError) {
     return (
-      <div className='container mt-5'>
-        <Alert variant='danger'>
+      <div className="container mt-5">
+        <Alert variant="danger">
           Ошибка:{' '}
           {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
         </Alert>
@@ -135,11 +135,11 @@ export const ChatPage = () => {
     )
   }
   return (
-    <div className='d-flex flex-column' style={{ height: '100vh' }}>
-      <main className='chat-wrapper flex-grow-1 mt-3 mb-3' style={{ paddingTop: '56px' }}>
-        <div className='chat-container mt-3 mb-3' style={{ height: 'calc(100vh - 56px - 40px)' }}>
-          <Row className='h-100 flex-md-row g-0'>
-            <Col xs={4} md={3} className='border-end bg-light d-flex flex-column h-100'>
+    <div className="d-flex flex-column" style={{ height: '100vh' }}>
+      <main className="chat-wrapper flex-grow-1 mt-3 mb-3" style={{ paddingTop: '56px' }}>
+        <div className="chat-container mt-3 mb-3" style={{ height: 'calc(100vh - 56px - 40px)' }}>
+          <Row className="h-100 flex-md-row g-0">
+            <Col xs={4} md={3} className="border-end bg-light d-flex flex-column h-100">
               <ChannelsList
                 channels={displayChannels}
                 onChannelClick={handleChannelClick}
@@ -148,17 +148,17 @@ export const ChatPage = () => {
                 onRemoveChannelClick={(id, name) => showRemoveModal({ id, name })}
               />
             </Col>
-            <Col className='p-0 h-100'>
-              <div className='d-flex flex-column h-100'>
-                <div className='bg-light border-bottom p-3 shadow-sm small'>
-                  <p className='m-0'>
+            <Col className="p-0 h-100">
+              <div className="d-flex flex-column h-100">
+                <div className="bg-light border-bottom p-3 shadow-sm small">
+                  <p className="m-0">
                     <b># {channels?.find(c => c.id === currentChannelId)?.name || 'general'}</b>
                   </p>
-                  <span className='text-muted'>
+                  <span className="text-muted">
                     {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
                   </span>
                   {!isConnected && (
-                    <div className='text-danger small mt-1'>
+                    <div className="text-danger small mt-1">
                       {t('chatPage.notifications.websocketDisconnected')}
                     </div>
                   )}

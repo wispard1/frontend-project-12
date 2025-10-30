@@ -16,12 +16,12 @@ export const CustomNavbar = () => {
   }
 
   return (
-    <Navbar bg='light' className='shadow-sm' fixed='top'>
-      <Container className='d-flex justify-content-between align-items-center'>
-        <Navbar.Brand href='/'>{t('navbar.brand')}</Navbar.Brand>
+    <Navbar bg="light" className="shadow-sm" fixed="top">
+      <Container className="d-flex justify-content-between align-items-center">
+        <Navbar.Brand href="/">{t('navbar.brand')}</Navbar.Brand>
 
         {token && (
-          <Button variant='primary' onClick={handleLogout}>
+          <Button variant="primary" onClick={handleLogout}>
             {t('navbar.logoutButton')}
           </Button>
         )}
