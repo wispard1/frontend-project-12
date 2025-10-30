@@ -28,10 +28,12 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       await onRename(channel.id, filteredName)
       toast.success(t('chatPage.notifications.channelRenamed'))
       onHide()
-    } catch (err) {
+    } 
+    catch (err) {
       toast.error(t('chatPage.notifications.channelRenameError'))
       console.error('Rename channel failed:', err)
-    } finally {
+    } 
+    finally {
       setSubmitting(false)
     }
   }

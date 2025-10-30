@@ -21,8 +21,8 @@ export const ChatPage = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const token = localStorage.getItem('token')
-  const currentUsername = useSelector((state) => state.auth.user?.username)
-  const { currentChannelId } = useSelector((state) => state.channels)
+  const currentUsername = useSelector(state => state.auth.user?.username)
+  const { currentChannelId } = useSelector(state => state.channels)
 
   const {
     handleAddChannel,
@@ -79,10 +79,10 @@ export const ChatPage = () => {
 
   const filteredMessages = useMemo(() => {
     if (!messages) return []
-    return messages.filter((msg) => msg.channelId === currentChannelId)
+    return messages.filter(msg => msg.channelId === currentChannelId)
   }, [messages, currentChannelId])
 
-  const handleSendMessages = async (messageBody) => {
+  const handleSendMessages = async messageBody => {
     if (!messageBody.trim() || !currentChannelId || !currentUsername) return
 
     const filteredBody = cleanText(messageBody.trim())
@@ -100,12 +100,13 @@ export const ChatPage = () => {
         console.log('Offline mode — forcing message refetch')
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
       }
-    } catch (err) {
+    } 
+    catch (err) {
       console.error('Error sending message:', err)
     }
   }
 
-  const handleChannelClick = (id) => dispatch(setCurrentChannel(id))
+  const handleChannelClick = id => dispatch(setCurrentChannel(id))
 
   const { showAddModal, showRenameModal, showRemoveModal, Modals } = useChannelModals({
     onAdd: handleAddChannel,
@@ -155,7 +156,7 @@ export const ChatPage = () => {
                   <p className="m-0">
                     <b>
                       #
-                      {channels?.find((c) => c.id === currentChannelId)?.name || 'general'}
+                      {channels?.find(c => c.id === currentChannelId)?.name || 'general'}
                     </b>
                   </p>
                   <span className="text-muted">

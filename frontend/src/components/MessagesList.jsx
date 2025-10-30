@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 
 export const MessagesList = ({ messages }) => {
-  const currentUsername = useSelector((state) => state.auth.user?.username)
+  const currentUsername = useSelector(state => state.auth.user?.username)
   const { t } = useTranslation()
 
   if (!messages || messages.length === 0) {
@@ -22,7 +22,7 @@ export const MessagesList = ({ messages }) => {
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto px-4 flex-grow-1">
-      {messages.map((message) => {
+      {messages.map(message => {
         const isOwnMessage = message.username === currentUsername
         return (
           <div

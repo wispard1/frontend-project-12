@@ -14,7 +14,7 @@ const channelsSlice = createSlice({
       state.currentChannelId = action.payload
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addMatcher(chatApi.endpoints.getChannels.matchFulfilled, (state, { payload }) => {
       state.channels = payload
     })

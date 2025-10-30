@@ -10,7 +10,8 @@ export const RemoveChannelModal = ({ show, onHide, onRemove, isRemoving, channel
       await onRemove(channel.id)
       toast.success(t('chatPage.notifications.channelRemoved'))
       onHide()
-    } catch (err) {
+    } 
+    catch (err) {
       toast.error(t('chatPage.notifications.channelRemoveError'))
       console.error('Remove channel failed:', err)
     }
