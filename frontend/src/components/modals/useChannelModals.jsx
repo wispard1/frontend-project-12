@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { AddChannelModal } from "./AddChannelModal"
-import { RenameChannelModal } from "./RenameChannelModal"
-import { RemoveChannelModal } from "./RemoveChannelModal"
+import { useState } from 'react'
+import { AddChannelModal } from './AddChannelModal'
+import { RenameChannelModal } from './RenameChannelModal'
+import { RemoveChannelModal } from './RemoveChannelModal'
 
 export const useChannelModals = ({
   onAdd,
@@ -15,17 +15,17 @@ export const useChannelModals = ({
   const [selectedChannel, setSelectedChannel] = useState(null)
 
   const showAddModal = () => {
-    setModalType("add")
+    setModalType('add')
     setSelectedChannel(null)
   }
 
   const showRenameModal = channel => {
-    setModalType("rename")
+    setModalType('rename')
     setSelectedChannel(channel)
   }
 
   const showRemoveModal = channel => {
-    setModalType("remove")
+    setModalType('remove')
     setSelectedChannel(channel)
   }
 
@@ -37,20 +37,20 @@ export const useChannelModals = ({
   const Modals = () => (
     <>
       <AddChannelModal
-        show={modalType === "add"}
+        show={modalType === 'add'}
         onHide={hideModal}
         onAdd={onAdd}
         isAdding={isAdding}
       />
       <RenameChannelModal
-        show={modalType === "rename"}
+        show={modalType === 'rename'}
         onHide={hideModal}
         onRename={onRename}
         isRenaming={isRenaming}
         channel={selectedChannel}
       />
       <RemoveChannelModal
-        show={modalType === "remove"}
+        show={modalType === 'remove'}
         onHide={hideModal}
         onRemove={onRemove}
         isRemoving={isRemoving}
