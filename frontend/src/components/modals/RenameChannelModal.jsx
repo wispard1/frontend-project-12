@@ -25,9 +25,9 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
     }
 
     try {
-      await onRename(channel.id, filteredName);
+      await onRename(channel.id, filteredName)
       toast.success(t('chatPage.notifications.channelRenamed'))
-      onHide();
+      onHide()
     }
     catch (err) {
       toast.error(t('chatPage.notifications.channelRenameError'))
@@ -93,16 +93,15 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   disabled={isRenaming || isSubmitting || !values.name.trim() || values.name.trim() === channel?.name}
                   data-testid="rename-channel-submit"
                 >
-                  {isSubmitting 
+                  {isSubmitting
                     ? (
-                      <>
-                        <Spinner size="sm" animation="border" />
-                        {t('chatPage.modals.renameChannel.submittingButton')}
-                      </>
-                    ) : 
-                    (
-                      t('chatPage.modals.renameChannel.submitButton')
-                    )}
+                        <>
+                          <Spinner size="sm" animation="border" />
+                          {t('chatPage.modals.renameChannel.submittingButton')}
+                        </>
+                      ) : (
+                        t('chatPage.modals.renameChannel.submitButton')
+                      )}
                 </button>
               </div>
             </Form>
