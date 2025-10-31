@@ -47,6 +47,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                   type="text"
                   name="name"
                   id="name"
+                  autoComplete="off"
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
                   placeholder={t('chatPage.modals.addChannel.form.placeholder')}
                   autoFocus

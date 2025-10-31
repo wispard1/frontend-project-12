@@ -54,6 +54,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
                   id="renameChannelName"
                   className={`mb-2 form-control ${touched.name && errors.name ? 'is-invalid' : ''}`}
                   placeholder={t('chatPage.modals.renameChannel.form.placeholder')}
+                  autoComplete="off"
                   autoFocus
                   disabled={isRenaming || isSubmitting}
                   data-testid="rename-channel-input"

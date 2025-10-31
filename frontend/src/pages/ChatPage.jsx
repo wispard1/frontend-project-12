@@ -124,7 +124,7 @@ export const ChatPage = () => {
         <div className="container-xl mx-auto h-100 pt-4">
           <div className="row justify-content-center h-100">
             <div className="col-xxl-10 col-xl-11 col-12 h-100">
-              <div className="d-flex flex-row bg-white rounded shadow h-100">
+              <div className="d-flex flex-row bg-white rounded shadow" style={{ height: '1050px' }}>
                 <Col xs={4} md={3} className="border-end bg-light h-100">
                   <ChannelsList
                     channels={displayChannels}

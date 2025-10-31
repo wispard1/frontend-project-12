@@ -70,6 +70,7 @@ export const RegisterPage = () => {
                       className="form-control"
                       id="username"
                       placeholder={t('registerPage.usernamePlaceholder')}
+                      autoComplete="off"
                     />
                     <label htmlFor="username">
                       {t('registerPage.usernameLabel')}
@@ -83,6 +84,7 @@ export const RegisterPage = () => {
                       className="form-control"
                       id="password"
                       placeholder={t('registerPage.passwordPlaceholder')}
+                      autoComplete="new-password"
                     />
                     <label htmlFor="password">
                       {t('registerPage.passwordLabel')}
