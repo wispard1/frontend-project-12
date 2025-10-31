@@ -29,10 +29,9 @@ export const MessagesList = ({ messages }) => {
             key={message.id}
             className={`mb-2 d-flex ${isOwnMessage ? 'justify-content-end' : 'justify-content-start'}`}
           >
-            <div
-              className={`p-2 rounded ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
-              style={{ maxWidth: '70%' }}
-            >
+           <div
+           className={`p-2 rounded w-75 ${isOwnMessage ? 'bg-primary text-white' : 'bg-light'}`}
+           >
               <b>
                 {message.username}
               </b>

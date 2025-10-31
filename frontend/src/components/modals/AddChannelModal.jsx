@@ -66,7 +66,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
                 </label>
 
                 {touched.name && errors.name && (
-                  <div className="invalid-feedback" style={{ display: 'block' }}>
+                  <div className="invalid-feedback d-block">
                     {errors.name}
                   </div>
                 )}
