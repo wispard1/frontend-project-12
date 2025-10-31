@@ -44,6 +44,8 @@ export const LoginPage = () => {
               initialValues={{ username: '', password: '' }}
               validationSchema={loginSchema(t)}
               onSubmit={handleSubmit}
+              validateOnChange={true}
+              validateOnBlur={true}
             >
               {({ isSubmitting }) => (
                 <Form className="col-12 col-md-6 mt-3 mt-md-0">
