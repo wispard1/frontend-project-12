@@ -36,18 +36,18 @@ export const ChatPage = () => {
   const [isConnected, setIsConnected] = useState(true)
 
   useEffect(() => {
-    if (!socketRef.current) return;
+    if (!socketRef.current) return
 
-    const socket = socketRef.current;
-    const handleConnect = () => setIsConnected(true);
-    const handleDisconnect = () => setIsConnected(false);
+    const socket = socketRef.current
+    const handleConnect = () => setIsConnected(true)
+    const handleDisconnect = () => setIsConnected(false)
 
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
+    socket.on('connect', handleConnect)
+    socket.on('disconnect', handleDisconnect)
 
     return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
+      socket.off('connect', handleConnect)
+      socket.off('disconnect', handleDisconnect)
     }
   }, [socketRef])
 
@@ -55,7 +55,7 @@ export const ChatPage = () => {
     if (!channels || channels.length === 0) {
       return [{ id: '1', name: 'general', removable: false }]
     }
-    return channels;
+    return channels
   }, [channels])
 
   useEffect(() => {
@@ -65,14 +65,14 @@ export const ChatPage = () => {
   }, [currentChannelId, displayChannels, dispatch])
 
   const filteredMessages = useMemo(() => {
-    if (!messages) return [];
-    return messages.filter(msg => msg.channelId === currentChannelId);
+    if (!messages) return []
+    return messages.filter(msg => msg.channelId === currentChannelId)
   }, [messages, currentChannelId])
 
   const handleSendMessages = async (messageBody) => {
-    if (!messageBody.trim() || !currentChannelId || !currentUsername) return;
+    if (!messageBody.trim() || !currentChannelId || !currentUsername) return
 
-    const filteredBody = cleanText(messageBody.trim());
+    const filteredBody = cleanText(messageBody.trim())
     const messageData = {
       body: filteredBody,
       channelId: currentChannelId,
@@ -80,11 +80,11 @@ export const ChatPage = () => {
     }
 
     try {
-      await addMessage(messageData).unwrap();
+      await addMessage(messageData).unwrap()
       if (!isConnected) {
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
       }
-    } 
+    }
     catch (err) {
       console.error('Error sending message:', err)
     }
@@ -104,7 +104,7 @@ export const ChatPage = () => {
   if (channelsIsLoading || messagesIsLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-        <Spinner animation='border' />
+        <Spinner animation="border" />
       </div>
     )
   }
@@ -112,8 +112,10 @@ export const ChatPage = () => {
   if (channelsError || messagesError) {
     return (
       <div className="container mt-5">
-        <Alert variant='danger'>
-          Ошибка: {channelsError?.data?.message || messagesError?.data?.message || 'Неизвестная ошибка'}
+        <Alert variant="danger">
+          {t('chatPage.errors.errorLabel')}
+          {' '}
+          {channelsError?.data?.message || messagesError?.data?.message || t('chatPage.errors.unknownError')}
         </Alert>
       </div>
     )
@@ -139,7 +141,8 @@ export const ChatPage = () => {
                     <p className="m-0">
                       <b>
                         #
-                        {channels?.find(c => c.id === currentChannelId)?.name || 'general'}</b>
+                        {channels?.find(c => c.id === currentChannelId)?.name || 'general'}
+                      </b>
                     </p>
                     <span className="text-muted">
                       {t('chatPage.messagesCount', { count: filteredMessages?.length || 0 })}
