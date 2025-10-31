@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const channelSchema = (t) =>
+export const channelSchema = t =>
   Yup.object({
     name: Yup.string()
       .trim()
@@ -9,13 +9,13 @@ export const channelSchema = (t) =>
       .max(20, t('registerPage.errors.usernameMax')),
   })
 
-export const loginSchema = (t) =>
+export const loginSchema = t =>
   Yup.object().shape({
     username: Yup.string().required(t('loginPage.errors.usernameRequired')),
     password: Yup.string().required(t('loginPage.errors.passwordRequired')),
   })
 
-export const signupSchema = (t) =>
+export const signupSchema = t =>
   Yup.object().shape({
     username: Yup.string()
       .required(t('registerPage.errors.usernameRequired'))
