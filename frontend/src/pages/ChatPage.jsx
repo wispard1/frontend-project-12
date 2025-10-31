@@ -81,10 +81,7 @@ export const ChatPage = () => {
 
     try {
       await addMessage(messageData).unwrap();
-      console.log('Message sent via HTTP');
-
       if (!isConnected) {
-        console.log('Offline mode — forcing message refetch');
         dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]));
       }
     } catch (err) {

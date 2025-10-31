@@ -11,31 +11,25 @@ export const useWebSocket = (token) => {
     if (!token) return
 
     const wsURL = window.location.origin.replace(/^http/, 'ws')
-    console.log('Connecting WebSocket to:', wsURL)
 
     const socket = io(wsURL, { auth: { token } })
     socketRef.current = socket
 
     socket.on('connect', () => {
-      console.log('✅ Connected to WebSocket server')
     })
 
-    socket.on('disconnect', (reason) => {
-      console.log('⚠️ Disconnected from WebSocket server:', reason)
+    socket.on('disconnect', () => {
     })
 
-    socket.on('newMessage', (payload) => {
-      console.log('📩 Received newMessage:', payload)
+    socket.on('newMessage', () => {
       dispatch(chatApi.util.invalidateTags([{ type: 'Message', id: 'LIST' }]))
     })
 
-    socket.on('newChannel', (payload) => {
-      console.log('Received newChannel via WebSocket:', payload)
+    socket.on('newChannel', () => {
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]))
     })
 
-    socket.on('removeChannel', (payload) => {
-      console.log('🗑️ Received removeChannel:', payload)
+    socket.on('removeChannel', () => {
       dispatch(
         chatApi.util.invalidateTags([
           { type: 'Channel', id: 'LIST' },
@@ -44,15 +38,13 @@ export const useWebSocket = (token) => {
       )
     })
 
-    socket.on('renameChannel', (payload) => {
-      console.log('✏️ Received renameChannel:', payload)
+    socket.on('renameChannel', () => {
       dispatch(chatApi.util.invalidateTags([{ type: 'Channel', id: 'LIST' }]))
     })
 
     return () => {
       socket.disconnect()
       socketRef.current = null
-      console.log('WebSocket connection closed')
     }
   }, [token, dispatch])
 

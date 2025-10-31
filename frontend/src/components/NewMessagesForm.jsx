@@ -8,7 +8,6 @@ export const NewMessagesForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('NewMessagesForm submitting:', newMessageBody)
     if (newMessageBody.trim()) {
       onSubmit(newMessageBody.trim())
       setNewMessageBody('')

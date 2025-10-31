@@ -28,7 +28,6 @@ const authSlice = createSlice({
       if (token && user) {
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
-        console.log('✅ Credentials saved to localStorage:', { username: user.username })
       }
     },
     logout: (state) => {
@@ -36,7 +35,6 @@ const authSlice = createSlice({
       state.user = null
       localStorage.removeItem('token')
       localStorage.removeItem('user')
-      console.log('✅ Logout completed')
     },
   },
 })

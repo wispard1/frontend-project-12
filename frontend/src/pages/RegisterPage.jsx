@@ -16,15 +16,10 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      console.log('Sending signup request with data:', {
-        username: values.username,
-        password: values.password,
-      })
       const response = await signup({
         username: values.username,
         password: values.password,
       }).unwrap()
-      console.log('Registration successful, response:', response)
       localStorage.setItem('token', response.token)
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }))
       navigate('/')

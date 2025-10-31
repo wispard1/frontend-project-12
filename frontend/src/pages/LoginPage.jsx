@@ -21,7 +21,6 @@ export const LoginPage = () => {
         password: values.password,
       }).unwrap()
       dispatch(setCredentials({ token: response.token, user: { username: response.username } }))
-      console.log('User dispatched to setCredentials:', { username: response.username })
       navigate('/')
     }
     catch (err) {
