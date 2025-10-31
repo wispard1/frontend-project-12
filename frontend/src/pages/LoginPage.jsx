@@ -1,5 +1,5 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik'
-import * as yup from 'yup'
+import { loginSchema } from '../validation/schemas'
 import { useLoginMutation } from '../api/chatApi'
 import { setCredentials } from '../store/authSlice'
 import { useDispatch } from 'react-redux'
@@ -13,11 +13,6 @@ export const LoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  const loginSchema = yup.object().shape({
-    username: yup.string().required(t('loginPage.errors.usernameRequired')),
-    password: yup.string().required(t('loginPage.errors.passwordRequired')),
-  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -47,7 +42,7 @@ export const LoginPage = () => {
             </div>
             <Formik
               initialValues={{ username: '', password: '' }}
-              validationSchema={loginSchema}
+              validationSchema={loginSchema(t)}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (

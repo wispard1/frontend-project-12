@@ -2,19 +2,11 @@ import { Modal, Spinner } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
+import { channelSchema } from '../../validation/schemas'
 import { cleanText } from '../../utils/profanityFilter'
 
 export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel }) => {
   const { t } = useTranslation()
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .trim()
-      .required(t('chatPage.modals.renameChannel.form.errors.required'))
-      .min(3, t('registerPage.errors.usernameMin'))
-      .max(20, t('registerPage.errors.usernameMax')),
-  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const filteredName = cleanText(values.name.trim())
@@ -46,7 +38,7 @@ export const RenameChannelModal = ({ show, onHide, onRename, isRenaming, channel
       <Modal.Body>
         <Formik
           initialValues={{ name: channel?.name || '' }}
-          validationSchema={validationSchema}
+          validationSchema={channelSchema(t)}
           onSubmit={handleSubmit}
           enableReinitialize
           validateOnMount={false}

@@ -1,5 +1,5 @@
 import { Formik, Field, Form, ErrorMessage } from 'formik'
-import * as yup from 'yup'
+import { signupSchema } from '../validation/schemas'
 import { useNavigate, Link } from 'react-router-dom'
 import { Button, Container, Card, Alert } from 'react-bootstrap'
 import signupAvatar from '../assets/signup-avatar.jpg'
@@ -13,22 +13,6 @@ export const RegisterPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { t } = useTranslation()
-
-  const SignupSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required(t('registerPage.errors.usernameRequired'))
-      .min(3, t('registerPage.errors.usernameMin'))
-      .max(20, t('registerPage.errors.usernameMax')),
-    password: yup
-      .string()
-      .required(t('registerPage.errors.passwordRequired'))
-      .min(6, t('registerPage.errors.passwordMin')),
-    passwordConfirmation: yup
-      .string()
-      .required(t('registerPage.errors.passwordRequired'))
-      .oneOf([yup.ref('password')], t('registerPage.errors.passwordMismatch')),
-  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -69,7 +53,7 @@ export const RegisterPage = () => {
             </div>
             <Formik
               initialValues={{ username: '', password: '', passwordConfirmation: '' }}
-              validationSchema={SignupSchema}
+              validationSchema={signupSchema(t)}
               onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (

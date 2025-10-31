@@ -2,19 +2,11 @@ import { Modal, Spinner } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
+import { channelSchema } from '../../validation/schemas'
 import { cleanText } from '../../utils/profanityFilter'
 
 export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
   const { t } = useTranslation()
-
-  const validationSchema = Yup.object({
-    name: Yup.string()
-      .trim()
-      .required(t('chatPage.modals.addChannel.form.errors.required'))
-      .min(3, t('registerPage.errors.usernameMin'))
-      .max(20, t('registerPage.errors.usernameMax')),
-  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
@@ -42,7 +34,7 @@ export const AddChannelModal = ({ show, onHide, onAdd, isAdding }) => {
       <Modal.Body>
         <Formik
           initialValues={{ name: '' }}
-          validationSchema={validationSchema}
+          validationSchema={channelSchema(t)}
           onSubmit={handleSubmit}
           validateOnMount={false}
           validateOnChange={false}
